@@ -48,15 +48,31 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab1">
-                            {% for event in createdEvents %}
-                                <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
-
-                                <h3>{{ event.title }}</h3>
-
-                                <p>{{ event.description }}</p>
-
-                                <hr>
-                            {% endfor %}
+                            <div class="list-group" style="margin-top: 20px">
+                                {% for event in createdEvents %}
+                                    <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <img src="{{ event.image|vlabs_filter('resize', { width : 275, keepRatio : true })|vlabs_media('default') }}">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <p>{{ event.creator.username }}</p>
+                                                <p>{{ event.title }}</p>
+                                                <p>{{ event.description }}</p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
+                                                <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
+                                                {% if user.isAttending(event) %}
+                                                    <button onclick="window.location = '{{ path('leave_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Leave</button>
+                                                {% else %}
+                                                    <button onclick="window.location = '{{ path('join_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Join</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
                         </div><!-- end tab-pane -->
 
                         <div class="tab-pane" id="tab2">

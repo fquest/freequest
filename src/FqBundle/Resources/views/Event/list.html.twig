@@ -1,10 +1,6 @@
 {% extends 'FqBundle::base.html.twig' %}
 
 {% block body %}
-    <div style="margin-top: 50px">
-        <h1>Event list</h1>
-
-    </div>
 
     <div class="container">
 
@@ -48,10 +44,10 @@
                 {% for event in events %}
                     <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
                         <div class="row">
-                            <div class="col-md-2">
-                                <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}">
+                            <div class="col-md-5">
+                                <img src="{{ event.image|vlabs_filter('resize', { width : 275, keepRatio : true })|vlabs_media('default') }}">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-5">
                                 <p>{{ event.creator.username }}</p>
                                 <p>{{ event.title }}</p>
                                 <p>{{ event.description }}</p>
