@@ -20,7 +20,10 @@ class WelcomeController extends Controller
         if($this->getUser()) {
             return $this->redirect($this->generateUrl('dashboard'));
         }
-        return $this->render('FqBundle:Welcome:index.html.twig');
+        $events = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->findAll();
+        return $this->render('FqBundle:Welcome:index.html.twig', ['events' => $events]);
     }
 
     /**
