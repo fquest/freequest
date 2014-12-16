@@ -1,0 +1,78 @@
+{
+    "name": "freequest/freequest",
+    "description": "Free Quest Prototype No42 based on Symphony2 components",
+    "type": "project",
+    "homepage": "http://freequest.com.ua",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roman Korzh",
+            "email": "korzh1989@gmail.com"
+        },
+        {
+            "name": "Vladimir Denysov",
+            "email": "volodymyrdenisov@gmail.com"
+        },
+        {
+            "name": "Vasyl Kozyrenko",
+            "email": "vasylkozyrenko@gmail.com"
+        },
+        {
+            "name": "Sergey Ivashchenko",
+            "email": "serg.ivashchenko@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/symfony": "2.6.x-dev",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~3.0",
+        "sensio/framework-extra-bundle": "~3.0",
+        "sensio/generator-bundle": "*",
+        "incenteev/composer-parameter-handler": "~2.0",
+        "hwi/oauth-bundle": "0.4.*@dev",
+        "vlabs/media-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {"": "src/", "SymfonyStandard": "app/"}
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::removeSymfonyStandardFiles"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        },
+        "branch-alias": {
+            "dev-master": "2.6-dev"
+        }
+    }
+}

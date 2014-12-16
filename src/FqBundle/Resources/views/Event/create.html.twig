@@ -1,0 +1,78 @@
+{% extends 'FqBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="well" style="margin-top: 60px; height: 600px">
+
+                    <form class="form-horizontal" role="form" action="{{ path('event_save') }}" method="POST" {{ form_enctype(form) }}>
+
+                        <div class="page-header">
+
+                            <h1>Create Event</h1>
+
+                        </div><!-- end page-header -->
+
+                        {{ form_errors(form) }}
+
+                        <div class="form-body">
+
+                            <div class="form-group">
+                                <label for="location" class="col-md-2 control-label">Image</label>
+                                <div class="col-md-4">
+                                    {{ form_widget(form.image) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location" class="col-md-2 control-label">Location</label>
+                                <div class="col-md-4">
+                                    {{ form_widget(form.title) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location" class="col-md-2 control-label">Location</label>
+                                <div class="col-md-4">
+                                    {{ form_widget(form.description) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location" class="col-md-2 control-label">Location</label>
+                                <div class="col-md-4">
+                                    {{ form_widget(form.category) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10 col-md-offset-2">
+                                    {#<a href="#" class="btn btn-primary">Save Changes</a>#}
+                                    {{ form_rest(form) }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div><!-- end well -->
+
+            </div>
+
+        </div>
+
+    </div><!-- end main container -->
+    <form action="{{ path('event_save') }}" method="POST" {{ form_enctype(form) }} style="margin-top: 50px">
+
+
+
+
+
+
+
+
+    </form>
+{% endblock %}

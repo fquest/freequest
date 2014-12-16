@@ -1,0 +1,83 @@
+{% extends 'FqBundle::base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="well" style="margin-top: 60px; height: 600px">
+
+                    <form class="form-horizontal" role="form">
+
+                        <div class="page-header">
+
+                            <h1>My Profile</h1>
+
+                        </div><!-- end page-header -->
+
+                        <div class="form-body">
+
+                            <div class="form-group">
+                                <label for="photo" class="col-md-2 control-label">Photo</label>
+                                <div class="col-md-10">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img src="{{ user.picture }}" id="photo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location" class="col-md-2 control-label">Location</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="location" placeholder="City, State, Country" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="birthday" class="col-md-2 control-label">Birthday</label>
+                                <div class="col-md-4">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="text" id="birthday" class="form-control" placeholder="year"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" placeholder="month"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" placeholder="day"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="about-me" class="col-md-2 control-label">About me</label>
+                                <div class="col-md-4">
+                                    <textarea class="form-control" rows="4" id="about-me"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-10 col-md-offset-2">
+                                    <a href="#" class="btn btn-primary">Save Changes</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ path('logout') }}">Logout</a>
+
+                    </form>
+                </div><!-- end well -->
+
+            </div>
+
+        </div>
+
+    </div><!-- end main container -->
+{% endblock %}

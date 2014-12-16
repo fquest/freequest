@@ -1,0 +1,16 @@
+{% extends 'FqBundle::base.html.twig' %}
+
+{% block body %}
+<div class="container" id="main" style="margin-top: 50px">
+    <h1>Event view.</h1>
+    <p>Title: {{ event.title }}</p>
+    <p><img src="{{ event.image|vlabs_media('default') }}"></p>
+    <p>Description: {{ event.description }}</p>
+    <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
+    <h1>Participants</h1>
+    {% for participant in event.participants %}
+        <p>Praticipant: <img src="{{ participant.picture }}"/> {{ participant.username }}</p>
+    {% endfor %}
+    <a href="{{ path('join_event', {'id': event.id}) }}">Join Event</a>
+</div>
+{% endblock %}

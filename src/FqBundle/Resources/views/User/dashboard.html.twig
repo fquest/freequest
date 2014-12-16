@@ -1,0 +1,117 @@
+{% extends 'FqBundle::base.html.twig' %}
+
+{% block body %}
+
+    <div class="container" id="main">
+
+        <div class="row">
+
+            <div class="col-sm-3">
+
+                <div class="well text-center" style="margin-top: 60px; height: 300px">
+
+                    <div class="page-header">
+
+                        <img src="{{ user.picture }}" >
+
+                    </div><!-- end page-header -->
+
+                    <p>{{ user.username }}</p>
+                    <p>29 level</p>
+                    <p>
+                        <img src="{{ asset('public/images/images2.jpg') }}">
+                        <img src="{{ asset('public/images/images2.jpg') }}">
+                        <img src="{{ asset('public/images/images2.jpg') }}">
+                    </p>
+                </div><!-- end well -->
+
+            </div>
+
+            <div class="col-sm-9">
+
+                <div class="thumbnail" style="background-image: url('http://placehold.it/900x300'); height: 300px; margin-top: 60px">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row" id="userEvents">
+            <div class="col-sm-9">
+                <h3>YOUR EVENTS</h3>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">Created</a></li>
+                        <li><a href="#tab2" data-toggle="tab">Upcoming</a></li>
+                        <li><a href="#tab3" data-toggle="tab">Past</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            {% for event in createdEvents %}
+                                <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
+
+                                <h3>{{ event.title }}</h3>
+
+                                <p>{{ event.description }}</p>
+
+                                <hr>
+                            {% endfor %}
+                        </div><!-- end tab-pane -->
+
+                        <div class="tab-pane" id="tab2">
+                            {% for event in user.events %}
+                                <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
+
+                                <h3>{{ event.title }}</h3>
+
+                                <p>{{ event.description }}</p>
+
+                                <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
+
+                                <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
+
+                                <hr>
+                            {% endfor %}
+                        </div><!-- end tab-pane -->
+
+                        <div class="tab-pane" id="tab3">
+                            {% for event in user.events %}
+                                <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
+
+                                <h3>{{ event.title }}</h3>
+
+                                <p>{{ event.description }}</p>
+
+                                <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
+
+                                <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
+
+                                <hr>
+                            {% endfor %}
+                        </div><!-- end tab-pane -->
+
+                    </div><!-- end tab-content -->
+                </div><!-- end tabbable -->
+            </div><!-- end col-sm-6 -->
+            <div class="col-sm-3">
+
+                <div class="list-group">
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
+                        <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
+                        <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
+                    </a>
+                    <a href="#" class="list-group-item">
+                        <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
+                        <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- end main container -->
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'FqBundle::base.html.twig' %}
+
+{% block body %}
+    <form action="{{ path('save_category') }}" method="POST" style="margin-top: 50px">
+        {{ form_errors(form) }}
+
+        {{ form_row(form.name) }}
+
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}
