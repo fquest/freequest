@@ -27,9 +27,9 @@
 .well {
     margin: 20px 0;
 }
-.joinUsImg {
-    margin-bottom: 20px;
-}
 .well .page-header {
     margin-top: 0;
+}
+.thumbnails {
+    margin: 20px 0;
 }
