@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^startup1.freequest.com.ua$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^www.startup1.freequest.com.ua$
+RewriteCond %{REQUEST_URI} !web/
+RewriteRule (.*) /web/$1 [L]
