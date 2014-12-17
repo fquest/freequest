@@ -10,3 +10,5 @@
 /app/phpunit.xml
 /phpunit.xml
 /web/files/
+*~
+/web/bundles
