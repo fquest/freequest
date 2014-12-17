@@ -21,8 +21,17 @@
                     </div>
                 </div>
                 <div class="col-sm-9">
-                    <div class="thumbnail" style="background-image: url('http://placehold.it/900x300'); height: 300px; margin-top: 60px">
-
+                    <div class="carousel slide" id="myCarousel">
+                        <ol class="carousel-indicators">
+                            <li class="active" data-slide-to="0" data-target="#myCarousel"></li>
+                            <li data-slide-to="1" data-target="#myCarousel"></li>
+                            <li data-slide-to="2" data-target="#myCarousel"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="item active" id="slide1">
+                                <img src='{{ asset('bundles/fq/images/gleg.jpg') }}'/>
+                            </div><!-- end item -->
+                        </div><!-- end carousel-inner -->
                     </div>
                 </div>
             </div>
