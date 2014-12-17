@@ -2,132 +2,126 @@
 
 {% block body %}
 
-    <div class="container" id="main">
-
-        <div class="row">
-
-            <div class="col-sm-3">
-
-                <div class="well text-center" style="margin-top: 60px; height: 300px">
-
-                    <div class="page-header">
-
-                        <img src="{{ user.picture }}" >
-
-                    </div><!-- end page-header -->
-
-                    <p>{{ user.username }}</p>
-                    <p>29 level</p>
-                    <p>
-                        <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
-                        <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
-                        <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
-                    </p>
-                </div><!-- end well -->
-
-            </div>
-
-            <div class="col-sm-9">
-
-                <div class="thumbnail" style="background-image: url('http://placehold.it/900x300'); height: 300px; margin-top: 60px">
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="well text-center" style="margin-top: 60px; height: 300px">
+                        <div class="page-header">
+                            <img src="{{ user.picture }}" >
+                        </div>
+                        <p>{{ user.username }}</p>
+                        <p>29 level</p>
+                        <p>
+                            <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
+                            <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
+                            <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
+                        </p>
+                    </div>
                 </div>
+                <div class="col-sm-9">
+                    <div class="thumbnail" style="background-image: url('http://placehold.it/900x300'); height: 300px; margin-top: 60px">
 
+                    </div>
+                </div>
             </div>
 
-        </div>
+            <div class="row" id="userEvents">
+                <div class="col-sm-9">
+                    <h3>YOUR EVENTS</h3>
+                    <div class="tabbable">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1" data-toggle="tab">Created</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Upcoming</a></li>
+                            <li><a href="#tab3" data-toggle="tab">Past</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab1">
+                                <div class="list-group" style="margin-top: 20px">
+                                    {% for event in createdEvents %}
+                                        <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>{{ event.creator.username }}</p>
+                                                    <p>{{ event.title }}</p>
+                                                    <p>{{ event.description }}</p>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
+                                                    <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
+                                                    {% if user.isAttending(event) %}
+                                                        <button onclick="window.location = '{{ path('leave_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Leave</button>
+                                                    {% else %}
+                                                        <button onclick="window.location = '{{ path('join_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Join</button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
 
-        <div class="row" id="userEvents">
-            <div class="col-sm-9">
-                <h3>YOUR EVENTS</h3>
-                <div class="tabbable">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab1" data-toggle="tab">Created</a></li>
-                        <li><a href="#tab2" data-toggle="tab">Upcoming</a></li>
-                        <li><a href="#tab3" data-toggle="tab">Past</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab1">
-                            <div class="list-group" style="margin-top: 20px">
-                                {% for event in createdEvents %}
-                                    <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <img src="{{ event.image|vlabs_filter('resize', { width : 275, keepRatio : true })|vlabs_media('default') }}">
-                                            </div>
-                                            <div class="col-md-5">
-                                                <p>{{ event.creator.username }}</p>
-                                                <p>{{ event.title }}</p>
-                                                <p>{{ event.description }}</p>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
-                                                <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
-                                                {% if user.isAttending(event) %}
-                                                    <button onclick="window.location = '{{ path('leave_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Leave</button>
-                                                {% else %}
-                                                    <button onclick="window.location = '{{ path('join_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Join</button>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </a>
+                            <div class="tab-pane" id="tab2">
+                                {% for event in user.events %}
+                                    <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
+
+                                    <h3>{{ event.title }}</h3>
+
+                                    <p>{{ event.description }}</p>
+
+                                    <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
+
+                                    <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
+
+                                    <hr>
                                 {% endfor %}
                             </div>
-                        </div><!-- end tab-pane -->
 
-                        <div class="tab-pane" id="tab2">
-                            {% for event in user.events %}
-                                <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
+                            <div class="tab-pane" id="tab3">
+                                {% for event in user.events %}
+                                    <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
 
-                                <h3>{{ event.title }}</h3>
+                                    <h3>{{ event.title }}</h3>
 
-                                <p>{{ event.description }}</p>
+                                    <p>{{ event.description }}</p>
 
-                                <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
+                                    <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
 
-                                <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
+                                    <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
 
-                                <hr>
-                            {% endfor %}
-                        </div><!-- end tab-pane -->
+                                    <hr>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="tab-pane" id="tab3">
-                            {% for event in user.events %}
-                                <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
+                <div class="col-sm-3">
 
-                                <h3>{{ event.title }}</h3>
-
-                                <p>{{ event.description }}</p>
-
-                                <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
-
-                                <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
-
-                                <hr>
-                            {% endfor %}
-                        </div><!-- end tab-pane -->
-
-                    </div><!-- end tab-content -->
-                </div><!-- end tabbable -->
-            </div><!-- end col-sm-6 -->
-            <div class="col-sm-3">
-
-                <div class="list-group">
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
-                        <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
-                        <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
-                        <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
-                    </a>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
+                            <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
+                            <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">Donec ut interdum tortor</h4>
+                            <p class="list-group-item-text">Aenean neque nibh, imperdiet at tellus eu, blandit feugiat erat. Donec nec aliquet leo, vel viverra diam. Proin efficitur neque maximus magna sollicitudin tincidunt. Maecenas sodales sapien quis faucibus gravida. In et ipsum sit amet urna consectetur elementum. Pellentesque</p>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div><!-- end main container -->
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
