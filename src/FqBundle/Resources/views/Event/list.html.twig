@@ -2,77 +2,69 @@
 
 {% block body %}
 
-    <div class="container">
-
+<div class="container">
     <div class="row">
-
-    <div class="col-md-12">
-
-    <div class="well"  style="margin-top: 60px">
-
-    <div class="page-header">
-        <div class="row">
-            <div class="col-md-3">
-                <input type="text" class="form-control" id="searchEvent" placeholder="Search for a event" />
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-3">
-            <form class="form-horizontal" role="form" id="list_filter" action="{{ path('event_list') }}" method="get">
-                <label for="sport" class="col-md-2 col-md-offset-1 control-label">Категории</label>
-                {% for category in categories %}
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <div class="checkbox" id="sport">
-                                <label>
-                                    <input name="categories[]" value="{{ category.id }}" onclick="document.getElementById('list_filter').submit()" type="checkbox" {% if (category.id in selectedCategories) %}checked{% endif %}/>
-                                    {{ category.name }}
-                                </label>
-                            </div>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="well"  style="margin-top: 60px">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="searchEvent" placeholder="Search for a event" />
                         </div>
                     </div>
-                {% endfor %}
-            </form>
+                </div>
 
-        </div><!-- end col-md-4 -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <form class="form-horizontal" role="form" id="list_filter" action="{{ path('event_list') }}" method="get">
+                            <label for="sport" class="col-md-2 col-md-offset-1 control-label">Категории</label>
+                            {% for category in categories %}
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="checkbox" id="sport">
+                                            <label>
+                                                <input name="categories[]" value="{{ category.id }}" onclick="document.getElementById('list_filter').submit()" type="checkbox" {% if (category.id in selectedCategories) %}checked{% endif %}/>
+                                                {{ category.name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </form>
+                    </div>
 
-        <div class="col-md-9">
-            <h3 style="margin-top: 10px">Events</h3>
-            <div class="list-group">
-                {% for event in events %}
-                    <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <img src="{{ event.image|vlabs_filter('resize', { width : 275, keepRatio : true })|vlabs_media('default') }}">
-                            </div>
-                            <div class="col-md-5">
-                                <p>{{ event.creator.username }}</p>
-                                <p>{{ event.title }}</p>
-                                <p>{{ event.description }}</p>
-                            </div>
-                            <div class="col-md-2">
-                                <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
-                                <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
-                                {% if user.isAttending(event) %}
-                                    <button onclick="window.location = '{{ path('leave_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Leave</button>
-                                {% else %}
-                                    <button onclick="window.location = '{{ path('join_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Join</button>
-                                {% endif %}
-                            </div>
+                    <div class="col-md-9">
+                        <h4 style="margin-top: 10px">Events</h4>
+                        <div class="list-group">
+                            {% for event in events %}
+                                <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p>{{ event.creator.username }}</p>
+                                            <p>{{ event.title }}</p>
+                                            <p>{{ event.description }}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
+                                            <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
+                                            {% if user.isAttending(event) %}
+                                                <button onclick="window.location = '{{ path('leave_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Leave</button>
+                                            {% else %}
+                                                <button onclick="window.location = '{{ path('join_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Join</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
                         </div>
-                    </a>
-                {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
-    </div>
-
-    </div>
-
-    </div>
-
-    </div><!-- end main container -->
 {% endblock %}
