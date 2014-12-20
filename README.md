@@ -35,7 +35,3 @@ Install entities and database:
     php app/console doctrine:generate:entities FqBundle
     php app/console doctrine:schema:update --force
 
-Insert a sample user to your database:
-
-    use fq;
-    insert into user (name, created_at, updated_at) values ("Sergey", current_timestamp, current_timestamp);
