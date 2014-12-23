@@ -1,14 +1,29 @@
+# Composer files
 /vendor/
 /composer.lock
+
+# PHPStorm files
 /.idea/
+
+# Cache and logs
 /app/cache/
 /!app/cache/.gitkeep
 /app/logs/
 /!app/logs/.gitkeep
+
+# Configuration files
 /app/config/parameters.yml
-/app/bootstrap.php.cache
 /app/phpunit.xml
 /phpunit.xml
-/web/files/
+
+# Doctrine backup
 *~
+
+# Static content
+/web/files/
 /web/bundles
+
+#Symfony system files
+/app/check.php
+/app/SymfonyRequirements.php
+/app/bootstrap.php.cache
