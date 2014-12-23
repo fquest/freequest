@@ -6,7 +6,7 @@ Installation
 -----------------------------------------
 Installation steps:
 
-Run composer install command in project root directory
+Run composer install command in project root directory.
 
 Create virtual host:
 
