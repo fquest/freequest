@@ -27,10 +27,16 @@ Create virtual host:
         ErrorLog "logs/fq-error.log"
         CustomLog "logs/fq-access.log" common
     </VirtualHost>
+    
+Clear environment:
+
+    php app/console doctrine:database:drop --force
+    php app/console cache:clear --env=prod
+    php app/console cache:clear --env=dev
+    rm -rf web/files
 
 Install entities and database:
 
-    php app/console doctrine:database:drop --force
     php app/console doctrine:database:create
     php app/console doctrine:generate:entities FqBundle
     php app/console doctrine:schema:update --force

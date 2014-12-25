@@ -22,36 +22,50 @@
                         <div class="form-body">
 
                             <div class="form-group">
-                                <label for="location" class="col-md-2 control-label">Image</label>
+                                <label for="image" class="col-md-2 control-label">Картинка</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.image) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="location" class="col-md-2 control-label">Location</label>
+                                <label for="title" class="col-md-2 control-label">Название</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.title) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="location" class="col-md-2 control-label">Location</label>
+                                <label for="description" class="col-md-2 control-label">Подробности</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.description) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="location" class="col-md-2 control-label">Location</label>
+                                <label for="category" class="col-md-2 control-label">Категория</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.category) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
+                                <label for="address" class="col-md-2 control-label">Адрес</label>
+                                <div class="col-md-4">
+                                    {{ form_widget(form.address) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="position" class="col-md-2 control-label">Карта</label>
+                                <div class="col-md-4">
+                                    <div id="map" style="width: 500px; height: 200px; background-color: #CCC;"></div>
+                                    {{ form_widget(form.position) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="col-md-10 col-md-offset-2">
-                                    {#<a href="#" class="btn btn-primary">Save Changes</a>#}
                                     {{ form_rest(form) }}
                                 </div>
                             </div>
@@ -65,14 +79,12 @@
         </div>
 
     </div><!-- end main container -->
-    <form action="{{ path('event_save') }}" method="POST" {{ form_enctype(form) }} style="margin-top: 50px">
+{% endblock %}
 
-
-
-
-
-
-
-
-    </form>
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5bNGhrj2Y_h3U655IrW7g961-5Nc2D90&sensor=false"></script>
+    <script type="application/javascript" src="{{ asset('bundles/fq/js/gmaps.js') }}"></script>
+    <script type="application/javascript" src="{{ asset('bundles/fq/js/event_create.js') }}"></script>
 {% endblock %}

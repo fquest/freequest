@@ -38,6 +38,16 @@ class Event
     protected $description;
 
     /**
+     * @ORM\Column(type="string", length=250)
+     */
+    protected $address;
+
+    /**
+     * @ORM\Column(type="string", length=250)
+     */
+    protected $position;
+
+    /**
      * @todo verify if cascade refresh is what we need
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="category", referencedColumnName="id")
@@ -301,5 +311,51 @@ class Event
     public function getParticipants()
     {
         return $this->participants;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     * @return Event
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string 
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set position
+     *
+     * @param string $position
+     * @return Event
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position
+     *
+     * @return string 
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

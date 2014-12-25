@@ -27,6 +27,8 @@ class EventController extends Controller
             ->add('description', 'textarea')
             ->add('image', 'vlabs_file')
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
+            ->add('address', 'text')
+            ->add('position', 'hidden')
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
         return $this->render('FqBundle:Event:create.html.twig', ['form' => $form->createView()]);
@@ -43,6 +45,8 @@ class EventController extends Controller
             ->add('description', 'textarea')
             ->add('image', 'vlabs_file')
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
+            ->add('address', 'text')
+            ->add('position', 'hidden')
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
         $form->handleRequest($request);
