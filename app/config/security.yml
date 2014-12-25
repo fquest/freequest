@@ -12,50 +12,28 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory:
-                users:
-                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
-                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        main:
+            entity:
+                class: FqBundle\Entity\User
+                property: username
         oauth_user_provider:
             id: user_provider
 
     # the main part of the security, where you can set up firewalls
     # for specific sections of your app
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-        # the login page has to be accessible for everybody
-        demo_login:
-            pattern:  ^/oauth/login$
-            security: false
-
-        # secures part of the application
-#        demo_secured_area:
-#            pattern:    ^/oauth/
-            # it's important to notice that in this case _demo_security_check and _demo_login
-            # are route names and that they are specified in the AcmeDemoBundle
-#            form_login:
-#                check_path: login_check
-#                login_path: login
-#            logout:
-#                path:   /oauth/logout
-#                target: /
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
-            #anonymous: ~
         secured_area:
+            pattern: ^/
+            anonymous: true
             oauth:
                 resource_owners:
                     facebook:      /oauth/login_facebook
-                login_path:        /oauth/login
+                login_path:        /
                 failure_path:      /
+                target_path:      /dashboard
                 oauth_user_provider:
                     service: user_provider
-            anonymous: ~
-
     access_control:
-        - { path: ^/oauth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/oauth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
