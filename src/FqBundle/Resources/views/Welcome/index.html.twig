@@ -1,7 +1,6 @@
 {% extends 'FqBundle::base.html.twig' %}
 
 {% block body %}
-    {{ include('FqBundle::partials/facebook-button.html.twig') }}
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -18,12 +17,16 @@
                                 <div class="text-left">
 
                                     <ul class="list-unstyled">
-                                        <li><a href="#" data-role="facebook-login" onclick="fb_login()" class="btn btn-lg btn-social btn-facebook">
+                                        <li>
+                                            <a href="#" data-role="facebook-login" data-target="{{ url('dashboard') }}" class="btn btn-lg btn-social btn-facebook">
                                                 <i class="fa fa-facebook"></i>Вход через Facebook
-                                            </a></li>
-                                        <li><a class="btn btn-lg btn-social btn-google-plus" style="margin-top: 5px">
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-lg btn-social btn-google-plus" style="margin-top: 5px">
                                                 <i class="fa fa-google-plus"></i>Вход через Google
-                                            </a></li>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
 
@@ -60,7 +63,7 @@
                                     <p>{{ event.title }}</p>
                                     <p>{{ event.description }}</p>
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-small btn-link">Подробно</a>
+                                        <a href="{{ url('event_view', {'id': event.id}) }}" class="btn btn-small btn-link">Подробно</a>
                                     </div>
                                 </div><!-- end caption -->
                             </div><!-- end thumbnail -->
@@ -69,6 +72,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="container">
+        <a href="{{ url('event_list') }}"><h1>Все события</h1></a>
     </div>
 
 

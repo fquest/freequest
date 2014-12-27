@@ -4,6 +4,7 @@ namespace FqBundle\Controller;
 
 use FqBundle\Entity\Category;
 use FqBundle\Entity\Event;
+use FqBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -71,6 +72,16 @@ class EventController extends Controller
      */
     public function viewAction($id)
     {
+        if ($this->getUser()) {
+            /** @var \FqBundle\Entity\User $user */
+            $user = $this->getDoctrine()
+                ->getRepository('FqBundle:User')
+                ->find($this->getUser()->getId());
+        } else {
+            $user = new User();
+            $user->setUsername('Гость');
+        }
+
         $event = $this->getDoctrine()
             ->getRepository('FqBundle:Event')
             ->find($id);
@@ -81,7 +92,10 @@ class EventController extends Controller
         }
         return $this->render(
             'FqBundle:Event:view.html.twig',
-            ['event' => $event]
+            [
+                'event' => $event,
+                'user' => $user
+            ]
         );
     }
 
@@ -90,10 +104,15 @@ class EventController extends Controller
      */
     public function listAction(Request $request)
     {
-        /** @var \FqBundle\Entity\User $user */
-        $user = $this->getDoctrine()
-            ->getRepository('FqBundle:User')
-            ->find($this->getUser()->getId());
+        if ($this->getUser()) {
+            /** @var \FqBundle\Entity\User $user */
+            $user = $this->getDoctrine()
+                ->getRepository('FqBundle:User')
+                ->find($this->getUser()->getId());
+        } else {
+            $user = new User();
+            $user->setUsername('Гость');
+        }
 
         $selectedCategories = $request->query->get('categories');
         if ($selectedCategories) {

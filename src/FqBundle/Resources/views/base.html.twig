@@ -18,7 +18,7 @@
 
     </head>
     <body>
-
+        <div id="fb-root" data-url="{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}"></div>
         {{ include('FqBundle::partials/header.html.twig') }}
 
         {% block body %}{% endblock %}
@@ -28,6 +28,10 @@
         {% block javascripts %}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+            <script src="{{ asset('bundles/fq/js/facebook_login.js') }}"></script>
+            <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5bNGhrj2Y_h3U655IrW7g961-5Nc2D90&sensor=false"></script>
+            <script type="application/javascript" src="{{ asset('bundles/fq/js/gmaps.js') }}"></script>
+            <script type="application/javascript" src="{{ asset('bundles/fq/js/event_view.js') }}"></script>
         {% endblock %}
 
     </body>

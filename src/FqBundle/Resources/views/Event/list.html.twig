@@ -37,7 +37,7 @@
                         <h4 style="margin-top: 10px">Events</h4>
                         <div class="list-group">
                             {% for event in events %}
-                                <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
+                                <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
@@ -50,10 +50,10 @@
                                         <div class="col-md-2">
                                             <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
                                             <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
-                                            {% if user.isAttending(event) %}
-                                                <button onclick="window.location = '{{ path('leave_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Leave</button>
+                                            {% if (false == user.isAttending(event)) %}
+                                                <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
                                             {% else %}
-                                                <button onclick="window.location = '{{ path('join_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Join</button>
+                                                <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
                                             {% endif %}
                                         </div>
                                     </div>

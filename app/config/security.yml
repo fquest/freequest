@@ -28,7 +28,7 @@ security:
             oauth:
                 resource_owners:
                     facebook: /oauth/login_facebook
-                login_path: /
+                login_path: /login
                 failure_path: /
                 default_target_path: /dashboard
                 oauth_user_provider:
@@ -36,4 +36,7 @@ security:
     access_control:
         - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/oauth, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/event/list, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/event/view, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }

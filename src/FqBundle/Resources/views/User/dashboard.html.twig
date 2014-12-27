@@ -38,12 +38,12 @@
 
             <div class="row" id="userEvents">
                 <div class="col-sm-9">
-                    <h3>YOUR EVENTS</h3>
+                    <h3>Событя</h3>
                     <div class="tabbable">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab1" data-toggle="tab">Created</a></li>
-                            <li><a href="#tab2" data-toggle="tab">Upcoming</a></li>
-                            <li><a href="#tab3" data-toggle="tab">Past</a></li>
+                            <li class="active"><a href="#tab1" data-toggle="tab">Созданные</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Предстоящие</a></li>
+                            <li><a href="#tab3" data-toggle="tab">Прошедшие</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
@@ -62,15 +62,16 @@
                                                 <div class="col-md-2">
                                                     <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
                                                     <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
-                                                    {% if user.isAttending(event) %}
-                                                        <button onclick="window.location = '{{ path('leave_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Leave</button>
+                                                    {% if (false == user.isAttending(event)) %}
+                                                        <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
                                                     {% else %}
-                                                        <button onclick="window.location = '{{ path('join_event', {'id': event.id}) }}'; return false" class="btn btn-sm btn-info">Join</button>
+                                                        <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
                                                     {% endif %}
                                                 </div>
                                             </div>
                                         </a>
                                     {% endfor %}
+                                    <a href="{{ url('event_create') }}"><h1>Создать событие</h1></a>
                                 </div>
                             </div>
 
@@ -84,10 +85,12 @@
 
                                     <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
 
-                                    <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
+                                    <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
+
 
                                     <hr>
                                 {% endfor %}
+                                <a href="{{ url('event_list') }}"><h1>Все события</h1></a>
                             </div>
 
                             <div class="tab-pane" id="tab3">
@@ -100,10 +103,11 @@
 
                                     <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
 
-                                    <a href="{{ path('leave_event', {id: event.id}) }}">Leave Event</a>
+                                    <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
 
                                     <hr>
                                 {% endfor %}
+                                <a href="{{ url('event_list') }}"><h1>Все события</h1></a>
                             </div>
                         </div>
                     </div>

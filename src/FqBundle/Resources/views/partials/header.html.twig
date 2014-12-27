@@ -1,9 +1,20 @@
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container" >
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-8">
                 <div class="navbar-header scaling_">
-                    <a class="navbar-brand" href="#"><img src="{{ asset('bundles/fq/images/logo.png') }}" style="height: 40px"/></a>
+                    <a class="navbar-brand" href="{{ url('homepage') }}"><img src="{{ asset('bundles/fq/images/logo.png') }}" style="height: 40px"/></a>
+                </div><!-- end navbar-header -->
+            </div>
+            <div class="col-md-4">
+                <div class="navbar-header scaling_">
+                    {% if (user is defined) and user.email %}
+                        <a href="{{ url('profile') }}"><img src="{{ user.picture }}" id="photo"> {{ user.username }}</a> <a href="{{ path('logout') }}">Logout</a>
+                    {% else %}
+                        <a href="#" data-role="facebook-login" data-target="{{ url('dashboard') }}" class="btn btn-lg btn-social btn-facebook">
+                            <i class="fa fa-facebook"></i>Войти
+                        </a>
+                    {% endif %}
                 </div><!-- end navbar-header -->
             </div>
         </div>
