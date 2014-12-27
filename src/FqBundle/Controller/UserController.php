@@ -41,11 +41,12 @@ class UserController extends Controller
     /**
      * @Route("/logout", name="logout")
      */
-    public function logoutAction()
+    public function logoutAction(Request $request)
     {
         $this->get('security.context')->setToken(null);
         $this->get('request')->getSession()->invalidate();
-        return $this->redirect($this->generateUrl('homepage'));
+        $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('homepage');
+        return $this->redirect($redirectUrl);
     }
 
     /**
@@ -84,7 +85,7 @@ class UserController extends Controller
     /**
      * @Route("/join/{id}", name="join_event")
      */
-    public function joinAction($id)
+    public function joinAction(Request $request, $id)
     {
         /** @var \FqBundle\Entity\User $user */
         $user = $this->getDoctrine()
@@ -99,17 +100,24 @@ class UserController extends Controller
                 'No event found for id ' . $id
             );
         }
-        $user->addEvent($event);
-        $event->addParticipant($user);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();
-        return $this->redirect($this->generateUrl('event_view', ['id' => $id]));
+        if (!in_array($event, $user->getEvents()->getValues())) {
+            $user->addEvent($event);
+            $event->addParticipant($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            $message = ['text' => 'Вы присоединились к событию!', 'type' => 'success'];
+        } else {
+            $message = ['text' => 'Вы уже участник события!', 'type' => 'success'];
+        }
+        $this->get('session')->set('messages', [$message]);
+        $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
+        return $this->redirect($redirectUrl);
     }
 
     /**
      * @Route("/leave/{id}", name="leave_event")
      */
-    public function leaveAction($id)
+    public function leaveAction(Request $request, $id)
     {
         /** @var \FqBundle\Entity\User $user */
         $user = $this->getDoctrine()
@@ -124,10 +132,17 @@ class UserController extends Controller
                 'No event found for id ' . $id
             );
         }
-        $user->removeEvent($event);
-        $event->removeParticipant($user);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->flush();
-        return $this->redirect($this->generateUrl('event_view', ['id' => $id]));
+        if (in_array($event, $user->getEvents()->getValues())) {
+            $user->removeEvent($event);
+            $event->removeParticipant($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            $message = ['text' => 'Вы покинули событие!', 'type' => 'success'];
+        } else {
+            $message = ['text' => 'Вы не участвовали в событии!', 'type' => 'success'];
+        }
+        $this->get('session')->set('messages', [$message]);
+        $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
+        return $this->redirect($redirectUrl);
     }
 }
