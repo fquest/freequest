@@ -27,10 +27,10 @@ security:
             anonymous: true
             oauth:
                 resource_owners:
-                    facebook:      /oauth/login_facebook
-                login_path:        /
-                failure_path:      /
-                target_path:      /dashboard
+                    facebook: /oauth/login_facebook
+                login_path: /
+                failure_path: /
+                default_target_path: /dashboard
                 oauth_user_provider:
                     service: user_provider
     access_control:

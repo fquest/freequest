@@ -23,7 +23,7 @@
         }
     ],
     "require": {
-        "symfony/symfony": "2.6.x-dev",
+        "symfony/symfony": ">=2.6.1",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
@@ -35,7 +35,8 @@
         "sensio/generator-bundle": "*",
         "incenteev/composer-parameter-handler": "~2.0",
         "hwi/oauth-bundle": "0.4.*@dev",
-        "vlabs/media-bundle": "dev-master"
+        "vlabs/media-bundle": "dev-master",
+        "creof/doctrine2-spatial": "dev-master"
     },
     "autoload": {
         "psr-0": {"": "src/", "SymfonyStandard": "app/"}

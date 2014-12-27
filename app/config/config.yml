@@ -59,10 +59,25 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
-
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+    # Doctrine spatial bundle configuration
+    dbal:
+        types:
+            geometry:   CrEOF\Spatial\DBAL\Types\GeometryType
+            point:      CrEOF\Spatial\DBAL\Types\Geometry\PointType
+            polygon:    CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
+            linestring: CrEOF\Spatial\DBAL\Types\Geometry\LineStringType
+
+    orm:
+        dql:
+            numeric_functions:
+                st_contains:     CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STContains
+                st_distance:     CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STDistance
+                st_area:         CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STArea
+                st_length:       CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STLength
+                st_geomfromtext: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STGeomFromText
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -76,6 +91,7 @@ swiftmailer:
 hwi_oauth:
     # name of the firewall in which this bundle is active, this setting MUST be set
     firewall_name: secured_area
+    target_path_parameter: target_path
     # an optional setting to configure a query string parameter which can be used to redirect
     # the user after authentication, e.g. /connect/facebook?_destination=/my/destination will
     # redirect the user to /my/destination after facebook authenticates them.  If this is not

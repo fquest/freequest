@@ -23,13 +23,13 @@
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
                 // connected
-                alert('Already connected, redirect to login page to create token.');
-                document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                //alert('Already connected, redirect to login page to create token.');
+                document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook", target_path: url("dashboard")}) }}";
             } else {
                 // not_authorized
                 FB.login(function(response) {
                     if (response.authResponse) {
-                        document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
+                        document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook", target_path: url("dashboard")}) }}";
                     } else {
                         alert('Cancelled.');
                     }
