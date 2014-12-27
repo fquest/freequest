@@ -26,4 +26,5 @@
             {{ message.text }}
         </div>
     {% endfor %}
+    {{ app.session.set('messages', []) }}
 </div>
