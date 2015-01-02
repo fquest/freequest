@@ -2,9 +2,8 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="carousel slide" id="myCarousel">
+
+                <div class="carousel slide well" id="myCarousel">
                     <ol class="carousel-indicators">
                         <li class="active" data-slide-to="0" data-target="#myCarousel"></li>
                         <li data-slide-to="1" data-target="#myCarousel"></li>
@@ -22,11 +21,11 @@
                                                 <i class="fa fa-facebook"></i>Вход через Facebook
                                             </a>
                                         </li>
-                                        <li>
-                                            <a class="btn btn-lg btn-social btn-google-plus" style="margin-top: 5px">
-                                                <i class="fa fa-google-plus"></i>Вход через Google
-                                            </a>
-                                        </li>
+                                        {#<li>#}
+                                            {#<a class="btn btn-lg btn-social btn-google-plus" style="margin-top: 5px">#}
+                                                {#<i class="fa fa-google-plus"></i>Вход через Google#}
+                                            {#</a>#}
+                                        {#</li>#}
                                     </ul>
                                 </div>
 
@@ -34,48 +33,58 @@
                         </div><!-- end item -->
                     </div><!-- end carousel-inner -->
                 </div>
+
+    </div><!-- container -->
+
+    <div class="container">
+        <div class="well">
+            <div class="container">
+                <h1>Категории</h1>
+                {% for category in categories %}
+                    <div class="col-md-4">
+                        <button onclick="document.location = '{{ url('event_list', {'categories[]': category.id}) }}'" type="button" class="btn-lg btn-success">
+                            {{ category.name }}
+                        </button>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 
-    <div class="container-fluid" style="background: #3EBF99; margin-top: 20px">
+    <div class="container-fluid" style="background: #3EBF99;">
         <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-md-offset-1">
-                    <div class="page-header text-center">
-                        <h1>About Us</h1>
-                    </div><!-- end page-header -->
-                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac gravida ante, quis pretium tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra quam non pretium consectetur. Aenean consectetur mollis vulputate. Vestibulum justo felis, venenatis id malesuada in, facilisis quis velit. Aliquam commodo, libero ut dapibus pharetra, sapien ligula sodales ligula, vitae dignissim sem turpis ut ex</p>
-                </div><!-- end aboutUs -->
-            </div>
-        </div>
+            <div class="page-header text-center">
+                <h1>Про нас</h1>
+            </div><!-- end page-header -->
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac gravida ante, quis pretium tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra quam non pretium consectetur. Aenean consectetur mollis vulputate. Vestibulum justo felis, venenatis id malesuada in, facilisis quis velit. Aliquam commodo, libero ut dapibus pharetra, sapien ligula sodales ligula, vitae dignissim sem turpis ut ex</p>
+        </div><!-- end aboutUs -->
     </div>
 
     <div class="container">
         <div class="row" id="recentEvents">
-            <div class="col-xs-10 col-xs-offset-1">
-                <div class="thumbnails row">
-                    {% for event in events %}
-                        <div class="col-md-4">
-                            <div class="thumbnail">
-                                <img src="{{ event.image|vlabs_filter('resize', { width : 275, keepRatio : true })|vlabs_media('default') }}">
-                                <div class="caption">
-                                    <p>{{ event.title }}</p>
-                                    <p>{{ event.description }}</p>
-                                    <div class="text-right">
-                                        <a href="{{ url('event_view', {'id': event.id}) }}" class="btn btn-small btn-link">Подробно</a>
-                                    </div>
-                                </div><!-- end caption -->
-                            </div><!-- end thumbnail -->
-                        </div><!-- end col-4 -->
-                    {% endfor %}
-                </div>
+            <div class="thumbnails row">
+                {% for event in events %}
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <img src="{{ event.image|vlabs_filter('resize', { width : 275, keepRatio : true })|vlabs_media('default') }}">
+                            <div class="caption">
+                                <p>{{ event.title }}</p>
+                                <p>{{ event.description }}</p>
+                                <div class="text-right">
+                                    <a href="{{ url('event_view', {'id': event.id}) }}" class="btn btn-small btn-link">Подробно</a>
+                                </div>
+                            </div><!-- end caption -->
+                        </div><!-- end thumbnail -->
+                    </div><!-- end col-4 -->
+                {% endfor %}
             </div>
         </div>
     </div>
-    <div class="container">
-        <a href="{{ url('event_list') }}"><h1>Все события</h1></a>
-    </div>
 
+    <div class="container">
+        <div class="well text-center">
+            <a href="{{ url('event_list') }}"><h1>Все события ...</h1></a>
+        </div>
+    </div>
 
 {% endblock %}

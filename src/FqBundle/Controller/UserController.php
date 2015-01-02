@@ -45,8 +45,10 @@ class UserController extends Controller
     {
         $this->get('security.context')->setToken(null);
         $this->get('request')->getSession()->invalidate();
-        $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('homepage');
-        return $this->redirect($redirectUrl);
+        //todo need to redirect user to homepage if the page (http_referer) is only for logged in
+//        $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('homepage');
+//        return $this->redirect($redirectUrl);
+        return $this->redirect($this->generateUrl('homepage'));
     }
 
     /**
