@@ -11,13 +11,10 @@
                         <div class="page-header">
                             <img src="{{ user.picture }}" >
                         </div>
-                        <p>{{ user.username }}</p>
-                        <p>29 level</p>
-                        <p>
-                            <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
-                            <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
-                            <img src="{{ asset('bundles/fq/images/images2.jpg') }}">
-                        </p>
+                        <p><b>{{ user.username }}</b></p>
+                        <p>Организовано: <b>{{ createdEvents|length }}</b></p>
+                        <p>Принято участие: <b>{{ passedEvents|length }}</b></p>
+                        <p>В планах посетить: <b>{{ futureEvents|length }}</b></p>
                     </div>
                 </div>
                 <div class="col-sm-9">
@@ -54,14 +51,13 @@
                                                 <div class="col-md-4">
                                                     <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-5">
                                                     <p>{{ event.creator.username }}</p>
                                                     <p>{{ event.title }}</p>
                                                     <p>{{ event.description }}</p>
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <p>Created: {{ event.createdat|date('Y-m-d') }}</p>
-                                                    <p>Updated: {{ event.updatedat|date('Y-m-d') }}</p>
+                                                <div class="col-md-3">
+                                                    <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
                                                     {% if (false == user.isAttending(event)) %}
                                                         <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
                                                     {% else %}
@@ -71,43 +67,70 @@
                                             </div>
                                         </a>
                                     {% endfor %}
-                                    <a href="{{ url('event_create') }}"><h1>Создать событие</h1></a>
+                                    <a href="{{ url('event_create') }}" class="list-group-item text-center">
+                                       <h1> + Создать событие</h1>
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="tab-pane" id="tab2">
-                                {% for event in user.events %}
-                                    <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
-
-                                    <h3>{{ event.title }}</h3>
-
-                                    <p>{{ event.description }}</p>
-
-                                    <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
-
-                                    <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
-
-
-                                    <hr>
-                                {% endfor %}
-                                <a href="{{ url('event_list') }}"><h1>Все события</h1></a>
+                                <div class="list-group" style="margin-top: 20px">
+                                    {% for event in futureEvents %}
+                                        <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <p>{{ event.creator.username }}</p>
+                                                    <p>{{ event.title }}</p>
+                                                    <p>{{ event.description }}</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
+                                                    {% if (false == user.isAttending(event)) %}
+                                                        <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
+                                                    {% else %}
+                                                        <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                <a href="{{ url('event_list') }}" class="list-group-item text-center">
+                                    <h1>Все события</h1>
+                                </a>
+                            </div>
                             </div>
 
                             <div class="tab-pane" id="tab3">
-                                {% for event in user.events %}
-                                    <img src="{{ event.image|vlabs_filter('resize', { width : 120, keepRatio : true })|vlabs_media('default') }}" class="thumbnail pull-left" alt="" style=" margin-right: 10px">
-
-                                    <h3>{{ event.title }}</h3>
-
-                                    <p>{{ event.description }}</p>
-
-                                    <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
-
-                                    <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
-
-                                    <hr>
-                                {% endfor %}
-                                <a href="{{ url('event_list') }}"><h1>Все события</h1></a>
+                                <div class="list-group" style="margin-top: 20px">
+                                    {% for event in passedEvents %}
+                                        <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <p>{{ event.creator.username }}</p>
+                                                    <p>{{ event.title }}</p>
+                                                    <p>{{ event.description }}</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
+                                                    {% if (false == user.isAttending(event)) %}
+                                                        <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
+                                                    {% else %}
+                                                        <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                    <a href="{{ url('event_list') }}" class="list-group-item text-center">
+                                        <h1>Все события</h1>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

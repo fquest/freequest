@@ -2,16 +2,25 @@
     <div class="container" >
         <div class="row">
             <div class="col-md-8">
-                <div class="navbar-header scaling_">
+                <div class="navbar-header">
                     <a class="navbar-brand" href="{{ url('homepage') }}"><img src="{{ asset('bundles/fq/images/logo.png') }}" style="height: 40px"/></a>
                 </div><!-- end navbar-header -->
             </div>
             <div class="col-md-4">
-                <div class="navbar-header scaling_">
-                    {% if (user is defined) and user.email %}
-                        <a href="{{ url('profile') }}"><img src="{{ user.picture }}" id="photo"> {{ user.username }}</a> <a href="{{ path('logout') }}">Logout</a>
+                <div class="navbar-header">
+                    {% if (app.user.email is defined) %}
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                <img src="{{ app.user.picture }}"/> {{ app.user.username }}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a href="{{ url('profile') }}" role="menuitem" tabindex="-1">Профайл</a></li>
+                                <li role="presentation"><a href="{{ path('logout') }}" role="menuitem" tabindex="-1">Выйти</a></li>
+                            </ul>
+                        </div>
                     {% else %}
-                        <a href="#" data-role="facebook-login" data-target="{{ url('dashboard') }}" class="btn btn-lg btn-social btn-facebook">
+                        <a href="#" data-role="facebook-login" data-target="{{ url('dashboard') }}" class="btn btn-sm btn-social btn-facebook" style="margin-top: 10px">
                             <i class="fa fa-facebook"></i>Войти
                         </a>
                     {% endif %}

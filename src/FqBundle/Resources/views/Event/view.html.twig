@@ -2,21 +2,23 @@
 
 {% block body %}
 <div class="container" id="main">
-    <h1>Event view.</h1>
-    <p>Title: {{ event.title }}</p>
-    <p><img src="{{ event.image|vlabs_media('default') }}"></p>
-    <p>Description: {{ event.description }}</p>
-    <p>Address: {{ event.address }}</p>
-    <p>Map</p><div class="map" data-latlng="{{ event.position }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
-    <p>Creator: <img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
-    <h1>Participants</h1>
-    {% for participant in event.participants %}
-        <p>Praticipant: <img src="{{ participant.picture }}"/> {{ participant.username }}</p>
-    {% endfor %}
-    {% if (false == user.isAttending(event)) %}
-        <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
-    {% else %}
-        <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
-    {% endif %}
+        <div class="well">
+        <h1>{{ event.title }}</h1>
+        <p><img src="{{ event.image|vlabs_media('default') }}"></p>
+        <p><b>Время: </b>{{ event.schedule|date('Y-m-d') }}</p>
+        <p><b>Описание: </b>{{ event.description }}</p>
+        <p><b>Адресс: </b>{{ event.address }}</p>
+        <p><b>Карта: </b></p><div class="map" data-latlng="{{ event.position }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
+        <p><b>Организатор: </b><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
+        <h1>Участники: </h1>
+        {% for participant in event.participants %}
+            <p><img src="{{ participant.picture }}"/> {{ participant.username }}</p>
+        {% endfor %}
+        {% if (false == user.isAttending(event)) %}
+            <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
+        {% else %}
+            <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

@@ -60,13 +60,26 @@ class UserController extends Controller
         $user = $this->getDoctrine()
             ->getRepository('FqBundle:User')
             ->find($this->getUser()->getId());
+        /** @var \FqBundle\Entity\Event[] $events */
         $events = $this->getDoctrine()
             ->getRepository('FqBundle:Event')
-            ->findBy(['creator' => $user->getId()]);
+            ->findBy(['creator' => $user->getId()], ['schedule' => 'DESC']);
+        $passedEvents = [];
+        $futureEvents = [];
+        $currentDate = new \DateTime();
+        foreach ($user->getEvents() as $event) {
+            if ($event->getSchedule() > $currentDate) {
+                $futureEvents[] = $event;
+            } else {
+                $passedEvents[] = $event;
+            }
+        }
         return $this->render(
             'FqBundle:User:dashboard.html.twig',
             [
                 'createdEvents' => $events,
+                'futureEvents' => array_reverse($futureEvents),
+                'passedEvents' => array_reverse($passedEvents),
                 'user' => $user
             ]
         );

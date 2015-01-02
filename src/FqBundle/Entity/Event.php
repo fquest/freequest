@@ -85,6 +85,11 @@ class Event
     protected $updated_at;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $schedule;
+
+    /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="events")
      */
     protected $participants;
@@ -357,5 +362,28 @@ class Event
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * Set schedule
+     *
+     * @param \DateTime $schedule
+     * @return Event
+     */
+    public function setSchedule($schedule)
+    {
+        $this->schedule = $schedule;
+
+        return $this;
+    }
+
+    /**
+     * Get schedule
+     *
+     * @return \DateTime 
+     */
+    public function getSchedule()
+    {
+        return $this->schedule;
     }
 }
