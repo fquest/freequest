@@ -54,7 +54,7 @@
                                                 <div class="col-md-5">
                                                     <p>{{ event.creator.username }}</p>
                                                     <p>{{ event.title }}</p>
-                                                    <p>{{ event.description }}</p>
+                                                    <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
@@ -84,7 +84,7 @@
                                                 <div class="col-md-5">
                                                     <p>{{ event.creator.username }}</p>
                                                     <p>{{ event.title }}</p>
-                                                    <p>{{ event.description }}</p>
+                                                    <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
@@ -114,7 +114,7 @@
                                                 <div class="col-md-5">
                                                     <p>{{ event.creator.username }}</p>
                                                     <p>{{ event.title }}</p>
-                                                    <p>{{ event.description }}</p>
+                                                    <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>

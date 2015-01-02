@@ -3,7 +3,9 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{{ url('homepage') }}"><img src="{{ asset('bundles/fq/images/logo.png') }}" style="height: 40px"/></a>
+                    <a class="navbar-brand" href="{% if (app.user.email is defined) %}{{ url('dashboard') }}{% else %}{{ url('homepage') }}{% endif %}">
+                        <img src="{{ asset('bundles/fq/images/logo.png') }}" style="height: 40px"/>
+                    </a>
                 </div><!-- end navbar-header -->
             </div>
             <div class="col-md-4">
