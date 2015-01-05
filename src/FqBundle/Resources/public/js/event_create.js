@@ -60,7 +60,6 @@ $('#form_address').change(function() {
         address: $('#form_address').val(),
         callback: function(results, status) {
             if (status == 'OK') {
-                console.log(results);
                 var latLng = results[0].geometry.location;
                 map.setCenter(latLng.lat(), latLng.lng());
                 $('#form_position').val(String(latLng.lat()) + ',' + (String(latLng.lng())));
@@ -77,6 +76,20 @@ $('#form_address').change(function() {
                     });
                 }
             }
+        }
+    });
+});
+$('[data-role="create_category"]').click(function() {
+    $.ajax({
+        type: 'post',
+        url: $(this).data('url'),
+        data: { name: $('#category_name').val() },
+        success: function(data) {
+            category = JSON.parse(data);
+            var option = new Option(category.name, category.id);
+            $('#form_category').append($(option));
+            $('#form_category').val(category.id);
+            $('#createCategoryPopup').modal('hide');
         }
     });
 });

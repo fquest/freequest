@@ -7,6 +7,8 @@ use FqBundle\Entity\Event;
 use FqBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\View\ChoiceView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -33,7 +35,8 @@ class EventController extends Controller
             ->add('schedule', 'collot_datetime')
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
-        return $this->render('FqBundle:Event:create.html.twig', ['form' => $form->createView()]);
+        $formView = $form->createView();
+        return $this->render('FqBundle:Event:create.html.twig', ['form' => $formView]);
     }
 
     /**
@@ -140,38 +143,20 @@ class EventController extends Controller
     }
 
     /**
-     * @Route("/createcat", name="create_category")
-     */
-    public function createCategoryAction()
-    {
-        $event = new Category();
-        $event->setName('default category name');
-        $form = $this->createFormBuilder($event)
-            ->add('name', 'text')
-            ->add('save', 'submit', ['label' => 'Create Category'])
-            ->getForm();
-        return $this->render('FqBundle:Event:category.html.twig', ['form' => $form->createView()]);
-    }
-
-    /**
-     * @Route("/savecat", name="save_category")
+     * @Route("/category/save", name="save_category")
      */
     public function saveCategoryAction(Request $request)
     {
-        $category = new Category();
-        $form = $this->createFormBuilder($category)
-            ->add('name', 'text')
-            ->add('save', 'submit', ['label' => 'Create Category'])
-            ->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        $name = $request->get('name');
+        if ($name) {
+            $category = new Category();
+            $category->setName($name);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($category);
             $entityManager->flush();
-            return $this->redirect($this->generateUrl('event_list'));
+            return new Response(json_encode(['name' => $name, 'id' => $category->getId()]));
         }
-        return $this->redirect($this->generateUrl('create_category'));
+        return new Response(json_encode(['error' => 'error']));
     }
 
 }
