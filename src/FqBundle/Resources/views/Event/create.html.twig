@@ -31,35 +31,35 @@
                             <div class="form-group">
                                 <label for="title" class="col-md-2 control-label">Название</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.title) }}
+                                    {{ form_widget(form.title, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="description" class="col-md-2 control-label">Время</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.schedule) }}
+                                    {{ form_widget(form.schedule, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="description" class="col-md-2 control-label">Подробности</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.description) }}
+                                    {{ form_widget(form.description, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="category" class="col-md-2 control-label">Категория</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.category) }}
+                                    {{ form_widget(form.category, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="address" class="col-md-2 control-label">Адрес</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.address) }}
+                                    {{ form_widget(form.address, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
 
@@ -94,4 +94,6 @@
     <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5bNGhrj2Y_h3U655IrW7g961-5Nc2D90&sensor=false"></script>
     <script type="application/javascript" src="{{ asset('bundles/fq/js/gmaps.js') }}"></script>
     <script type="application/javascript" src="{{ asset('bundles/fq/js/event_create.js') }}"></script>
+
+    {{ form_javascript(form) }}
 {% endblock %}

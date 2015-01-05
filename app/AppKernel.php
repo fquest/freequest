@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new FqBundle\FqBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Vlabs\MediaBundle\VlabsMediaBundle(),
+            new SC\DatetimepickerBundle\SCDatetimepickerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

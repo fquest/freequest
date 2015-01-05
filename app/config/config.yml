@@ -137,3 +137,6 @@ vlabs_media:
     mapping:
         image_entity:
           class: FqBundle\Entity\Image
+
+sc_datetimepicker:
+    picker: ~
