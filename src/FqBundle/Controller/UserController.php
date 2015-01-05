@@ -86,14 +86,47 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/profile", name="profile")
+     * @Route("/profile/{id}", defaults={"id" = null}, name="profile")
      */
-    public function profile()
+    public function profile($id)
     {
-        $user = $this->getUser();
+        if ($id) {
+            $user = $this->getDoctrine()
+                ->getRepository('FqBundle:User')
+                ->find($id);
+        } else {
+            $user = $this->getUser();
+        }
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'User does not exist!'
+            );
+        }
+
+        /** @var \FqBundle\Entity\Event[] $events */
+        $events = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->findBy(['creator' => $user->getId()], ['schedule' => 'DESC']);
+        $passedEvents = [];
+        $futureEvents = [];
+        $currentDate = new \DateTime();
+        foreach ($user->getEvents() as $event) {
+            if ($event->getSchedule() > $currentDate) {
+                $futureEvents[] = $event;
+            } else {
+                $passedEvents[] = $event;
+            }
+        }
+
         return $this->render(
             'FqBundle:User:profile.html.twig',
-            ['user' => $user]
+            [
+                'createdEvents' => $events,
+                'futureEvents' => array_reverse($futureEvents),
+                'passedEvents' => array_reverse($passedEvents),
+                'user' => $user
+            ]
         );
     }
 

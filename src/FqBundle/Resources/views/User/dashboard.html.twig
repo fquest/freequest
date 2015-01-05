@@ -52,7 +52,9 @@
                                                     <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <p>{{ event.creator.username }}</p>
+                                                    <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
+                                                        {{ event.creator.username }}
+                                                    </p>
                                                     <p>{{ event.title }}</p>
                                                     <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
                                                 </div>
@@ -82,7 +84,9 @@
                                                     <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <p>{{ event.creator.username }}</p>
+                                                    <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
+                                                        {{ event.creator.username }}
+                                                    </p>
                                                     <p>{{ event.title }}</p>
                                                     <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
                                                 </div>
@@ -112,7 +116,9 @@
                                                     <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <p>{{ event.creator.username }}</p>
+                                                    <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
+                                                        {{ event.creator.username }}
+                                                    </p>
                                                     <p>{{ event.title }}</p>
                                                     <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
                                                 </div>

@@ -9,10 +9,12 @@
         <p><b>Описание: </b>{{ event.description }}</p>
         <p><b>Адресс: </b>{{ event.address }}</p>
         <p><b>Карта: </b></p><div class="map" data-latlng="{{ event.position }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
-        <p><b>Организатор: </b><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</p>
+        <p><b>Организатор: </b> <a href="{{ url('profile', {'id': event.creator.id}) }}"><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</a></p>
         <h1>Участники: </h1>
         {% for participant in event.participants %}
-            <p><img src="{{ participant.picture }}"/> {{ participant.username }}</p>
+            <div class="well">
+                <a href="{{ url('profile', {'id': participant.id}) }}"><img src="{{ participant.picture }}"/> {{ participant.username }}</a>
+            </div>
         {% endfor %}
         {% if (false == user.isAttending(event)) %}
             <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>

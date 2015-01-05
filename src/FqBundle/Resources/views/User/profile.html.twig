@@ -7,27 +7,36 @@
                 <div class="well">
                     <div class="container">
                         <div class="col-md-9">
-                        <div class="page-header">
+                            <div class="page-header">
 
-                            <h1>{{ user.username }}</h1>
+                                <h1>{{ user.username }}</h1>
 
-                        </div><!-- end page-header -->
+                            </div><!-- end page-header -->
 
-                        <div class="list-group">
+                            <div class="list-group">
 
-                            <div class="list-group-item">
-                                <label for="photo" class="col-md-4 control-label">Аватар</label><img src="{{ user.picture }}"/>
+                                <div class="list-group-item">
+                                    <label for="photo" class="col-md-4 control-label">Аватар</label><img src="{{ user.picture }}"/>
+                                </div>
+                                <div class="list-group-item">
+                                        <label for="photo" class="col-md-4 control-label">Email</label> {{ user.email }}
+                                </div>
+                                <div class="list-group-item">
+                                    <label for="photo" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|date('d/m/Y G:i') }}
+                                </div>
+                                <div class="list-group-item">
+                                    <label for="photo" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|date('d/m/Y G:i') }}
+                                </div>
+                                <div class="list-group-item">
+                                    <label for="photo" class="col-md-4 control-label">Организовано событий</label> {{ createdEvents|length }}
+                                </div>
+                                <div class="list-group-item">
+                                    <label for="photo" class="col-md-4 control-label">Принято участие</label> {{ passedEvents|length }}
+                                </div>
+                                <div class="list-group-item">
+                                    <label for="photo" class="col-md-4 control-label">В планах посетить</label> {{ futureEvents|length }}
+                                </div>
                             </div>
-                            <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Email</label> {{ user.email }}
-                            </div>
-                            <div class="list-group-item">
-                                <label for="photo" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|date('d/m/Y G:i') }}
-                            </div>
-                            <div class="list-group-item">
-                                <label for="photo" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|date('d/m/Y G:i') }}
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div><!-- end well -->
