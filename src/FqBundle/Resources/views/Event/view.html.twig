@@ -4,7 +4,7 @@
 <div class="container" id="main">
         <div class="well">
         <h1>{{ event.title }}</h1>
-        <p><img src="{{ event.image|vlabs_media('default') }}"></p>
+        <p><img src="{{ event.image|vlabs_filter('resize', { width : 500, keepRatio : true })|vlabs_media('default') }}"></p>
         <p><b>Время: </b>{{ event.schedule|date('Y-m-d') }}</p>
         <p><b>Описание: </b>{{ event.description }}</p>
         <p><b>Адресс: </b>{{ event.address }}</p>
@@ -21,4 +21,13 @@
         {% endif %}
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5bNGhrj2Y_h3U655IrW7g961-5Nc2D90&sensor=false"></script>
+    <script type="application/javascript" src="{{ asset('bundles/fq/js/gmaps.js') }}"></script>
+    <script type="application/javascript" src="{{ asset('bundles/fq/js/event_view.js') }}"></script>
+
 {% endblock %}
