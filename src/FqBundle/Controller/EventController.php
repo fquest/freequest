@@ -120,23 +120,47 @@ class EventController extends Controller
         }
 
         $selectedCategories = $request->query->get('categories');
-        if ($selectedCategories) {
-            $qb = $this->getDoctrine()->getRepository('FqBundle:Event')->createQueryBuilder('n');
-            $events = $qb->where($qb->expr()->in('n.category', $selectedCategories))->getQuery()->getResult();
-        }  else {
-            $events = $this->getDoctrine()
-                ->getRepository('FqBundle:Event')
-                ->findAll();
+        $searchQuery = $request->get('query');
+
+        /** @var \Doctrine\ORM\EntityRepository $repository */
+        $repository = $this->getDoctrine()->getRepository('FqBundle:Event');
+        $builder = $repository->createQueryBuilder('n');
+
+        $parameters = [];
+        if ($searchQuery) {
+            $queryParts = explode(' ', $searchQuery);
+            foreach ($queryParts as $key => $part) {
+                if (!$key) {
+                    $builder->where('n.title LIKE :part' . $key)
+                        ->orWhere('n.description LIKE :part' . $key);
+                } else {
+                    $builder->orWhere('n.title LIKE :part' . $key)
+                        ->orWhere('n.description LIKE :part' . $key);
+                }
+
+                $parameters['part' . $key] = '%' . $part . '%';
+            }
         }
+
+        if ($selectedCategories) {
+            $builder->andWhere($builder->expr()->in('n.category', $selectedCategories));
+        }
+
+        $builder->setParameters($parameters);
+
+        $events = $builder->getQuery()->getResult();
+
         $categories = $this->getDoctrine()
             ->getRepository('FqBundle:Category')
             ->findAll();
+
         return $this->render(
             'FqBundle:Event:list.html.twig',
             [
                 'events' => $events,
                 'categories' => $categories,
                 'selectedCategories' => $selectedCategories,
+                'query' => $searchQuery,
                 'user' => $user
             ]
         );
@@ -158,5 +182,4 @@ class EventController extends Controller
         }
         return new Response(json_encode(['error' => 'error']));
     }
-
 }
