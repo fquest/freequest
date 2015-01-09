@@ -10,7 +10,7 @@ function fillAddress(latitude, logitude) {
         },
         callback: function (results, status) {
             if (status == 'OK') {
-                $('#form_address').val(results[0].formatted_address);
+                $('#form_address').val(results[0].address_components[1].short_name + ', ' + results[0].address_components[0].short_name);
             }
         }
     })
