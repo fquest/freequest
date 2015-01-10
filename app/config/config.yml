@@ -140,3 +140,6 @@ vlabs_media:
 
 sc_datetimepicker:
     picker: ~
+
+swiftmailer:
+    disable_delivery: false

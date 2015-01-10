@@ -154,6 +154,11 @@ class UserController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             $message = ['text' => 'Вы присоединились к событию!', 'type' => 'success'];
+            $this->sendMail(
+                $event->getCreator()->getEmail(),
+                $event->getTitle(),
+                'К событию ' . $event->getTitle() . ' присоединился ' . $user->getUsername()
+            );
         } else {
             $message = ['text' => 'Вы уже участник события!', 'type' => 'success'];
         }
@@ -162,6 +167,19 @@ class UserController extends Controller
         return $this->redirect($redirectUrl);
     }
 
+    protected function sendMail($email, $title, $content)
+    {
+        try {
+            $letter = \Swift_Message::newInstance()
+                ->setSubject($title . ' +1 участник')
+                ->setFrom(['vasylkozyrenko@gmail.com' => 'Freequest'])
+                ->setTo($email)
+                ->setBody($content);
+            $this->get('mailer')->send($letter);
+        } catch (\Exception $e) {
+            //todo log exceptions
+        }
+    }
     /**
      * @Route("/leave/{id}", name="leave_event")
      */
