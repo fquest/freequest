@@ -172,7 +172,7 @@ class UserController extends Controller
         try {
             $letter = \Swift_Message::newInstance()
                 ->setSubject($title . ' +1 участник')
-                ->setFrom(['vasylkozyrenko@gmail.com' => 'Freequest'])
+                ->setFrom(['freequest@startup1.freequest.com.ua' => 'Freequest'])
                 ->setTo($email)
                 ->setBody($content);
             $this->get('mailer')->send($letter);
