@@ -36,6 +36,8 @@
             <div class="row" id="userEvents">
                 <div class="col-sm-9">
                     <h3>Событя</h3>
+                    <a data-role="link-button" data-url="{{ url('event_list') }}" class="btn btn-info pull-right" style="margin: 5px">Все события</a>
+                    <a data-role="link-button" data-url="{{ url('event_create') }}" class="btn btn-info pull-right" style="margin: 5px">+ Создать событие</a>
                     <div class="tabbable">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab1" data-toggle="tab">Созданные</a></li>
@@ -44,99 +46,15 @@
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
-                                <div class="list-group" style="margin-top: 20px">
-                                    {% for event in createdEvents %}
-                                        <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
-                                                        {{ event.creator.username }}
-                                                    </p>
-                                                    <p>{{ event.title }}</p>
-                                                    <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
-                                                    {% if (false == user.isAttending(event)) %}
-                                                        <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
-                                                    {% else %}
-                                                        <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    {% endfor %}
-                                    <a href="{{ url('event_create') }}" class="list-group-item text-center">
-                                       <h1> + Создать событие</h1>
-                                    </a>
-                                </div>
+                                {{ include('FqBundle:Event:block/list.html.twig', {'events': createdEvents}) }}
                             </div>
 
                             <div class="tab-pane" id="tab2">
-                                <div class="list-group" style="margin-top: 20px">
-                                    {% for event in futureEvents %}
-                                        <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
-                                                        {{ event.creator.username }}
-                                                    </p>
-                                                    <p>{{ event.title }}</p>
-                                                    <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
-                                                    {% if (false == user.isAttending(event)) %}
-                                                        <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
-                                                    {% else %}
-                                                        <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    {% endfor %}
-                                <a href="{{ url('event_list') }}" class="list-group-item text-center">
-                                    <h1>Все события</h1>
-                                </a>
-                            </div>
+                                {{ include('FqBundle:Event:block/list.html.twig', {'events': futureEvents}) }}
                             </div>
 
                             <div class="tab-pane" id="tab3">
-                                <div class="list-group" style="margin-top: 20px">
-                                    {% for event in passedEvents %}
-                                        <a href="{{ path('event_view', {'id': event.id}) }}" class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
-                                                        {{ event.creator.username }}
-                                                    </p>
-                                                    <p>{{ event.title }}</p>
-                                                    <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <p>Состоится: </p><p> {{ event.schedule|date('Y-m-d') }}</p>
-                                                    {% if (false == user.isAttending(event)) %}
-                                                        <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
-                                                    {% else %}
-                                                        <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    {% endfor %}
-                                    <a href="{{ url('event_list') }}" class="list-group-item text-center">
-                                        <h1>Все события</h1>
-                                    </a>
-                                </div>
+                                {{ include('FqBundle:Event:block/list.html.twig', {'events': passedEvents}) }}
                             </div>
                         </div>
                     </div>

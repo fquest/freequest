@@ -2,25 +2,42 @@
 
 {% block body %}
 <div class="container" id="main">
-        <div class="well">
-        <h1>{{ event.title }}</h1>
-        <p><img src="{{ event.image|vlabs_filter('resize', { width : 500, keepRatio : true })|vlabs_media('default') }}"></p>
-        <p><b>Время: </b>{{ event.schedule|date('Y-m-d') }}</p>
-        <p><b>Описание: </b>{{ event.description }}</p>
-        <p><b>Адресс: </b>{{ event.address }}</p>
-        <p><b>Карта: </b></p><div class="map" data-latlng="{{ event.position }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
-        <p><b>Организатор: </b> <a href="{{ url('profile', {'id': event.creator.id}) }}"><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</a></p>
-        <h1>Участники: </h1>
-        {% for participant in event.participants %}
-            <div class="well">
-                <a href="{{ url('profile', {'id': participant.id}) }}"><img src="{{ participant.picture }}"/> {{ participant.username }}</a>
-            </div>
-        {% endfor %}
-        {% if (false == user.isAttending(event)) %}
-            <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
-        {% else %}
-            <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
+    <div class="well">
+        {% if user != event.creator %}
+            {% if (false == user.isAttending(event)) %}
+                <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info pull-right">Присоединиться</button>
+            {% else %}
+                <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info pull-right">Покинуть</button>
+            {% endif %}
         {% endif %}
+        <div class="row">
+            <div class="col-md-1">
+                <p style="font-size: x-large;">{{ event.schedule|date('d') }}</p>
+                <p>{{ event.schedule|date('F') }}</p>
+                <p>{{ event.schedule|date('Y') }}</p>
+                <p>Количество участников:</p>
+                <p style="font-size: x-large">{{ event.participants|length }}</p>
+            </div>
+            <div class="col-md-4">
+                <img src="{{ event.image|vlabs_filter('resize', { width : 500, keepRatio : true })|vlabs_media('default') }}">
+            </div>
+            <div class="col-md-4">
+                <h1>{{ event.title }}</h1>
+                <p><b>Время: </b>{{ event.schedule|date('d/m/Y G:i') }}</p>
+                <p><b>Адресс: </b>{{ event.address }}</p>
+                <p><b>Организатор: </b> <a href="{{ url('profile', {'id': event.creator.id}) }}"><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <p><b>Описание: </b>{{ event.description }}</p>
+            <p><b>Карта: </b></p><div class="map" data-latlng="{{ event.position }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
+            <h1>Участники: </h1>
+            {% for participant in event.participants %}
+                <div class="well">
+                    <a href="{{ url('profile', {'id': participant.id}) }}"><img src="{{ participant.picture }}"/> {{ participant.username }}</a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

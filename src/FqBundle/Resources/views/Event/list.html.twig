@@ -39,33 +39,8 @@
                     </div>
 
                     <div class="col-md-9">
-                        <h4 style="margin-top: 10px">Events</h4>
-                        <div class="list-group">
-                            {% for event in events %}
-                                <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
-                                        </div>
-                                        <div class="col-md-5">
-                                            <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
-                                                {{ event.creator.username }}
-                                            </p>
-                                            <p>{{ event.title }}</p>
-                                            <p>{{ event.description }}</p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p>Состоится: </p><p> {{ event.schedule|date('d/m/Y G:i') }}</p>
-                                            {% if (false == user.isAttending(event)) %}
-                                                <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
-                                            {% else %}
-                                                <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </a>
-                            {% endfor %}
-                        </div>
+                        <h4 style="margin-top: 10px">События</h4>
+                        {{ include('FqBundle:Event:block/list.html.twig') }}
                     </div>
                 </div>
             </div>
