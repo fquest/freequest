@@ -157,7 +157,19 @@ class UserController extends Controller
             $this->sendMail(
                 $event->getCreator()->getEmail(),
                 $event->getTitle(),
-                'К событию ' . $event->getTitle() . ' присоединился ' . $user->getUsername()
+                '<html>' .
+                '<head></head>' .
+                '<body>' .
+                'Привет, ' . $event->getCreator()->getUsername() . '!<br>'.
+                $user->getUsername() . ' желает участвовать в ' . $event->getTitle() . '<br><br>' .
+                'Контактная информация участника: <br>' .
+                $user->getEmail() . '<br>' .
+                $user->getFbid() .
+                '<br><br>'.
+                'Текущее количество участников:<br><br>' .
+                'С наилучшими пожеланиями. Команда FreeQuest.' .
+                '</body>' .
+                '</html>'
             );
         } else {
             $message = ['text' => 'Вы уже участник события!', 'type' => 'success'];
@@ -171,10 +183,10 @@ class UserController extends Controller
     {
         try {
             $letter = \Swift_Message::newInstance()
-                ->setSubject($title . ' +1 участник')
+                ->setSubject('К событию ' . $title . ' присоединился новый участник')
                 ->setFrom(['freequest@startup1.freequest.com.ua' => 'Freequest'])
                 ->setTo($email)
-                ->setBody($content);
+                ->setBody($content, 'text/html');
             $this->get('mailer')->send($letter);
         } catch (\Exception $e) {
             //todo log exceptions
