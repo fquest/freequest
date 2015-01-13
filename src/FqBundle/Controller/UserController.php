@@ -154,23 +154,17 @@ class UserController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             $message = ['text' => 'Вы присоединились к событию!', 'type' => 'success'];
-            $this->sendMail(
-                $event->getCreator()->getEmail(),
-                $event->getTitle(),
-                '<html>' .
-                '<head></head>' .
-                '<body>' .
-                'Привет, ' . $event->getCreator()->getUsername() . '!<br>'.
-                $user->getUsername() . ' желает участвовать в ' . $event->getTitle() . '<br><br>' .
-                'Контактная информация участника: <br>' .
-                $user->getEmail() . '<br>' .
-                $user->getFbid() .
-                '<br><br>'.
-                'Текущее количество участников:<br><br>' .
-                'С наилучшими пожеланиями. Команда FreeQuest.' .
-                '</body>' .
-                '</html>'
-            );
+            try {
+                $letter = \Swift_Message::newInstance()
+                    ->setSubject('К событию ' . $event->getTitle() . ' присоединился ' . $user->getUsername())
+                    ->setFrom(['freequest@startup1.freequest.com.ua' => 'Freequest'])
+                    ->setTo($event->getCreator()->getEmail())
+                    ->setBody($this->renderView('FqBundle:User:contactEmail.html.twig',
+                        ['user' => $user, 'event' => $event]), 'text/html');
+                $this->get('mailer')->send($letter);
+            } catch (\Exception $e) {
+                //todo log exceptions
+            }
         } else {
             $message = ['text' => 'Вы уже участник события!', 'type' => 'success'];
         }
@@ -178,21 +172,7 @@ class UserController extends Controller
         $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
         return $this->redirect($redirectUrl);
     }
-
-    protected function sendMail($email, $title, $content)
-    {
-        try {
-            $letter = \Swift_Message::newInstance()
-                ->setSubject('К событию ' . $title . ' присоединился новый участник')
-                ->setFrom(['freequest@startup1.freequest.com.ua' => 'Freequest'])
-                ->setTo($email)
-                ->setBody($content, 'text/html');
-            $this->get('mailer')->send($letter);
-        } catch (\Exception $e) {
-            //todo log exceptions
-        }
-    }
-    /**
+        /**
      * @Route("/leave/{id}", name="leave_event")
      */
     public function leaveAction(Request $request, $id)
