@@ -130,6 +130,10 @@ services:
     user_provider:
         class: FqBundle\Entity\UserProvider
         arguments: [@doctrine.orm.entity_manager]
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
 
 vlabs_media:
     image_cache:

@@ -11,19 +11,22 @@
             {% endif %}
         {% endif %}
         <div class="row">
-            <div class="col-md-1">
-                <p style="font-size: x-large;">{{ event.schedule|date('d') }}</p>
-                <p>{{ event.schedule|date('F') }}</p>
-                <p>{{ event.schedule|date('Y') }}</p>
-                <p>Количество участников:</p>
-                <p style="font-size: x-large">{{ event.participants|length }}</p>
+            <div class="col-md-2">
+                <div class="well">
+                    <p>{{ event.schedule|localizeddate('long', 'none', null, null, 'EEEE')|capitalize }}</p>
+                    <p style="font-size: x-large;">{{ event.schedule|date('d') }}</p>
+                    <p style="font-size: x-large;">{{ event.schedule|localizeddate('long', 'none', null, null, 'MMMM')|capitalize }}</p>
+                    <p>{{ event.schedule|date('Y') }}</p>
+                    <p>Количество участников:</p>
+                    <p style="font-size: x-large">{{ event.participants|length }}</p>
+                </div>
             </div>
             <div class="col-md-4">
                 <img src="{{ event.image|vlabs_filter('resize', { width : 500, keepRatio : true })|vlabs_media('default') }}">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <h1>{{ event.title }}</h1>
-                <p><b>Время: </b>{{ event.schedule|date('d/m/Y G:i') }}</p>
+                <p><b>Время: </b>{{ event.schedule|localizeddate('none', 'short') }}</p>
                 <p><b>Адресс: </b>{{ event.address }}</p>
                 <p><b>Организатор: </b> <a href="{{ url('profile', {'id': event.creator.id}) }}"><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</a></p>
             </div>

@@ -73,7 +73,7 @@
                                     <img src="{{ event.image|vlabs_filter('resize', { width : 275, keepRatio : true })|vlabs_media('default') }}">
                                 </div>
                                 <div class="event-description" style="overflow:hidden; height: 100px">{{ event.description }}</div>
-                                <div class="text-right"><i>{{ event.schedule|date('l, d F Y G:i') }}</i></div>
+                                <div class="text-right"><i>{{ event.schedule|localizeddate('full', 'none') }}</i></div>
                             </div><!-- end thumbnail -->
 
                     </div><!-- end col-4 -->

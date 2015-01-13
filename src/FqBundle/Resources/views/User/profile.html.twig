@@ -22,10 +22,10 @@
                                         <label for="photo" class="col-md-4 control-label">Email</label> {{ user.email }}
                                 </div>
                                 <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|date('d/m/Y G:i') }}
+                                    <label for="photo" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|localizeddate('short') }}
                                 </div>
                                 <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|date('d/m/Y G:i') }}
+                                    <label for="photo" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|localizeddate('short') }}
                                 </div>
                                 <div class="list-group-item">
                                     <label for="photo" class="col-md-4 control-label">Организовано событий</label> {{ createdEvents|length }}
