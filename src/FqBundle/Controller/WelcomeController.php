@@ -41,7 +41,7 @@ class WelcomeController extends Controller
             ['name' => 'Live Квесты', 'image' => '/bundles/fq/images/quests.png'],
             ['name' => 'Спортивные мероприятия', 'image' => '/bundles/fq/images/quests.png'],
             ['name' => 'Путешествия', 'image' => '/bundles/fq/images/quests.png'],
-            ['name' => 'Культурнык мероприятия', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Культурные мероприятия', 'image' => '/bundles/fq/images/quests.png'],
             ['name' => 'Настольные игры', 'image' => '/bundles/fq/images/quests.png'],
             ['name' => 'Другое', 'image' => '/bundles/fq/images/etc.png'],
         ];
