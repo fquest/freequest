@@ -35,7 +35,7 @@ class EventController extends Controller
             ->add(
                 'schedule',
                 'collot_datetime',
-                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:mm']]
+                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:ii']]
             )
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
@@ -59,7 +59,7 @@ class EventController extends Controller
             ->add(
                 'schedule',
                 'collot_datetime',
-                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:mm']]
+                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:ii']]
             )
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
