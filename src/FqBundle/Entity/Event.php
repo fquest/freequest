@@ -100,7 +100,7 @@ class Event
     protected $hiddenFor;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $views;
 
