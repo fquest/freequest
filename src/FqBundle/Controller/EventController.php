@@ -193,20 +193,20 @@ class EventController extends Controller
         );
     }
 
-    /**
-     * @Route("/category/save", name="save_category")
-     */
-    public function saveCategoryAction(Request $request)
-    {
-        $name = $request->get('name');
-        if ($name) {
-            $category = new Category();
-            $category->setName($name);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($category);
-            $entityManager->flush();
-            return new Response(json_encode(['name' => $name, 'id' => $category->getId()]));
-        }
-        return new Response(json_encode(['error' => 'error']));
-    }
+//    /**
+//     * @Route("/category/save", name="save_category")
+//     */
+//    public function saveCategoryAction(Request $request)
+//    {
+//        $name = $request->get('name');
+//        if ($name) {
+//            $category = new Category();
+//            $category->setName($name);
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($category);
+//            $entityManager->flush();
+//            return new Response(json_encode(['name' => $name, 'id' => $category->getId()]));
+//        }
+//        return new Response(json_encode(['error' => 'error']));
+//    }
 }
