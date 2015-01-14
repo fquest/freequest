@@ -1,0 +1,13 @@
+<html>
+    <head></head>
+    <body>
+        Привет, {{ event.creator.username }}!<br>
+        <a href="{{ url('profile') }}">{{ user.username }}</a> желает участвовать в
+        <a href="{{ url('event_view', {'id': event.id}) }}">{{ event.title }}</a><br><br>
+        Контактная информация участника:<br>
+        {{ user.email }}<br>
+        {{ url('profile') }}<br><br>
+        Текущее количество участников: {{ event.participants|length }}<br><br>
+        С наилучшими пожеланиями. Команда FreeQuest.
+    </body>
+</html>
