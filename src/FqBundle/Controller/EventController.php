@@ -97,14 +97,20 @@ class EventController extends Controller
             $user->setUsername('Гость');
         }
 
+        /** @var \FqBundle\Entity\Event $event */
         $event = $this->getDoctrine()
             ->getRepository('FqBundle:Event')
             ->find($id);
+
         if (!$event) {
             throw $this->createNotFoundException(
                 'No event found for id ' . $id
             );
         }
+
+        $event->setViews($event->getViews() + 1);
+        $this->getDoctrine()->getManager()->flush();
+
         return $this->render(
             'FqBundle:Event:view.html.twig',
             [
@@ -124,6 +130,7 @@ class EventController extends Controller
             $user = $this->getDoctrine()
                 ->getRepository('FqBundle:User')
                 ->find($this->getUser()->getId());
+            $hiddenEvents = $user->getHiddenEvents();
         } else {
             $user = new User();
             $user->setUsername('Гость');
@@ -159,6 +166,16 @@ class EventController extends Controller
         $builder->setParameters($parameters);
 
         $events = $builder->getQuery()->getResult();
+
+        if (!empty($hiddenEvents) && count($hiddenEvents->getKeys())) {
+            $resultEvents = [];
+            foreach ($events as $event) {
+                if (!in_array($event, $hiddenEvents->getValues())) {
+                    $resultEvents[] = $event;
+                }
+            }
+            $events = $resultEvents;
+        }
 
         $categories = $this->getDoctrine()
             ->getRepository('FqBundle:Category')
