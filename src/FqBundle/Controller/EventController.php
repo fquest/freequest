@@ -32,7 +32,11 @@ class EventController extends Controller
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
             ->add('address', 'text')
             ->add('position', 'hidden')
-            ->add('schedule', 'collot_datetime')
+            ->add(
+                'schedule',
+                'collot_datetime',
+                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:mm']]
+            )
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
         $formView = $form->createView();
@@ -52,7 +56,11 @@ class EventController extends Controller
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
             ->add('address', 'text')
             ->add('position', 'hidden')
-            ->add('schedule', 'collot_datetime')
+            ->add(
+                'schedule',
+                'collot_datetime',
+                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:mm']]
+            )
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
         $form->handleRequest($request);
@@ -69,6 +77,8 @@ class EventController extends Controller
             $entityManager->flush();
             return $this->redirect($this->generateUrl('event_view', ['id' => $event->getId()]));
         }
+        $message = ['text' => 'Неверные данные для создания события!', 'type' => 'danger'];
+        $this->get('session')->set('messages', [$message]);
         return $this->redirect($this->generateUrl('event_create'));
     }
 

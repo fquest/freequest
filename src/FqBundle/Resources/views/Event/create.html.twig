@@ -1,5 +1,10 @@
 {% extends 'FqBundle::base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ form_stylesheet(form) }}
+{% endblock %}
+
 {% block body %}
     <div class="modal fade" id="createCategoryPopup" tabindex="-1" role="dialog" aria-labelledby="createCategoryPopup" aria-hidden="true">
         <div class="modal-dialog">
@@ -47,7 +52,7 @@
 
                         <div class="page-header">
 
-                            <h1>Create Event</h1>
+                            <h1>Создать событие</h1>
 
                         </div><!-- end page-header -->
 
