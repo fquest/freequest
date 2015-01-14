@@ -40,6 +40,12 @@
                         </div>
                     </div>
                 </div><!-- end well -->
+                {% if user.hiddenEvents|length %}
+                    <div class="well">
+                        <h2>Скрытые события</h2>
+                        {{ include('FqBundle:Event:block/list.html.twig', {'events': user.hiddenEvents}) }}
+                    </div>
+                {% endif %}
 
 
     </div><!-- end main container -->

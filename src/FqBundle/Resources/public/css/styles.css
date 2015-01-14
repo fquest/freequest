@@ -31,3 +31,11 @@
 .thumbnails {
     margin: 20px 0;
 }
+
+.category_button {
+    background-position: left;
+    background-repeat: no-repeat;
+    margin: 10px;
+    padding-left: 60px;
+    background-color: #3EBF99;
+}

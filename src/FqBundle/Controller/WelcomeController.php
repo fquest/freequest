@@ -31,4 +31,40 @@ class WelcomeController extends Controller
             ['events' => $events, 'categories' => $categories]
         );
     }
+
+    /**
+     * @Route("/install", name="install")
+     */
+    public function installAction()
+    {
+        $categoriesData = [
+            ['name' => 'Live Квесты', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Спортивные мероприятия', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Путешествия', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Культурнык мероприятия', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Настольные игры', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Другое', 'image' => '/bundles/fq/images/etc.png'],
+        ];
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        //Remove all categories
+        $categories = $this->getDoctrine()
+            ->getRepository('FqBundle:Category')
+            ->findAll();
+        foreach ($categories as $oldCategory) {
+            $entityManager->remove($oldCategory);
+        }
+
+        // Create new categories
+        foreach ($categoriesData as $data) {
+            $category = new Category();
+            $category->setName($data['name']);
+            $category->setImage($data['image']);
+            $entityManager->persist($category);
+        }
+
+        $entityManager->flush();
+        return $this->redirect($this->generateUrl('homepage'));
+    }
 }

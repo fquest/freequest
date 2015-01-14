@@ -32,7 +32,11 @@ class EventController extends Controller
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
             ->add('address', 'text')
             ->add('position', 'hidden')
-            ->add('schedule', 'collot_datetime')
+            ->add(
+                'schedule',
+                'collot_datetime',
+                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:ii']]
+            )
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
         $formView = $form->createView();
@@ -52,7 +56,11 @@ class EventController extends Controller
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
             ->add('address', 'text')
             ->add('position', 'hidden')
-            ->add('schedule', 'collot_datetime')
+            ->add(
+                'schedule',
+                'collot_datetime',
+                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:ii']]
+            )
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
         $form->handleRequest($request);
@@ -69,6 +77,8 @@ class EventController extends Controller
             $entityManager->flush();
             return $this->redirect($this->generateUrl('event_view', ['id' => $event->getId()]));
         }
+        $message = ['text' => 'Неверные данные для создания события!', 'type' => 'danger'];
+        $this->get('session')->set('messages', [$message]);
         return $this->redirect($this->generateUrl('event_create'));
     }
 
@@ -87,14 +97,20 @@ class EventController extends Controller
             $user->setUsername('Гость');
         }
 
+        /** @var \FqBundle\Entity\Event $event */
         $event = $this->getDoctrine()
             ->getRepository('FqBundle:Event')
             ->find($id);
+
         if (!$event) {
             throw $this->createNotFoundException(
                 'No event found for id ' . $id
             );
         }
+
+        $event->setViews($event->getViews() + 1);
+        $this->getDoctrine()->getManager()->flush();
+
         return $this->render(
             'FqBundle:Event:view.html.twig',
             [
@@ -114,6 +130,7 @@ class EventController extends Controller
             $user = $this->getDoctrine()
                 ->getRepository('FqBundle:User')
                 ->find($this->getUser()->getId());
+            $hiddenEvents = $user->getHiddenEvents();
         } else {
             $user = new User();
             $user->setUsername('Гость');
@@ -150,6 +167,16 @@ class EventController extends Controller
 
         $events = $builder->getQuery()->getResult();
 
+        if (!empty($hiddenEvents) && count($hiddenEvents->getKeys())) {
+            $resultEvents = [];
+            foreach ($events as $event) {
+                if (!in_array($event, $hiddenEvents->getValues())) {
+                    $resultEvents[] = $event;
+                }
+            }
+            $events = $resultEvents;
+        }
+
         $categories = $this->getDoctrine()
             ->getRepository('FqBundle:Category')
             ->findAll();
@@ -166,20 +193,20 @@ class EventController extends Controller
         );
     }
 
-    /**
-     * @Route("/category/save", name="save_category")
-     */
-    public function saveCategoryAction(Request $request)
-    {
-        $name = $request->get('name');
-        if ($name) {
-            $category = new Category();
-            $category->setName($name);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($category);
-            $entityManager->flush();
-            return new Response(json_encode(['name' => $name, 'id' => $category->getId()]));
-        }
-        return new Response(json_encode(['error' => 'error']));
-    }
+//    /**
+//     * @Route("/category/save", name="save_category")
+//     */
+//    public function saveCategoryAction(Request $request)
+//    {
+//        $name = $request->get('name');
+//        if ($name) {
+//            $category = new Category();
+//            $category->setName($name);
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($category);
+//            $entityManager->flush();
+//            return new Response(json_encode(['name' => $name, 'id' => $category->getId()]));
+//        }
+//        return new Response(json_encode(['error' => 'error']));
+//    }
 }

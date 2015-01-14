@@ -16,12 +16,17 @@
                     <p>Состоится: </p><p> {{ event.schedule|localizeddate('short') }}</p>
                     {% if user.id != event.creator.id %}
                         {% if (false == user.isAttending(event)) %}
-                            <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Присоединиться</button>
+                            <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-info" style="margin: 5px">Присоединиться</button>
                         {% else %}
-                            <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info">Покинуть</button>
+                            <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm btn-info" style="margin: 5px">Покинуть</button>
                         {% endif %}
                     {% else %}
                         <p>Присоединилось: <b>{{ event.participants|length }}</b></p>
+                    {% endif %}
+                    {% if event in user.hiddenEvents %}
+                        <button data-role="link-button" data-url="{{ url('unhide_event', {'id': event.id}) }}" class="btn btn-sm btn-info" style="margin: 5px">Вернуть</button>
+                    {% else %}
+                        <button data-role="link-button" data-url="{{ url('hide_event', {'id': event.id}) }}" class="btn btn-sm btn-info" style="margin: 5px">Скрыть</button>
                     {% endif %}
                 </div>
             </div>

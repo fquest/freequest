@@ -62,6 +62,12 @@ class User implements UserInterface
     protected $events;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Event", inversedBy="hidding")
+     * @ORM\JoinTable(name="hidding")
+     */
+    protected $hiddenEvents;
+
+    /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
@@ -309,5 +315,38 @@ class User implements UserInterface
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * Add hiddenEvents
+     *
+     * @param \FqBundle\Entity\Event $hiddenEvents
+     * @return User
+     */
+    public function addHiddenEvent(\FqBundle\Entity\Event $hiddenEvents)
+    {
+        $this->hiddenEvents[] = $hiddenEvents;
+
+        return $this;
+    }
+
+    /**
+     * Remove hiddenEvents
+     *
+     * @param \FqBundle\Entity\Event $hiddenEvents
+     */
+    public function removeHiddenEvent(\FqBundle\Entity\Event $hiddenEvents)
+    {
+        $this->hiddenEvents->removeElement($hiddenEvents);
+    }
+
+    /**
+     * Get hiddenEvents
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHiddenEvents()
+    {
+        return $this->hiddenEvents;
     }
 }

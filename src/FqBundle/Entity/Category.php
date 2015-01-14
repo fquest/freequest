@@ -32,16 +32,21 @@ class Category
      */
     protected $name;
 
+//    /**
+//     * @var VlabsFile
+//     *
+//     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"}, orphanRemoval=true))
+//     * @ORM\JoinColumns({
+//     *   @ORM\JoinColumn(name="image", referencedColumnName="id")
+//     * })
+//     *
+//     * @Vlabs\Media(identifier="image_entity", upload_dir="files/images")
+//     * @Assert\Valid()
+//     */
+//    protected $image;
+
     /**
-     * @var VlabsFile
-     *
-     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"}, orphanRemoval=true))
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="image", referencedColumnName="id")
-     * })
-     *
-     * @Vlabs\Media(identifier="image_entity", upload_dir="files/images")
-     * @Assert\Valid()
+     * @ORM\Column(type="string")
      */
     protected $image;
 
@@ -155,10 +160,10 @@ class Category
     /**
      * Set image
      *
-     * @param \FqBundle\Entity\Image $image
+     * @param string $image
      * @return Category
      */
-    public function setImage(\FqBundle\Entity\Image $image = null)
+    public function setImage($image)
     {
         $this->image = $image;
 
@@ -168,7 +173,7 @@ class Category
     /**
      * Get image
      *
-     * @return \FqBundle\Entity\Image
+     * @return string 
      */
     public function getImage()
     {

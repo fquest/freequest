@@ -90,6 +90,7 @@ class UserController extends Controller
      */
     public function profile($id)
     {
+        /** @var \FqBundle\Entity\User $user */
         if ($id) {
             $user = $this->getDoctrine()
                 ->getRepository('FqBundle:User')
@@ -172,7 +173,8 @@ class UserController extends Controller
         $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
         return $this->redirect($redirectUrl);
     }
-        /**
+
+    /**
      * @Route("/leave/{id}", name="leave_event")
      */
     public function leaveAction(Request $request, $id)
@@ -200,6 +202,50 @@ class UserController extends Controller
             $message = ['text' => 'Вы не участвовали в событии!', 'type' => 'success'];
         }
         $this->get('session')->set('messages', [$message]);
+        $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
+        return $this->redirect($redirectUrl);
+    }
+
+    /**
+     * @Route("/hide/{id}", name="hide_event")
+     */
+    public function hideEventAction(Request $request, $id)
+    {
+        /** @var \FqBundle\Entity\User $user */
+        $user = $this->getDoctrine()
+            ->getRepository('FqBundle:User')
+            ->find($this->getUser()->getId());
+        /** @var \FqBundle\Entity\Event $event */
+        $event = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->find($id);
+        if (!in_array($event, $user->getHiddenEvents()->getValues())) {
+            $user->addHiddenEvent($event);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+        $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
+        return $this->redirect($redirectUrl);
+    }
+
+    /**
+     * @Route("/unhide/{id}", name="unhide_event")
+     */
+    public function unhideEventAction(Request $request, $id)
+    {
+        /** @var \FqBundle\Entity\User $user */
+        $user = $this->getDoctrine()
+            ->getRepository('FqBundle:User')
+            ->find($this->getUser()->getId());
+        /** @var \FqBundle\Entity\Event $event */
+        $event = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->find($id);
+        if (in_array($event, $user->getHiddenEvents()->getValues())) {
+            $user->removeHiddenEvent($event);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
         $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
         return $this->redirect($redirectUrl);
     }

@@ -95,6 +95,16 @@ class Event
     protected $participants;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="hiddenEvents")
+     */
+    protected $hiddenFor;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $views;
+
+    /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
@@ -385,5 +395,61 @@ class Event
     public function getSchedule()
     {
         return $this->schedule;
+    }
+
+    /**
+     * Add hiddenFor
+     *
+     * @param \FqBundle\Entity\User $hiddenFor
+     * @return Event
+     */
+    public function addHiddenFor(\FqBundle\Entity\User $hiddenFor)
+    {
+        $this->hiddenFor[] = $hiddenFor;
+
+        return $this;
+    }
+
+    /**
+     * Remove hiddenFor
+     *
+     * @param \FqBundle\Entity\User $hiddenFor
+     */
+    public function removeHiddenFor(\FqBundle\Entity\User $hiddenFor)
+    {
+        $this->hiddenFor->removeElement($hiddenFor);
+    }
+
+    /**
+     * Get hiddenFor
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHiddenFor()
+    {
+        return $this->hiddenFor;
+    }
+
+    /**
+     * Set views
+     *
+     * @param integer $views
+     * @return Event
+     */
+    public function setViews($views)
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    /**
+     * Get views
+     *
+     * @return integer 
+     */
+    public function getViews()
+    {
+        return $this->views;
     }
 }
