@@ -31,12 +31,14 @@
                     <div class="container">
                         <h1>Категории</h1>
                         {% for category in categories %}
-                            <button style="background-image: url({{ category.image }})"
-                                    onclick="document.location = '{{ url('event_list', {'categories[]': category.id}) }}'"
-                                    type="button"
-                                    class="btn btn-lg category_button">
-                                {{ category.name }}
-                            </button>
+                            <div class="col-md-4">
+                                <button style="background-image: url({{ asset(category.image) }})"
+                                        onclick="document.location = '{{ url('event_list', {'categories[]': category.id}) }}'"
+                                        type="button"
+                                        class="btn btn-lg category_button">
+                                    {{ category.name }}
+                                </button>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
