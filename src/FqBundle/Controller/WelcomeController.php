@@ -39,10 +39,10 @@ class WelcomeController extends Controller
     {
         $categoriesData = [
             ['name' => 'Live Квесты', 'image' => '/bundles/fq/images/quests.png'],
-            ['name' => 'Спортивные мероприятия', 'image' => '/bundles/fq/images/quests.png'],
-            ['name' => 'Путешествия', 'image' => '/bundles/fq/images/quests.png'],
-            ['name' => 'Культурные мероприятия', 'image' => '/bundles/fq/images/quests.png'],
-            ['name' => 'Настольные игры', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Спортивные мероприятия', 'image' => '/bundles/fq/images/sports.png'],
+            ['name' => 'Путешествия', 'image' => '/bundles/fq/images/trips.png'],
+            ['name' => 'Культурные мероприятия', 'image' => '/bundles/fq/images/party.png'],
+            ['name' => 'Настольные игры', 'image' => '/bundles/fq/images/desk_game.png'],
             ['name' => 'Другое', 'image' => '/bundles/fq/images/etc.png'],
         ];
 
