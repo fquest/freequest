@@ -1,6 +1,7 @@
 Free Quest Prototype No 42
 -------------------------------------
 Free Quest Prototype No42 based on Symphony2 components.
+Training application to improve knowledge on Symfony2, Doctrine, Google services integration, etc.
 
 Installation
 -----------------------------------------
@@ -22,22 +23,34 @@ Create virtual host:
             AllowOverride All
             Order allow,deny
             Allow from All
+            # "Require all granted" for Apache 2.4
         </Directory>
 
         ErrorLog "logs/fq-error.log"
         CustomLog "logs/fq-access.log" common
     </VirtualHost>
     
-Clear environment:
+Reinstall environment:
 
     php app/console doctrine:database:drop --force
+    php app/console doctrine:database:create
+    php app/console doctrine:schema:update --force
+    rm -rf web/files
     php app/console cache:clear --env=prod
     php app/console cache:clear --env=dev
-    rm -rf web/files
 
-Install entities and database:
+Execute next command if entities were updated:
 
-    php app/console doctrine:database:create
     php app/console doctrine:generate:entities FqBundle
-    php app/console doctrine:schema:update --force
+
+Clear dns cache for chrome:
+
+    chrome://net-internals/#dns
+
+Temp fix for curl ssl:
+
+Download file: http://curl.haxx.se/ca/cacert.pem
+Update php.ini:
+
+    curl.cainfo = "<path to file>\cacert.pem"
 
