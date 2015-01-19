@@ -13,7 +13,7 @@
                     <p>{{ event.description }}</p>
                 </div>
                 <div class="col-md-3">
-                    <p>Состоится: </p><p> {{ event.schedule|localizeddate('short') }}</p>
+                    <p>Состоится: </p><p> {{ event.schedule|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}</p>
                     {% if user.id != event.creator.id %}
                         {% if (false == user.isAttending(event)) %}
                             <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-primary" style="margin: 5px">Присоединиться</button>
