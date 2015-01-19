@@ -97,6 +97,13 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="address" class="col-md-2 control-label">Город</label>
+                                <div class="col-md-4">
+                                    {{ form_widget(form.city, { 'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label for="address" class="col-md-2 control-label">Адрес</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.address, { 'attr': {'class': 'form-control'}}) }}
@@ -108,6 +115,20 @@
                                 <div class="col-md-4">
                                     <div id="map" style="width: 500px; height: 200px; background-color: #CCC;"></div>
                                     {{ form_widget(form.position) }}
+                                </div>
+                            </div>
+                            <div class="form-group route">
+                                <div class="col-md-4 col-md-offset-2">
+                                    <button id="add-route">
+                                        + Добавить маршрут
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="route-div" hidden="hidden">
+                                <label for="position" class="col-md-2 control-label">Маршрут</label>
+                                <div class="col-md-4">
+                                    <div id="route-map" style="width: 500px; height: 200px; background-color: #CCC;"></div>
                                 </div>
                             </div>
 

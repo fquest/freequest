@@ -11,6 +11,7 @@ function fillAddress(latitude, logitude) {
         callback: function (results, status) {
             if (status == 'OK') {
                 $('#form_address').val(results[0].address_components[1].short_name + ', ' + results[0].address_components[0].short_name);
+                $('#form_city').val(results[0].address_components[3].short_name);
             }
         }
     })
@@ -79,17 +80,63 @@ $('#form_address').change(function() {
         }
     });
 });
-$('[data-role="create_category"]').click(function() {
-    $.ajax({
-        type: 'post',
-        url: $(this).data('url'),
-        data: { name: $('#category_name').val() },
-        success: function(data) {
-            category = JSON.parse(data);
-            var option = new Option(category.name, category.id);
-            $('#form_category').append($(option));
-            $('#form_category').val(category.id);
-            $('#createCategoryPopup').modal('hide');
-        }
+
+//Route maps
+
+var routeMap, path = new google.maps.MVCArray(), service = new google.maps.DirectionsService(), shiftPressed = false, poly;
+
+google.maps.event.addDomListener(document, "keydown", function(e) { shiftPressed = e.shiftKey; });
+google.maps.event.addDomListener(document, "keyup", function(e) { shiftPressed = e.shiftKey; });
+
+function initialize() {
+    var myOptions = {
+        zoom: 15,
+        center: new google.maps.LatLng(37.2008385157313, -93.2812106609344),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControlOptions: {
+            mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.SATELLITE]
+        },
+        disableDoubleClickZoom: true,
+        scrollwheel: false,
+        draggableCursor: "crosshair"
+    };
+
+    routeMap = new google.maps.Map(document.getElementById("route-map"), myOptions);
+    poly = new google.maps.Polyline({
+        map: routeMap,
+        geodesic: true,
+        strokeColor: '#4682B4',
+        strokeOpacity: 1.0,
+        strokeWeight: 5
     });
+
+    var addPoint = function(evt) {
+        if (shiftPressed || path.getLength() === 0) {
+            path.push(evt.latLng);
+            if(path.getLength() === 1) {
+                poly.setPath(path);
+            }
+        } else {
+            service.route({ origin: path.getAt(path.getLength() - 1), destination: evt.latLng, travelMode: google.maps.DirectionsTravelMode.DRIVING }, function(result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    for(var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+                        path.push(result.routes[0].overview_path[i]);
+                    }
+                }
+            });
+        }
+        var marker = new google.maps.Marker({
+            position: evt.latLng,
+            title: '#' + path.getLength(),
+            map: routeMap
+        });
+    };
+
+    google.maps.event.addListener(routeMap, "click", addPoint);
+}
+$('#add-route').click(function(){
+    $(this).hide();
+    $('#route-div').show();
+    initialize();
+    return false;
 });
