@@ -45,6 +45,11 @@ class Event
     /**
      * @ORM\Column(type="string", length=250)
      */
+    protected $city;
+
+    /**
+     * @ORM\Column(type="string", length=250)
+     */
     protected $position;
 
     /**
@@ -451,5 +456,28 @@ class Event
     public function getViews()
     {
         return $this->views;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return Event
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
     }
 }
