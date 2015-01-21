@@ -6,11 +6,14 @@ use FqBundle\Entity\Category;
 use FqBundle\Entity\Event;
 use FqBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use FqBundle\Entity\Route as LocationRoute;
+use FqBundle\Entity\Location;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\View\ChoiceView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
+use FqBundle\View\Form\Event as EventForm;
 
 /**
  * @Route("/event")
@@ -22,26 +25,10 @@ class EventController extends Controller
      */
     public function createAction()
     {
-        $event = new Event();
-        $event->setTitle('default title')
-            ->setDescription('default description');
-        $form = $this->createFormBuilder($event)
-            ->add('title', 'text')
-            ->add('description', 'textarea')
-            ->add('image', 'vlabs_file')
-            ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
-            ->add('address', 'text')
-            ->add('city', 'text')
-            ->add('position', 'hidden')
-            ->add(
-                'schedule',
-                'collot_datetime',
-                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:ii']]
-            )
-            ->add('save', 'submit', ['label' => 'Create Event'])
-            ->getForm();
-        $formView = $form->createView();
-        return $this->render('FqBundle:Event:create.html.twig', ['form' => $formView]);
+        return $this->render(
+            'FqBundle:Event:create.html.twig',
+            ['form' => $this->createForm(new EventForm())->createView()]
+        );
     }
 
     /**
@@ -50,21 +37,7 @@ class EventController extends Controller
     public function saveAction(Request $request)
     {
         $event = new Event();
-        $form = $this->createFormBuilder($event)
-            ->add('title', 'text')
-            ->add('description', 'textarea')
-            ->add('image', 'vlabs_file')
-            ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
-            ->add('address', 'text')
-            ->add('city', 'text')
-            ->add('position', 'hidden')
-            ->add(
-                'schedule',
-                'collot_datetime',
-                ['format' => 'dd/mm/yyyy HH:mm', 'pickerOptions' => ['format' => 'dd/mm/yyyy HH:ii']]
-            )
-            ->add('save', 'submit', ['label' => 'Create Event'])
-            ->getForm();
+        $form = $this->createForm(new EventForm(), $event);
         $form->handleRequest($request);
 
         if ($form->isValid()) {

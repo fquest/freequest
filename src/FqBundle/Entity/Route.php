@@ -15,10 +15,9 @@ use Vlabs\MediaBundle\Entity\BaseFile as VlabsFile;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="location")
- * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="route")
  */
-class Location
+class Route
 {
     /**
      * @ORM\Column(type="integer")
@@ -28,22 +27,59 @@ class Location
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * @todo verify if cascade refresh is what we need
+     * @ORM\OneToMany(targetEntity="Location", mappedBy="route", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    protected $city;
+    protected $locations;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->locations = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * Get id
+     *
+     * @return integer 
      */
-    protected $address;
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * Add locations
+     *
+     * @param \FqBundle\Entity\Location $locations
+     * @return Route
      */
-    protected $latitude;
+    public function addLocation(\FqBundle\Entity\Location $locations)
+    {
+        $locations->setRoute($this);
+        $this->locations[] = $locations;
+    
+        return $this;
+    }
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * Remove locations
+     *
+     * @param \FqBundle\Entity\Location $locations
      */
-    protected $longitude;
+    public function removeLocation(\FqBundle\Entity\Location $locations)
+    {
+        $this->locations->removeElement($locations);
+    }
+
+    /**
+     * Get locations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLocations()
+    {
+        return $this->locations;
+    }
 }

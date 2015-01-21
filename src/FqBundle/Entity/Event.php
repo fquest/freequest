@@ -40,17 +40,15 @@ class Event
     /**
      * @ORM\Column(type="string", length=250)
      */
-    protected $address;
-
-    /**
-     * @ORM\Column(type="string", length=250)
-     */
     protected $city;
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * @ORM\OneToOne(targetEntity="Route", mappedBy="id", cascade={"persist", "remove"}, orphanRemoval=true))
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="route", referencedColumnName="id")
+     * })
      */
-    protected $position;
+    protected $route;
 
     /**
      * @todo verify if cascade refresh is what we need
@@ -334,52 +332,6 @@ class Event
     }
 
     /**
-     * Set address
-     *
-     * @param string $address
-     * @return Event
-     */
-    public function setAddress($address)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string 
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
-     * Set position
-     *
-     * @param string $position
-     * @return Event
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get position
-     *
-     * @return string 
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
-
-    /**
      * Set schedule
      *
      * @param \DateTime $schedule
@@ -479,5 +431,28 @@ class Event
     public function getCity()
     {
         return $this->city;
+    }
+
+    /**
+     * Set route
+     *
+     * @param \FqBundle\Entity\Route $route
+     * @return Event
+     */
+    public function setRoute(\FqBundle\Entity\Route $route = null)
+    {
+        $this->route = $route;
+    
+        return $this;
+    }
+
+    /**
+     * Get route
+     *
+     * @return \FqBundle\Entity\Route 
+     */
+    public function getRoute()
+    {
+        return $this->route;
     }
 }

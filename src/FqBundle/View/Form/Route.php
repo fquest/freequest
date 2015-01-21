@@ -9,22 +9,19 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 /**
  * @Route("/event")
  */
-class Location extends AbstractType
+class Route extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('city')
-            ->add('address')
-            ->add('latitude')
-            ->add('longitude');
+        $builder->add('locations', 'collection', ['type' => new Location(), 'allow_add' => true]);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'FqBundle\Entity\Location']);
+        $resolver->setDefaults(['data_class' => 'FqBundle\Entity\Route', 'cascade_validation' => true]);
     }
     public function getName()
     {
-        return 'fqbundle_location_form';
+        return 'fqbundle_route_form';
     }
 }

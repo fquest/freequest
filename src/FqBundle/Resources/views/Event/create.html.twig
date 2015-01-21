@@ -92,43 +92,42 @@
                                 <label for="category" class="col-md-2 control-label">Категория</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.category, { 'attr': {'class': 'form-control'}}) }}
-                                    {#<a href="#" data-toggle="modal" data-target="#createCategoryPopup"> + Создать новую категорию</a>#}
                                 </div>
                             </div>
 
+                            {#City block for debug, to be hidden#}
                             <div class="form-group">
-                                <label for="address" class="col-md-2 control-label">Город</label>
+                                <label for="city" class="col-md-2 control-label">Город</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.city, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="address" class="col-md-2 control-label">Адрес</label>
+                                <label for="address" class="col-md-2 control-label">Место</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.address, { 'attr': {'class': 'form-control'}}) }}
+                                    <select id="location_type" class="form-control">
+                                        <option value="address">Адрес</option>
+                                        <option value="route">Маршрут</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="position" class="col-md-2 control-label">Карта</label>
-                                <div class="col-md-4">
-                                    <div id="map" style="width: 500px; height: 200px; background-color: #CCC;"></div>
-                                    {{ form_widget(form.position) }}
-                                </div>
-                            </div>
-                            <div class="form-group route">
-                                <div class="col-md-4 col-md-offset-2">
-                                    <button id="add-route">
-                                        + Добавить маршрут
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="form-group" id="route-div" hidden="hidden">
-                                <label for="position" class="col-md-2 control-label">Маршрут</label>
-                                <div class="col-md-4">
-                                    <div id="route-map" style="width: 500px; height: 200px; background-color: #CCC;"></div>
+                                <div class="col-md-8 col-md-offset-2">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div id="map" style="width: 500px; height: 200px; background-color: #CCC;"></div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div id="location_point_info">
+                                                <label for="city" class="control-label">Адрес</label>
+                                                <input type="text" class="form-control" id="location_address" />
+                                            </div>
+                                            <div id="location_route_info"></div>
+                                            {{ form_widget(form.route.locations) }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
