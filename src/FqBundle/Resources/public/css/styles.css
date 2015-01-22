@@ -37,5 +37,9 @@
     background-repeat: no-repeat;
     margin: 10px;
     padding-left: 60px;
-    background-color: #3EBF99;
+    background-color: #d6f9ef;
+}
+.category_button:hover {
+    background-color: #EAFCF7;
+    box-shadow: 0 0 5px #000;
 }
