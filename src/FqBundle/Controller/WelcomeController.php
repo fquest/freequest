@@ -38,12 +38,12 @@ class WelcomeController extends Controller
     public function installAction()
     {
         $categoriesData = [
-            ['name' => 'Live Квесты', 'image' => '/bundles/fq/images/quests.png'],
+            ['name' => 'Активные квесты', 'image' => '/bundles/fq/images/quests.png'],
             ['name' => 'Спортивные мероприятия', 'image' => '/bundles/fq/images/sports.png'],
             ['name' => 'Путешествия', 'image' => '/bundles/fq/images/trips.png'],
-            ['name' => 'Культурные мероприятия', 'image' => '/bundles/fq/images/party.png'],
             ['name' => 'Настольные игры', 'image' => '/bundles/fq/images/desk_game.png'],
-            ['name' => 'Другое', 'image' => '/bundles/fq/images/etc.png'],
+            ['name' => 'Культурно-развлекательные', 'image' => '/bundles/fq/images/party.png'],
+            ['name' => 'Другие', 'image' => '/bundles/fq/images/etc.png'],
         ];
 
         $entityManager = $this->getDoctrine()->getManager();

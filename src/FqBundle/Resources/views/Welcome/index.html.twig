@@ -27,31 +27,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="well">
-                    <div class="container">
-                        <h1>Категории</h1>
-                        {% for category in categories %}
-                            <div class="col-md-4">
-                                <button style="background-image: url({{ asset(category.image) }})"
-                                        onclick="document.location = '{{ url('event_list', {'categories[]': category.id}) }}'"
-                                        type="button"
-                                        class="btn btn-lg category_button">
-                                    {{ category.name }}
-                                </button>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
-    <div class="container-fluid" style="background: #3EBF99;">
-        <div class="container">
-            <div class="page-header text-center">
-                <h1>Про нас</h1>
-            </div>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac gravida ante, quis pretium tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pharetra quam non pretium consectetur. Aenean consectetur mollis vulputate. Vestibulum justo felis, venenatis id malesuada in, facilisis quis velit. Aliquam commodo, libero ut dapibus pharetra, sapien ligula sodales ligula, vitae dignissim sem turpis ut ex</p>
-        </div>
+    <div class="container-fluid" style="background: #3ebf99;">
+                <div class="container">
+                    <h2>Что для Вас?</h2>
+                    {% for category in categories %}
+                        <div class="col-md-4">
+                            <button style="background-color: #d6f9ef; background-image: url({{ asset(category.image) }})"
+                                    onclick="document.location = '{{ url('event_list', {'categories[]': category.id}) }}'"
+                                    type="button"
+                                    class="btn btn-lg category_button">
+                                {{ category.name }}
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
     </div>
     <div class="container">
         <div class="row">

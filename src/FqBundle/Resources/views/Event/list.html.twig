@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <form class="form-horizontal" role="form" id="list_filter" action="{{ path('event_list') }}" method="get">
-                            <label for="sport" class="col-md-2 col-md-offset-1 control-label">Категории</label>
+                            <label for="sport" class="col-md-2 col-md-offset-1 control-label"><h4 style="margin-top: 10px">События</h4></label>
                             {% for category in categories %}
                                 <div class="form-group">
                                     <div class="col-md-12">
@@ -39,7 +39,6 @@
                     </div>
 
                     <div class="col-md-9">
-                        <h4 style="margin-top: 10px">События</h4>
                         {{ include('FqBundle:Event:Block/list.html.twig') }}
                     </div>
                 </div>
