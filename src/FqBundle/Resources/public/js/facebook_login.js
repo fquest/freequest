@@ -20,37 +20,60 @@ window.fbAsyncInit = function() {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-
-$('[data-role="facebook-login"]').click(function() {
-    var targetUrl = $(this).data('target');
-    var url = $('#fb-root').data('url');
-    FB.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
-            // connected
-            //alert('Already connected, redirect to login page to create token.');
-            document.location = url + '?target_path=' + encodeURIComponent(targetUrl);
-        } else {
-            // not_authorized
-            FB.login(function(response) {
-                if (response.authResponse) {
-                    document.location = url + '?target_path=' + encodeURIComponent(targetUrl);
-                } else {
-                    //alert('Cancelled.');
-                }
-            }, {scope: 'email'});
-        }
-    });
-});
-
-$("[data-role='link-button']").click(function () {
-    var url = $(this).data('url');
-    var facebookButton = $('[data-role="facebook-login"]');
-
-    if (facebookButton.length) {
-        facebookButton.data('target', url);
-        facebookButton.trigger('click');
-    } else {
-        document.location = url;
+$.widget( "freequest.facebookLogin", {
+    options: {
+        facebookRoot: '#fb-root'
+    },
+    _create: function() {
+        this._on(this.element, {"click": this._loginByFacebook});
+    },
+    _loginByFacebook: function() {
+        var targetUrl = this.element.data('target');
+        var url = $(this.options.facebookRoot).data('url');
+        FB.getLoginStatus(function (response) {
+            if (response.status === 'connected') {
+                // connected
+                //alert('Already connected, redirect to login page to create token.');
+                document.location = url + '?target_path=' + encodeURIComponent(targetUrl);
+            } else {
+                // not_authorized
+                FB.login(function (response) {
+                    if (response.authResponse) {
+                        document.location = url + '?target_path=' + encodeURIComponent(targetUrl);
+                    } else {
+                        //alert('Cancelled.');
+                    }
+                }, {scope: 'email'});
+            }
+        });
     }
-    return false;
 });
+
+$.widget( "freequest.authorizingLink", {
+    options: {
+        urlDataAttribute: 'url',
+        loginButtonSelector: '[data-role="facebook-login"]',
+        targetDataAttribute: 'target',
+        loginButtonEvent: 'click'
+    },
+    _create: function() {
+        this._on(this.element, {
+            "click": this._navigateAuthorized
+        });
+    },
+    _navigateAuthorized: function() {
+        var url = this.element.data(this.options.urlDataAttribute);
+        var facebookButton = $(this.options.loginButtonSelector);
+
+        if (facebookButton.length) {
+            facebookButton.data(this.options.targetDataAttribute, url);
+            facebookButton.trigger(this.options.loginButtonEvent);
+        } else {
+            document.location = url;
+        }
+        return false;
+    }
+});
+
+$('[data-role="facebook-login"]').facebookLogin();
+$("[data-role='link-button']").authorizingLink();

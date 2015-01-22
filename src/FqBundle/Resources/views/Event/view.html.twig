@@ -23,10 +23,10 @@
                     <p style="font-size: x-large">{{ event.views }}</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <img src="{{ event.image|vlabs_filter('resize', { width : 500, keepRatio : true })|vlabs_media('default') }}">
+            <div class="col-md-5">
+                <img src="{{ event.image|vlabs_filter('resize', { width : 400, keepRatio : true })|vlabs_media('default') }}">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <h1>{{ event.title }}</h1>
                 <p><b>Время: </b>{{ event.schedule|localizeddate('none', 'short') }}</p>
                 <p><b>Адресс: </b>{{ event.route.locations[0].address }}</p>
@@ -51,7 +51,6 @@
     {{ parent() }}
 
     <script type="application/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5bNGhrj2Y_h3U655IrW7g961-5Nc2D90&sensor=false"></script>
-    <script type="application/javascript" src="{{ asset('bundles/fq/js/gmaps.js') }}"></script>
     <script type="application/javascript" src="{{ asset('bundles/fq/js/event_view.js') }}"></script>
 
 {% endblock %}
