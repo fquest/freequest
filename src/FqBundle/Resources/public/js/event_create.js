@@ -19,9 +19,13 @@ function addLocationForm() {
 }
 showRouteForm();
 
-var startMarker;
+var marker;
+var startMarker, endMarker;
 var geocoder = new google.maps.Geocoder();
 var map;
+var poly;
+var path = new google.maps.MVCArray();
+var service = new google.maps.DirectionsService(), shiftPressed = false;
 
 function showAddressOnMap() {
     var address = $(this).val();
@@ -30,7 +34,7 @@ function showAddressOnMap() {
         function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 map.setCenter(results[0].geometry.location);
-                startMarker.setPosition(results[0].geometry.location);
+                marker.setPosition(results[0].geometry.location);
                 console.log(results[0].geometry.location);
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
@@ -45,7 +49,7 @@ function fillFormByCoordinates() {
         function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 map.setCenter(results[0].geometry.location);
-                startMarker.setPosition(results[0].geometry.location);
+                marker.setPosition(results[0].geometry.location);
                 console.log(results[0].geometry.location);
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
@@ -81,10 +85,10 @@ function showGelocationOnMap() {
                 position.coords.longitude);
 
             map.setCenter(pos);
-            startMarker = new google.maps.Marker({
+            marker = new google.maps.Marker({
                 position: pos,
                 map: map,
-                title: 'Старт'
+                title: 'Место проведения события'
             });
             fillAddress(pos);
         }, function() {
@@ -103,12 +107,7 @@ function handleNoGeolocation(errorFlag) {
         console.log('Error: Your browser doesn\'t support geolocation.');
     }
 
-    var options = {
-        map: map,
-        position: new google.maps.LatLng(50.4501, 30.523400000000038)
-    };
-
-    map.setCenter(options.position);
+    map.setCenter(new google.maps.LatLng(50.4501, 30.523400000000038));
 }
 
 function initializeMap() {
@@ -124,23 +123,84 @@ function initializeMap() {
 
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
     google.maps.event.addListener(map, 'click', mapClickEventHandler);
+    poly = new google.maps.Polyline({
+        map: map,
+        geodesic: true,
+        strokeColor: '#4682B4',
+        strokeOpacity: 1.0,
+        strokeWeight: 5
+    });
     showGelocationOnMap();
 }
 
 function mapClickEventHandler(args) {
-    startMarker.setPosition(args.latLng);
-    fillAddress(args.latLng);
+    if ($('#location_type').val() == 'address') {
+        marker.setPosition(args.latLng);
+        fillAddress(args.latLng);
+    } else {
+        addPoint(args.latLng);
+    }
+}
+function addPoint(posiotion) {
+    if (shiftPressed || path.getLength() === 0) {
+        path.push(posiotion);
+        if(path.getLength() === 1) {
+            poly.setPath(path);
+            startMarker = new google.maps.Marker({
+                position: posiotion,
+                title: 'Старт',
+                map: map
+            });
+        }
+    } else {
+        service.route(
+            { origin: path.getAt(path.getLength() - 1), destination: posiotion, travelMode: google.maps.DirectionsTravelMode.DRIVING },
+            function(result, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    for(var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+                        path.push(result.routes[0].overview_path[i]);
+                    }
+                }
+            }
+        );
+    }
+    if (path.getLength() !== 0 && !endMarker) {
+        endMarker = new google.maps.Marker({
+            position: posiotion,
+            title: 'Финиш',
+            map: map
+        });
+    } else {
+        endMarker.setPosition(posiotion);
+    }
 }
 
 function handleLocationTypeChange() {
-
+    if ($('#location_type').val() == 'address') {
+        marker.setVisible(true);
+        if (path.getLength() !== 0) {
+            poly.setVisible(false);
+            startMarker.setVisible(false);
+            endMarker.setVisible(false);
+        }
+    } else {
+        marker.setVisible(false);
+        if (path.getLength() !== 0) {
+            poly.setVisible(true);
+            startMarker.setVisible(true);
+            endMarker.setVisible(true);
+        }
+    }
 }
+
+google.maps.event.addDomListener(document, "keydown", function(e) { shiftPressed = e.shiftKey; });
+google.maps.event.addDomListener(document, "keyup", function(e) { shiftPressed = e.shiftKey; });
 
 google.maps.event.addDomListener(window, 'load', initializeMap);
 
 $('#location_address').change(showAddressOnMap);
 $('#fqbundle_event_form_city').change(showAddressOnMap);
-$('#location_type').change(hadleLocationTypeChange);
+$('#location_type').change(handleLocationTypeChange);
 
 //Route maps
 
