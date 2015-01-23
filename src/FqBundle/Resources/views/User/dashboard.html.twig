@@ -40,20 +40,14 @@
                     <a data-role="link-button" data-url="{{ url('event_create') }}" class="btn btn-info pull-right" style="margin: 5px">+ Создать событие</a>
                     <div class="tabbable">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab1" data-toggle="tab">Созданные</a></li>
-                            <li><a href="#tab2" data-toggle="tab">Предстоящие</a></li>
-                            <li><a href="#tab3" data-toggle="tab">Прошедшие</a></li>
+                            <li class="active"><a href="#tab1" data-toggle="tab">Предстоящие</a></li>
+                            <li><a href="#tab2" data-toggle="tab">Прошедшие</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="tab1">
-                                {{ include('FqBundle:Event:Block/list.html.twig', {'events': createdEvents}) }}
-                            </div>
-
-                            <div class="tab-pane" id="tab2">
                                 {{ include('FqBundle:Event:Block/list.html.twig', {'events': futureEvents}) }}
                             </div>
-
-                            <div class="tab-pane" id="tab3">
+                            <div class="tab-pane" id="tab2">
                                 {{ include('FqBundle:Event:Block/list.html.twig', {'events': passedEvents}) }}
                             </div>
                         </div>
