@@ -38,17 +38,31 @@ class Event
     protected $description;
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * @ORM\Column(type="string", length=250, nullable=true)
      */
     protected $city;
 
     /**
-     * @ORM\OneToOne(targetEntity="Route", mappedBy="id", cascade={"persist", "remove"}, orphanRemoval=true))
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="route", referencedColumnName="id")
-     * })
+     * @ORM\OneToOne(
+     * targetEntity="Route",
+     * mappedBy="id",
+     * cascade={"persist", "remove"},
+     * orphanRemoval=true
+     * )
+     * @ORM\JoinColumn(name="route", referencedColumnName="id", nullable=true)
      */
     protected $route;
+
+    /**
+     * @ORM\OneToOne(
+     * targetEntity="Location",
+     * mappedBy="id",
+     * cascade={"persist", "remove"},
+     * orphanRemoval=true
+     * )
+     * @ORM\JoinColumn(name="location", referencedColumnName="id", nullable=true)
+     */
+    protected $location;
 
     /**
      * @todo verify if cascade refresh is what we need
@@ -61,9 +75,7 @@ class Event
      * @var VlabsFile
      *
      * @ORM\OneToOne(targetEntity="Image", mappedBy="id", cascade={"persist", "remove"}, orphanRemoval=true))
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="image", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="image", referencedColumnName="id", nullable=true)
      *
      * @Vlabs\Media(identifier="image_entity", upload_dir="files/images")
      * @Assert\Valid()
@@ -454,5 +466,28 @@ class Event
     public function getRoute()
     {
         return $this->route;
+    }
+
+    /**
+     * Set location
+     *
+     * @param \FqBundle\Entity\Location $location
+     * @return Event
+     */
+    public function setLocation(\FqBundle\Entity\Location $location = null)
+    {
+        $this->location = $location;
+    
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return \FqBundle\Entity\Location 
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 }

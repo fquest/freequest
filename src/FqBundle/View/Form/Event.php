@@ -14,8 +14,9 @@ class Event extends AbstractType
             ->add('description', 'textarea')
             ->add('image', 'vlabs_file')
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
-            ->add('route', new Route())
-            ->add('city', 'text')
+            ->add('route', new Route(), ['required' => false, 'label' => false])
+            ->add('location', new Location(), ['required' => false, 'label' => false])
+            ->add('city', 'hidden')
             ->add(
                 'schedule',
                 'collot_datetime',

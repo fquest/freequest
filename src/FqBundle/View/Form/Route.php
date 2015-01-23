@@ -10,12 +10,14 @@ class Route extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('locations', 'collection', ['type' => new Location(), 'allow_add' => true]);
+        $builder->add('startLocation', new Location(), ['required' => false, 'label' => false])
+            ->add('endLocation', new Location(), ['required' => false, 'label' => false])
+            ->add('route', 'hidden');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults(['data_class' => 'FqBundle\Entity\Route', 'cascade_validation' => true]);
+        $resolver->setDefaults(['data_class' => 'FqBundle\Entity\Route']);
     }
     public function getName()
     {

@@ -42,11 +42,6 @@ class Location
     protected $longitude;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Route")
-     */
-    protected $route;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -123,28 +118,5 @@ class Location
     public function getLongitude()
     {
         return $this->longitude;
-    }
-
-    /**
-     * Set route
-     *
-     * @param \FqBundle\Entity\Route $route
-     * @return Location
-     */
-    public function setRoute(\FqBundle\Entity\Route $route = null)
-    {
-        $this->route = $route;
-    
-        return $this;
-    }
-
-    /**
-     * Get route
-     *
-     * @return \FqBundle\Entity\Route 
-     */
-    public function getRoute()
-    {
-        return $this->route;
     }
 }

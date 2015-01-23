@@ -10,7 +10,7 @@ class Location extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('address', 'hidden')
+        $builder->add('address', 'hidden', ['required' => false])
             ->add('latitude', 'hidden')
             ->add('longitude', 'hidden');
     }

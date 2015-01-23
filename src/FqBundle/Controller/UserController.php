@@ -77,6 +77,7 @@ class UserController extends Controller
                 $passedEvents[] = $event;
             }
         }
+        $nearestEvents = [];
         foreach ($allEvents as $event) {
             if ($event->getSchedule() > $currentDate) {
                 $nearestEvents[] = $event;

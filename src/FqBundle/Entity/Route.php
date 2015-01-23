@@ -27,10 +27,22 @@ class Route
     protected $id;
 
     /**
-     * @todo verify if cascade refresh is what we need
-     * @ORM\OneToMany(targetEntity="Location", mappedBy="route", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="Location", mappedBy="id", cascade={"persist", "remove"}, orphanRemoval=true))
+     * @ORM\JoinColumn(name="startLocation", referencedColumnName="id")
      */
-    protected $locations;
+    protected $startLocation;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Location", mappedBy="id", cascade={"persist", "remove"}, orphanRemoval=true))
+     * @ORM\JoinColumn(name="endLocation", referencedColumnName="id")
+     */
+    protected $endLocation;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $route;
+
     /**
      * Constructor
      */
@@ -50,36 +62,71 @@ class Route
     }
 
     /**
-     * Add locations
+     * Set route
      *
-     * @param \FqBundle\Entity\Location $locations
+     * @param string $route
      * @return Route
      */
-    public function addLocation(\FqBundle\Entity\Location $locations)
+    public function setRoute($route)
     {
-        $locations->setRoute($this);
-        $this->locations[] = $locations;
+        $this->route = $route;
     
         return $this;
     }
 
     /**
-     * Remove locations
+     * Get route
      *
-     * @param \FqBundle\Entity\Location $locations
+     * @return string 
      */
-    public function removeLocation(\FqBundle\Entity\Location $locations)
+    public function getRoute()
     {
-        $this->locations->removeElement($locations);
+        return $this->route;
     }
 
     /**
-     * Get locations
+     * Set startLocation
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @param \FqBundle\Entity\Location $startLocation
+     * @return Route
      */
-    public function getLocations()
+    public function setStartLocation(\FqBundle\Entity\Location $startLocation = null)
     {
-        return $this->locations;
+        $this->startLocation = $startLocation;
+    
+        return $this;
+    }
+
+    /**
+     * Get startLocation
+     *
+     * @return \FqBundle\Entity\Location 
+     */
+    public function getStartLocation()
+    {
+        return $this->startLocation;
+    }
+
+    /**
+     * Set endLocation
+     *
+     * @param \FqBundle\Entity\Location $endLocation
+     * @return Route
+     */
+    public function setEndLocation(\FqBundle\Entity\Location $endLocation = null)
+    {
+        $this->endLocation = $endLocation;
+    
+        return $this;
+    }
+
+    /**
+     * Get endLocation
+     *
+     * @return \FqBundle\Entity\Location 
+     */
+    public function getEndLocation()
+    {
+        return $this->endLocation;
     }
 }

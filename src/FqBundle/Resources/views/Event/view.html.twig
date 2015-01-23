@@ -29,19 +29,31 @@
             <div class="col-md-5">
                 <h1>{{ event.title }}</h1>
                 <p><b>Время: </b>{{ event.schedule|localizeddate('none', 'short') }}</p>
-                <p><b>Адресс: </b>{{ event.route.locations[0].address }}</p>
+                <p><b>Адресс: </b>{{ event.location.address }}</p>
                 <p><b>Организатор: </b> <a href="{{ url('profile', {'id': event.creator.id}) }}"><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</a></p>
             </div>
         </div>
         <div class="row">
             <p><b>Описание: </b>{{ event.description }}</p>
-            <p><b>Карта: </b></p><div class="map" data-lat="{{ event.route.locations[0].latitude }}" data-lng="{{ event.route.locations[0].longitude }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
-            <h1>Участники: </h1>
-            {% for participant in event.participants %}
-                <div class="well">
-                    <a href="{{ url('profile', {'id': participant.id}) }}"><img src="{{ participant.picture }}"/> {{ participant.username }}</a>
+            <p><b>Карта: </b></p>
+            {% if event.route %}
+                <div class="route-map"
+                     data-start-lat="{{ event.route.startLocation.latitude }}"
+                     data-start-lng="{{ event.route.startLocation.longitude }}"
+                     data-end-lat="{{ event.route.endLocation.latitude }}"
+                     data-end-lng="{{ event.route.endLocation.longitude }}"
+                     data-route="{{ event.route.route }}"
+                     style="width: 500px; height: 200px; background-color: #CCC;">
                 </div>
-            {% endfor %}
+            {% elseif event.location %}
+                <div class="map" data-lat="{{ event.location.latitude }}" data-lng="{{ event.location.longitude }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
+            {% endif %}
+            <h1>Участники: </h1>
+            <div class="well">
+                {% for participant in event.participants %}
+                    <a href="{{ url('profile', {'id': participant.id}) }}"> {{ participant.username }}</a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
