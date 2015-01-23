@@ -66,6 +66,9 @@ class UserController extends Controller
             ->findBy(['creator' => $user->getId()], ['schedule' => 'DESC']);
         $passedEvents = [];
         $futureEvents = [];
+        $allEvents = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->findBy([] , ['schedule' => 'DESC']);
         $currentDate = new \DateTime();
         foreach ($user->getEvents() as $event) {
             if ($event->getSchedule() > $currentDate) {
@@ -74,12 +77,20 @@ class UserController extends Controller
                 $passedEvents[] = $event;
             }
         }
+        foreach ($allEvents as $event) {
+            if ($event->getSchedule() > $currentDate) {
+                $nearestEvents[] = $event;
+                if (count($nearestEvents) >= 3)
+                    break;
+            }
+        }
         return $this->render(
             'FqBundle:User:dashboard.html.twig',
             [
                 'createdEvents' => $events,
                 'futureEvents' => array_reverse($futureEvents),
                 'passedEvents' => array_reverse($passedEvents),
+                'nearestEvents' => array_reverse($nearestEvents),
                 'user' => $user
             ]
         );

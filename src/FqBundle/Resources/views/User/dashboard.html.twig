@@ -63,15 +63,16 @@
                 <div class="col-sm-3">
 
                     <div class="list-group">
-                        {% for i in 0..2 %}
-                            <a href="{{ url('event_view', {'id': futureEvents[i].id}) }}" class="list-group-item">
+                        {% for event in nearestEvents %}
+                            <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
                                 <div class="row">
                                     <div>
-                                        <img src="{{ futureEvents[i].image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                                        <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
                                     </div>
                                     <div>
-                                        <p>{{ futureEvents[i].title }}</p>
-                                        <p>{{ futureEvents[i].description }}</p>
+                                        <p>{{ event.title }}</p>
+                                        <p>{{ event.description }}</p>
+                                        <p>{{ event.schedule|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}</p>
                                     </div>
                                 </div>
                             </a>
