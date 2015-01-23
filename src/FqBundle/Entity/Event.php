@@ -89,6 +89,7 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual("now")
      */
     protected $schedule;
 
