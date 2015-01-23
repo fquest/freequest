@@ -63,12 +63,12 @@ class UserController extends Controller
         /** @var \FqBundle\Entity\Event[] $events */
         $events = $this->getDoctrine()
             ->getRepository('FqBundle:Event')
-            ->findBy(['creator' => $user->getId()], ['schedule' => 'DESC']);
+            ->findBy(['creator' => $user->getId()]);
         $passedEvents = [];
         $futureEvents = [];
         $allEvents = $this->getDoctrine()
             ->getRepository('FqBundle:Event')
-            ->findBy([] , ['schedule' => 'DESC']);
+            ->findBy([] , ['created_at' => 'DESC']);
         $currentDate = new \DateTime();
         foreach ($user->getEvents() as $event) {
             if ($event->getSchedule() > $currentDate) {
@@ -77,21 +77,26 @@ class UserController extends Controller
                 $passedEvents[] = $event;
             }
         }
+        foreach ($events as $event) {
+            if ($event->getSchedule() > $currentDate) {
+                $futureEvents[] = $event;
+            } else {
+                $passedEvents[] = $event;
+            }
+        }
         $nearestEvents = [];
         foreach ($allEvents as $event) {
-            if ($event->getSchedule() > $currentDate) {
-                $nearestEvents[] = $event;
-                if (count($nearestEvents) >= 3)
-                    break;
+            $nearestEvents[] = $event;
+            if (count($nearestEvents) >= 3) {
+                break;
             }
         }
         return $this->render(
             'FqBundle:User:dashboard.html.twig',
             [
-                'createdEvents' => $events,
-                'futureEvents' => array_reverse($futureEvents),
-                'passedEvents' => array_reverse($passedEvents),
-                'nearestEvents' => array_reverse($nearestEvents),
+                'futureEvents' => $futureEvents,
+                'passedEvents' => $passedEvents,
+                'nearestEvents' => $nearestEvents,
                 'user' => $user
             ]
         );

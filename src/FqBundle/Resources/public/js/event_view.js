@@ -6,11 +6,7 @@ $('.map').each(function(key, mapCanavs) {
     var mapOptions = {
         zoom: 15,
         center: position,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        mapTypeControlOptions: {
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.SATELLITE]
-        },
-        disableDoubleClickZoom: true
+        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
     var map = new google.maps.Map(mapCanavs, mapOptions);

@@ -199,8 +199,8 @@ function addLocationDataToForm() {
             }
         );
 
-        $('#fqbundle_event_form_route_endLocation_longitude').val(endMarker.position.lat());
-        $('#fqbundle_event_form_route_endLocation_latitude').val(endMarker.position.lng());
+        $('#fqbundle_event_form_route_endLocation_longitude').val(endMarker.position.lng());
+        $('#fqbundle_event_form_route_endLocation_latitude').val(endMarker.position.lat());
         geocoder.geocode(
             {location: endMarker.position},
             function(results, status) {
@@ -234,4 +234,5 @@ $('#fqbundle_event_form_save').click(function() {
     setTimeout(function(){
         $('form').submit();
     }, 3000);
+    return false;
 });

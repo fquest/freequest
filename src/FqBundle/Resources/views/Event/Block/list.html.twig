@@ -11,6 +11,14 @@
                     </p>
                     <p>{{ event.title }}</p>
                     <p>{{ event.description }}</p>
+                    <div hidden="hidden" class="event-location-info"
+                         data-title="{{ event.title }}"
+                         data-url="{{ url('event_view', {'id': event.id}) }}"
+                         data-lat="{{ event.location.latitude }}"
+                         data-lng="{{ event.location.longitude }}"
+                            >
+
+                    </div>
                 </div>
                 <div class="col-md-3">
                     <p>Состоится: </p><p> {{ event.schedule|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}</p>
