@@ -76,8 +76,23 @@
 
                             <div class="form-group">
                                 <label for="description" class="col-md-2 control-label">Время</label>
-                                <div class="col-md-4">
-                                    {{ form_widget(form.schedule, { 'attr': {'class': 'form-control'}}) }}
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="endtime" hidden="hidden">
+                                                Начало
+                                            </div>
+                                            {{ form_widget(form.schedule, { 'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="#" onclick="$('.endtime').show(); $(this).hide(); return false;">
+                                                Добавить время окончания
+                                            </a>
+                                            <div class="endtime" hidden="hidden">
+                                                Конец {{ form_widget(form.endTime, { 'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

@@ -22,6 +22,15 @@ class Event extends AbstractType
                 'collot_datetime',
                 ['format' => 'dd.MM.yyyy HH:mm', 'pickerOptions' => ['format' => 'dd.mm.yyyy HH:ii']]
             )
+            ->add(
+                'endTime',
+                'collot_datetime',
+                [
+                    'required' => false,
+                    'format' => 'dd.MM.yyyy HH:mm',
+                    'pickerOptions' => ['format' => 'dd.mm.yyyy HH:ii']
+                ]
+            )
             ->add('save', 'submit', ['label' => 'Create Event'])
             ->getForm();
     }

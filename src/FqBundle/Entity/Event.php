@@ -105,6 +105,11 @@ class Event
     protected $schedule;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $endTime;
+
+    /**
      * @ORM\ManyToMany(targetEntity="User", mappedBy="events")
      */
     protected $participants;
@@ -489,5 +494,28 @@ class Event
     public function getLocation()
     {
         return $this->location;
+    }
+
+    /**
+     * Set endTime
+     *
+     * @param \DateTime $endTime
+     * @return Event
+     */
+    public function setEndTime($endTime)
+    {
+        $this->endTime = $endTime;
+    
+        return $this;
+    }
+
+    /**
+     * Get endTime
+     *
+     * @return \DateTime 
+     */
+    public function getEndTime()
+    {
+        return $this->endTime;
     }
 }
