@@ -163,6 +163,7 @@ function addPoint(posiotion) {
 
 function handleLocationTypeChange() {
     if ($('#location_type').val() == 'address') {
+        clearRoute();
         $('#firstLocation').empty();
         $('#secondLocation').empty();
         $('#arrowLocation').hide();
@@ -175,8 +176,7 @@ function handleLocationTypeChange() {
             endMarker.setVisible(false);
         }
     } else {
-        $('#secondLocation').empty();
-        $('#arrowLocation').show();
+        $('#firstLocation').empty();
         $('.address-control').hide();
         $('.route-control').show();
         marker.setVisible(false);
