@@ -3,7 +3,6 @@
  *
  * Kiev coordinates: 50.4501, 30.523400000000038
  */
-
 var marker = new google.maps.Marker({title: 'Место проведения'});
 var startMarker  = new google.maps.Marker({title: 'Старт'});
 var endMarker = new google.maps.Marker({title: 'Финиш'});
@@ -13,46 +12,30 @@ var poly;
 var path = new google.maps.MVCArray();
 var service = new google.maps.DirectionsService(), shiftPressed = false;
 
+function processGeocodeResult(results, status) {
+    if (status != google.maps.GeocoderStatus.OK) {
+        console.log('Geocode was not successful for the following reason: ' + status);
+        return;
+    }
+    $('#fqbundle_event_form_location_latitude').val(String(results[0].geometry.location.lat()));
+    $('#fqbundle_event_form_location_longitude').val(String(results[0].geometry.location.lng()));
+    var address = results[0].address_components[3].short_name
+        + ', ' + results[0].address_components[2].short_name
+        + ', ' + results[0].address_components[1].short_name
+        + ', ' + results[0].address_components[0].short_name;
+    $('#fqbundle_event_form_location_address').val(address);
+    $('#firstLocation').empty().append(address);
+    $('#fqbundle_event_form_city').val(results[0].address_components[3].short_name);
+}
+
 function showAddressOnMap() {
     var address = $('#address_field').val();
     geocoder.geocode(
         {address: address},
         function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                marker.setPosition(results[0].geometry.location);
-                $('#fqbundle_event_form_location_latitude').val(String(results[0].geometry.location.lat()));
-                $('#fqbundle_event_form_location_longitude').val(String(results[0].geometry.location.lng()));
-                var address = results[0].address_components[3].short_name
-                    + ', ' + results[0].address_components[2].short_name
-                    + ', ' + results[0].address_components[1].short_name
-                    + ', ' + results[0].address_components[0].short_name;
-                $('#fqbundle_event_form_location_address').val(address);
-                $('#map-info').empty().append('<p>' + address + '</p>');
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
-        }
-    );
-}
-
-function fillAddress(position) {
-    $('#fqbundle_event_form_location_latitude').val(String(position.lat()));
-    $('#fqbundle_event_form_location_longitude').val(String(position.lng()));
-    geocoder.geocode(
-        {location: position},
-        function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                var address = results[0].address_components[3].short_name
-                    + ', ' + results[0].address_components[2].short_name
-                    + ', ' + results[0].address_components[1].short_name
-                    + ', ' + results[0].address_components[0].short_name;
-                $('#fqbundle_event_form_location_address').val(address);
-                $('#map-info').empty().append('<p>' + address + '</p>');
-                $('#fqbundle_event_form_city').val(results[0].address_components[3].short_name);
-            } else {
-                console.log('Geocode was not successful for the following reason: ' + status);
-            }
+            processGeocodeResult(results, status);
+            map.setCenter(results[0].geometry.location);
+            marker.setPosition(results[0].geometry.location);
         }
     );
 }
@@ -66,35 +49,20 @@ function showGelocationOnMap() {
             map.setCenter(pos);
             marker.setMap(map);
             marker.setPosition(pos);
-            fillAddress(pos);
+            geocoder.geocode({location: pos}, processGeocodeResult);
         }, function() {
-            handleNoGeolocation(true);
+            console.log('Error: The Geolocation service failed.');
         });
-    } else {
-        // Browser doesn't support Geolocation
-        handleNoGeolocation(false);
-    }
-}
-
-function handleNoGeolocation(errorFlag) {
-    if (errorFlag) {
-        console.log('Error: The Geolocation service failed.');
     } else {
         console.log('Error: Your browser doesn\'t support geolocation.');
     }
-
-    map.setCenter(new google.maps.LatLng(50.4501, 30.523400000000038));
 }
 
 function initializeMap() {
     var mapOptions = {
         zoom: 15,
         center: new google.maps.LatLng(50.4501, 30.523400000000038),
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        mapTypeControlOptions: {
-            mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.SATELLITE]
-        },
-        disableDoubleClickZoom: true
+        mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
     map = new google.maps.Map(document.getElementById("map"), mapOptions);
@@ -112,11 +80,55 @@ function initializeMap() {
 function mapClickEventHandler(args) {
     if ($('#location_type').val() == 'address') {
         marker.setPosition(args.latLng);
-        fillAddress(args.latLng);
+        geocoder.geocode({location: args.latLng}, processGeocodeResult);
     } else {
         addPoint(args.latLng);
     }
 }
+
+// Route map
+
+function fillStartPointFields() {
+    $('#fqbundle_event_form_route_startLocation_latitude').val(startMarker.position.lat());
+    $('#fqbundle_event_form_route_startLocation_longitude').val(startMarker.position.lng());
+    geocoder.geocode(
+        {location: startMarker.position},
+        function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                $('#fqbundle_event_form_route_startLocation_address').val(
+                    results[0].address_components[3].short_name
+                    + ', ' + results[0].address_components[2].short_name
+                    + ', ' + results[0].address_components[1].short_name
+                    + ', ' + results[0].address_components[0].short_name
+                );
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        }
+    );
+}
+
+function fillEndPointFields() {
+    $('#fqbundle_event_form_route_endLocation_longitude').val(endMarker.position.lng());
+    $('#fqbundle_event_form_route_endLocation_latitude').val(endMarker.position.lat());
+    geocoder.geocode(
+        {location: endMarker.position},
+        function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var address = results[0].address_components[3].short_name
+                    + ', ' + results[0].address_components[2].short_name
+                    + ', ' + results[0].address_components[1].short_name
+                    + ', ' + results[0].address_components[0].short_name;
+                $('#fqbundle_event_form_route_endLocation_address').val(address);
+                $('#arrowLocation').show();
+                $('#secondLocation').empty().append(address);
+            } else {
+                console.log('Geocode was not successful for the following reason: ' + status);
+            }
+        }
+    );
+}
+
 function addPoint(posiotion) {
     if (shiftPressed || path.getLength() === 0) {
         path.push(posiotion);
@@ -124,9 +136,11 @@ function addPoint(posiotion) {
             poly.setPath(path);
             startMarker.setMap(map);
             startMarker.setPosition(posiotion);
-            fillAddress(posiotion);
+            geocoder.geocode({location: posiotion}, processGeocodeResult);
+            fillStartPointFields();
         }
     } else {
+        $('#fqbundle_event_form_save').attr("disabled", true);
         service.route(
             { origin: path.getAt(path.getLength() - 1), destination: posiotion, travelMode: google.maps.DirectionsTravelMode.DRIVING },
             function(result, status) {
@@ -134,6 +148,8 @@ function addPoint(posiotion) {
                     for(var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
                         path.push(result.routes[0].overview_path[i]);
                     }
+                    $('#fqbundle_event_form_route_route').val(google.maps.geometry.encoding.encodePath(path));
+                    $('#fqbundle_event_form_save').attr("disabled", false);
                 }
             }
         );
@@ -142,11 +158,14 @@ function addPoint(posiotion) {
         endMarker.setMap(map);
     }
     endMarker.setPosition(posiotion);
+    fillEndPointFields();
 }
 
 function handleLocationTypeChange() {
-    $('#map-info').empty();
     if ($('#location_type').val() == 'address') {
+        $('#firstLocation').empty();
+        $('#secondLocation').empty();
+        $('#arrowLocation').hide();
         $('.address-control').show();
         $('.route-control').hide();
         marker.setVisible(true);
@@ -156,6 +175,8 @@ function handleLocationTypeChange() {
             endMarker.setVisible(false);
         }
     } else {
+        $('#secondLocation').empty();
+        $('#arrowLocation').show();
         $('.address-control').hide();
         $('.route-control').show();
         marker.setVisible(false);
@@ -172,51 +193,10 @@ function clearRoute()
     path.clear();
     startMarker.setMap(null);
     endMarker.setMap(null);
+    $('#firstLocation').empty();
+    $('#secondLocation').empty();
+    $('#arrowLocation').hide();
     return false;
-}
-
-function addLocationDataToForm() {
-    if ($('#location_type').val() == 'address') {
-
-    } else {
-        $('#fqbundle_event_form_route_route').val(google.maps.geometry.encoding.encodePath(path));
-
-        $('#fqbundle_event_form_route_startLocation_latitude').val(startMarker.position.lat());
-        $('#fqbundle_event_form_route_startLocation_longitude').val(startMarker.position.lng());
-        geocoder.geocode(
-            {location: startMarker.position},
-            function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    $('#fqbundle_event_form_route_startLocation_address').val(
-                        results[0].address_components[3].short_name
-                        + ', ' + results[0].address_components[2].short_name
-                        + ', ' + results[0].address_components[1].short_name
-                        + ', ' + results[0].address_components[0].short_name
-                    );
-                } else {
-                    console.log('Geocode was not successful for the following reason: ' + status);
-                }
-            }
-        );
-
-        $('#fqbundle_event_form_route_endLocation_longitude').val(endMarker.position.lng());
-        $('#fqbundle_event_form_route_endLocation_latitude').val(endMarker.position.lat());
-        geocoder.geocode(
-            {location: endMarker.position},
-            function(results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    $('#fqbundle_event_form_route_endLocation_address').val(
-                        results[0].address_components[3].short_name
-                        + ', ' + results[0].address_components[2].short_name
-                        + ', ' + results[0].address_components[1].short_name
-                        + ', ' + results[0].address_components[0].short_name
-                    );
-                } else {
-                    console.log('Geocode was not successful for the following reason: ' + status);
-                }
-            }
-        );
-    }
 }
 
 google.maps.event.addDomListener(document, "keydown", function(e) { shiftPressed = e.shiftKey; });
@@ -228,11 +208,3 @@ $('#search_address').click(showAddressOnMap);
 $('#location_type').change(handleLocationTypeChange);
 
 $('#clear_route').click(clearRoute);
-
-$('#fqbundle_event_form_save').click(function() {
-    addLocationDataToForm();
-    setTimeout(function(){
-        $('form').submit();
-    }, 3000);
-    return false;
-});
