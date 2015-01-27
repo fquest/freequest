@@ -28,9 +28,9 @@ security:
             oauth:
                 resource_owners:
                     facebook: /oauth/login_facebook
-                login_path: /login
+                login_path: /user/login
                 failure_path: /
-                default_target_path: /dashboard
+                default_target_path: /user/dashboard
                 oauth_user_provider:
                     service: user_provider
     access_control:

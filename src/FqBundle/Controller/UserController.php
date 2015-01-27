@@ -5,11 +5,15 @@ namespace FqBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use \HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 
+/**
+ * @Route("/user")
+ */
 class UserController extends Controller
 {
     /**
@@ -265,5 +269,31 @@ class UserController extends Controller
         }
         $redirectUrl = $request->server->get('HTTP_REFERER') ?: $this->generateUrl('event_view', ['id' => $id]);
         return $this->redirect($redirectUrl);
+    }
+
+    /**
+     * @Route("/edit", name="user_edit")
+     */
+    public function editUser(Request $request)
+    {
+        $id = $request->get('id');
+        $value = $request->get('value');
+        /** @var \FqBundle\Entity\User $user */
+        $user = $this->getDoctrine()
+            ->getRepository('FqBundle:User')
+            ->find($this->getUser()->getId());
+        switch ($id) {
+            case ('email'):
+                $user->setEmail($value);
+                break;
+            case ('username'):
+                $user->setUsername($value);
+                break;
+            default:
+                break;
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        return new Response($value);
     }
 }

@@ -4,49 +4,59 @@
 
     <div class="container">
 
-                <div class="well">
-                    <div class="container">
-                        <div class="col-md-9">
-                            <div class="page-header">
+        <div class="well">
+            <div class="container">
+                <div class="col-md-9">
+                    <div class="page-header">
+                        <h1 id="username" class="editable-text">{{ user.username }}</h1>
+                    </div><!-- end page-header -->
 
-                                <h1>{{ user.username }}</h1>
+                    <div class="list-group">
 
-                            </div><!-- end page-header -->
-
-                            <div class="list-group">
-
-                                <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Аватар</label><img src="{{ user.picture }}"/>
-                                </div>
-                                <div class="list-group-item">
-                                        <label for="photo" class="col-md-4 control-label">Email</label> {{ user.email }}
-                                </div>
-                                <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
-                                </div>
-                                <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
-                                </div>
-                                <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Организовано событий</label> {{ createdEvents|length }}
-                                </div>
-                                <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">Принято участие</label> {{ passedEvents|length }}
-                                </div>
-                                <div class="list-group-item">
-                                    <label for="photo" class="col-md-4 control-label">В планах посетить</label> {{ futureEvents|length }}
-                                </div>
-                            </div>
+                        <div class="list-group-item">
+                            <label for="photo" class="col-md-4 control-label">Аватар</label><img src="{{ user.picture }}"/>
+                        </div>
+                        <div class="list-group-item">
+                            <label for="photo" class="col-md-4 control-label">Email</label> <div class="editable-text" id="email">{{ user.email }}</div>
+                        </div>
+                        <div class="list-group-item">
+                            <label for="photo" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
+                        </div>
+                        <div class="list-group-item">
+                            <label for="photo" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
+                        </div>
+                        <div class="list-group-item">
+                            <label for="photo" class="col-md-4 control-label">Организовано событий</label> {{ createdEvents|length }}
+                        </div>
+                        <div class="list-group-item">
+                            <label for="photo" class="col-md-4 control-label">Принято участие</label> {{ passedEvents|length }}
+                        </div>
+                        <div class="list-group-item">
+                            <label for="photo" class="col-md-4 control-label">В планах посетить</label> {{ futureEvents|length }}
                         </div>
                     </div>
-                </div><!-- end well -->
-                {% if user.hiddenEvents|length %}
-                    <div class="well">
-                        <h2>Скрытые события</h2>
-                        {{ include('FqBundle:Event:Block/list.html.twig', {'events': user.hiddenEvents}) }}
-                    </div>
-                {% endif %}
-
+                </div>
+            </div>
+        </div><!-- end well -->
+        {% if user.email == app.user.email %}
+            {% if user.hiddenEvents|length %}
+                <div class="well">
+                    <h2>Скрытые события</h2>
+                    {{ include('FqBundle:Event:Block/list.html.twig', {'events': user.hiddenEvents}) }}
+                </div>
+            {% endif %}
+        {% endif %}
 
     </div><!-- end main container -->
 {% endblock %}
+{% if user.email == app.user.email %}
+    {% block javascripts %}
+
+        {{ parent() }}
+
+        <script type="application/javascript">
+            $(".editable-text").editable("{{ url('user_edit') }}");
+        </script>
+
+    {% endblock %}
+{% endif %}
