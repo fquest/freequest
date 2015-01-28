@@ -26,7 +26,7 @@ class User implements UserInterface
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * @ORM\Column(type="string", length=250, unique=true)
      */
     protected $username;
 
@@ -46,12 +46,12 @@ class User implements UserInterface
     protected $updated_at;
 
     /**
-     * @var @ORM\Column(type="string", length=250)
+     * @var @ORM\Column(type="string", length=250, unique=true)
      */
     protected $email;
 
     /**
-     * @var @ORM\Column(type="string", length=250)
+     * @var @ORM\Column(type="string", length=250, unique=true)
      */
     protected $fbid;
 
@@ -66,6 +66,11 @@ class User implements UserInterface
      * @ORM\JoinTable(name="hidding")
      */
     protected $hiddenEvents;
+
+    /**
+     * @var @ORM\Column(type="boolean")
+     */
+    protected $confirmed;
 
     /**
      * @ORM\PrePersist
@@ -348,5 +353,28 @@ class User implements UserInterface
     public function getHiddenEvents()
     {
         return $this->hiddenEvents;
+    }
+
+    /**
+     * Set confirmed
+     *
+     * @param \bool $confirmed
+     * @return User
+     */
+    public function setConfirmed(\bool $confirmed)
+    {
+        $this->confirmed = $confirmed;
+    
+        return $this;
+    }
+
+    /**
+     * Get confirmed
+     *
+     * @return \bool 
+     */
+    public function getConfirmed()
+    {
+        return $this->confirmed;
     }
 }

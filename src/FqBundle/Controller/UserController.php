@@ -284,9 +284,31 @@ class UserController extends Controller
             ->find($this->getUser()->getId());
         switch ($id) {
             case ('email'):
+                if ($user->getEmail() == $value) {
+                    return new Response($value);
+                }
+                $sameEmail= $this->getDoctrine()
+                    ->getRepository('FqBundle:User')
+                    ->findOneBy(['email' => $value]);
+                if (!empty($sameEmail)) {
+                    return new Response('Email already used!', 500);
+                }
+                $emailPattern = '/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/';
+                if (!preg_match($emailPattern, $value)) {
+                    return new Response('Wrong email format!', 500);
+                }
                 $user->setEmail($value);
                 break;
             case ('username'):
+                if ($user->getUsername() == $value) {
+                    return new Response($value);
+                }
+                $sameUsername = $this->getDoctrine()
+                    ->getRepository('FqBundle:User')
+                    ->findOneBy(['username' => $value]);
+                if (!empty($sameUsername)) {
+                    return new Response('Username already used!', 500);
+                }
                 $user->setUsername($value);
                 break;
             default:
@@ -295,5 +317,10 @@ class UserController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
         return new Response($value);
+    }
+
+    protected function validateUsername($value)
+    {
+
     }
 }

@@ -8,7 +8,7 @@
             <div class="container">
                 <div class="col-md-9">
                     <div class="page-header">
-                        <h1 id="username" class="editable-text">{{ user.username }}</h1>
+                        <h1><span id="username" class="editable-text">{{ user.username }}</span></h1>
                     </div><!-- end page-header -->
 
                     <div class="list-group">
@@ -17,13 +17,13 @@
                             <label for="photo" class="col-md-4 control-label">Аватар</label><img src="{{ user.picture }}"/>
                         </div>
                         <div class="list-group-item">
-                            <label for="photo" class="col-md-4 control-label">Email</label> <div class="editable-text" id="email">{{ user.email }}</div>
+                            <label for="email" class="col-md-4 control-label">Email</label><span class="editable-text" id="email">{{ user.email }}</span>
                         </div>
                         <div class="list-group-item">
-                            <label for="photo" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
+                            <label for="created_at" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
                         </div>
                         <div class="list-group-item">
-                            <label for="photo" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
+                            <label for="updated_at" class="col-md-4 control-label">Последнее обновление</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
                         </div>
                         <div class="list-group-item">
                             <label for="photo" class="col-md-4 control-label">Организовано событий</label> {{ createdEvents|length }}
@@ -55,7 +55,14 @@
         {{ parent() }}
 
         <script type="application/javascript">
-            $(".editable-text").editable("{{ url('user_edit') }}");
+            $(".editable-text").editable(
+                    "{{ url('user_edit') }}",
+                    {
+                        onerror: function(settings, self, xhr) {
+                            alert(xhr.responseText);
+                        }
+                    }
+            );
         </script>
 
     {% endblock %}

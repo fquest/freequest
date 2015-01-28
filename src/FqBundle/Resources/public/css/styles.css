@@ -43,3 +43,9 @@
     background-color: #EAFCF7;
     box-shadow: 0 0 5px #000;
 }
+.editable-text:hover {
+    background-color: #FFFFFF;
+    cursor: pointer;
+    cursor: hand;
+    box-shadow: 0 0 5px #000;
+}
