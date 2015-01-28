@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\View\ChoiceView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
 use FqBundle\View\Form\Event as EventForm;
-
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 /**
  * @Route("/event")
  */
@@ -39,8 +39,11 @@ class EventController extends Controller
         $event = new Event();
         $form = $this->createForm(new EventForm(), $event);
         $form->handleRequest($request);
-
-        if ($form->isValid()) {
+        $date = $form->getData()->getSchedule();
+        $currentDate = new \DateTime();
+        $dateConstraint = new GreaterThanOrEqual($currentDate);
+        $errorList = $this->get('validator')->validateValue($date, $dateConstraint);
+        if ($form->isValid() && count($errorList) == 0) {
             //@todo resolve cascade save (to use just getUser without loding user entity)
             $creator = $this->getDoctrine()
                 ->getRepository('FqBundle:User')
