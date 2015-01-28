@@ -311,16 +311,23 @@ class UserController extends Controller
                 }
                 $user->setUsername($value);
                 break;
+            case ('phone'):
+                if ($user->getPhone() == $value) {
+                    return new Response($value);
+                }
+                $samePhone = $this->getDoctrine()
+                    ->getRepository('FqBundle:User')
+                    ->findOneBy(['phone' => $value]);
+                if (!empty($samePhone)) {
+                    return new Response('Phone already used!', 500);
+                }
+                $user->setPhone($value);
+                break;
             default:
                 break;
         }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
         return new Response($value);
-    }
-
-    protected function validateUsername($value)
-    {
-
     }
 }

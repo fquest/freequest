@@ -68,9 +68,19 @@ class User implements UserInterface
     protected $hiddenEvents;
 
     /**
+     * @var @ORM\Column(type="string", length=20, unique=true, nullable=true)
+     */
+    protected $phone;
+
+    /**
      * @var @ORM\Column(type="boolean")
      */
-    protected $confirmed;
+    protected $emailConfirmed;
+
+    /**
+     * @var @ORM\Column(type="boolean")
+     */
+    protected $phoneConfirmed;
 
     /**
      * @ORM\PrePersist
@@ -376,5 +386,74 @@ class User implements UserInterface
     public function getConfirmed()
     {
         return $this->confirmed;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     * @return User
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string 
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set emailConfirmed
+     *
+     * @param boolean $emailConfirmed
+     * @return User
+     */
+    public function setEmailConfirmed($emailConfirmed)
+    {
+        $this->emailConfirmed = $emailConfirmed;
+    
+        return $this;
+    }
+
+    /**
+     * Get emailConfirmed
+     *
+     * @return boolean 
+     */
+    public function getEmailConfirmed()
+    {
+        return $this->emailConfirmed;
+    }
+
+    /**
+     * Set phoneConfirmed
+     *
+     * @param boolean $phoneConfirmed
+     * @return User
+     */
+    public function setPhoneConfirmed($phoneConfirmed)
+    {
+        $this->phoneConfirmed = $phoneConfirmed;
+    
+        return $this;
+    }
+
+    /**
+     * Get phoneConfirmed
+     *
+     * @return boolean 
+     */
+    public function getPhoneConfirmed()
+    {
+        return $this->phoneConfirmed;
     }
 }

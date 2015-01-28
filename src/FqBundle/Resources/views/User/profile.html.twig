@@ -20,6 +20,9 @@
                             <label for="email" class="col-md-4 control-label">Email</label><span class="editable-text" id="email">{{ user.email }}</span>
                         </div>
                         <div class="list-group-item">
+                            <label for="email" class="col-md-4 control-label">Телефон</label><span class="editable-text" id="phone">{{ user.phone }}</span>
+                        </div>
+                        <div class="list-group-item">
                             <label for="created_at" class="col-md-4 control-label">Зарегистрирован</label> {{ user.createdat|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}
                         </div>
                         <div class="list-group-item">
@@ -49,7 +52,7 @@
 
     </div><!-- end main container -->
 {% endblock %}
-{% if user.email == app.user.email %}
+{% if user.id == app.user.id %}
     {% block javascripts %}
 
         {{ parent() }}
@@ -58,6 +61,7 @@
             $(".editable-text").editable(
                     "{{ url('user_edit') }}",
                     {
+                        placeholder: "Нажмите для редактирования",
                         onerror: function(settings, self, xhr) {
                             alert(xhr.responseText);
                         }

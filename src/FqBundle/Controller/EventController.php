@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\View\ChoiceView;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\InsufficientAuthenticationException;
 use Symfony\Component\Security\Core\SecurityContext;
 use FqBundle\View\Form\Event as EventForm;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
@@ -56,6 +57,11 @@ class EventController extends Controller
         $this->get('session')->set('messages', [$message]);
         return $this->redirect($this->generateUrl('event_create'));
     }
+
+    /**
+     * @param \DateTime $date
+     * @return bool
+     */
     protected function validateDate(\DateTime $date)
     {
         $currentDate = new \DateTime();
@@ -63,6 +69,7 @@ class EventController extends Controller
         $errorList = $this->get('validator')->validateValue($date, $dateConstraint);
         return (count($errorList) == 0);
     }
+
     /**
      * @Route("/view/{id}", name="event_view")
      */
@@ -172,5 +179,39 @@ class EventController extends Controller
                 'user' => $user
             ]
         );
+    }
+
+    /**
+     * @Route("/edit/{id}", name="event_edit")
+     */
+    public function editAction($id)
+    {
+        $event = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->find($id);
+        if ($this->getUser()->getId() != $event->getCreator()->getId()) {
+            throw new InsufficientAuthenticationException();
+        }
+        return $this->render(
+            'FqBundle:Event:create.html.twig',
+            ['form' => $this->createForm(new EventForm(), $event)->createView()]
+        );
+    }
+
+    /**
+     * @Route("/delete/{id}", name="event_delete")
+     */
+    public function deleteAction($id)
+    {
+        $event = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->find($id);
+        if ($this->getUser()->getId() != $event->getCreator()->getId()) {
+            throw new InsufficientAuthenticationException();
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($event);
+        $entityManager->flush();
+        return $this->redirect($this->generateUrl('event_list'));
     }
 }
