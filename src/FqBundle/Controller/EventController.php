@@ -40,10 +40,7 @@ class EventController extends Controller
         $form = $this->createForm(new EventForm(), $event);
         $form->handleRequest($request);
         $date = $form->getData()->getSchedule();
-        $currentDate = new \DateTime();
-        $dateConstraint = new GreaterThanOrEqual($currentDate);
-        $errorList = $this->get('validator')->validateValue($date, $dateConstraint);
-        if ($form->isValid() && count($errorList) == 0) {
+        if ($form->isValid() && $this->validateDate($date)) {
             //@todo resolve cascade save (to use just getUser without loding user entity)
             $creator = $this->getDoctrine()
                 ->getRepository('FqBundle:User')
@@ -59,7 +56,13 @@ class EventController extends Controller
         $this->get('session')->set('messages', [$message]);
         return $this->redirect($this->generateUrl('event_create'));
     }
-
+    protected function validateDate(\DateTime $date)
+    {
+        $currentDate = new \DateTime();
+        $dateConstraint = new GreaterThanOrEqual($currentDate);
+        $errorList = $this->get('validator')->validateValue($date, $dateConstraint);
+        return (count($errorList) == 0);
+    }
     /**
      * @Route("/view/{id}", name="event_view")
      */
