@@ -29,6 +29,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        google_maps_api_key: AIzaSyC5bNGhrj2Y_h3U655IrW7g961-5Nc2D90
 
 # Assetic Configuration
 assetic:
@@ -86,6 +88,7 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    disable_delivery: false
 
 # Open Id settings
 hwi_oauth:
@@ -144,6 +147,3 @@ vlabs_media:
 
 sc_datetimepicker:
     picker: ~
-
-swiftmailer:
-    disable_delivery: false
