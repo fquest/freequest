@@ -20,7 +20,13 @@ class Event extends AbstractType
             ->add(
                 'schedule',
                 'collot_datetime',
-                ['format' => 'dd.MM.yyyy HH:mm', 'pickerOptions' => ['format' => 'dd.mm.yyyy HH:ii']]
+                [
+                    'format' => 'dd.MM.yyyy HH:mm',
+                    'pickerOptions' =>
+                    [
+                        'format' => 'dd.mm.yyyy HH:ii'
+                    ]
+                ]
             )
             ->add(
                 'endTime',

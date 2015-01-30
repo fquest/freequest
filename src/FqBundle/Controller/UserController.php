@@ -176,16 +176,18 @@ class UserController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
             $message = ['text' => 'Вы присоединились к событию!', 'type' => 'success'];
-            try {
-                $letter = \Swift_Message::newInstance()
-                    ->setSubject('К событию ' . $event->getTitle() . ' присоединился ' . $user->getUsername())
-                    ->setFrom(['freequest@startup1.freequest.com.ua' => 'Freequest'])
-                    ->setTo($event->getCreator()->getEmail())
-                    ->setBody($this->renderView('FqBundle:User:contactEmail.html.twig',
-                        ['user' => $user, 'event' => $event]), 'text/html');
-                $this->get('mailer')->send($letter);
-            } catch (\Exception $e) {
-                //todo log exceptions
+            if ($event->getCreator()->getSendMail()) {
+                try {
+                    $letter = \Swift_Message::newInstance()
+                        ->setSubject('К событию ' . $event->getTitle() . ' присоединился ' . $user->getUsername())
+                        ->setFrom(['freequest@startup1.freequest.com.ua' => 'Freequest'])
+                        ->setTo($event->getCreator()->getEmail())
+                        ->setBody($this->renderView('FqBundle:User:contactEmail.html.twig',
+                            ['user' => $user, 'event' => $event]), 'text/html');
+                    $this->get('mailer')->send($letter);
+                } catch (\Exception $e) {
+                    //todo log exceptions
+                }
             }
         } else {
             $message = ['text' => 'Вы уже участник события!', 'type' => 'success'];
@@ -322,6 +324,15 @@ class UserController extends Controller
                     return new Response('Phone already used!', 500);
                 }
                 $user->setPhone($value);
+                break;
+            case ('sendMail'):
+                if ($user->getSendMail() == $value) {
+                    return new Response($value);
+                }
+                $sendMail = $this->getDoctrine()
+                    ->getRepository('FqBundle:User')
+                    ->findOneBy(['sendMail' => $value]);
+                $user->setSendMail($value);
                 break;
             default:
                 break;

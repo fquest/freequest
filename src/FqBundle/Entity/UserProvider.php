@@ -56,7 +56,7 @@ class UserProvider implements OAuthAwareUserProviderInterface, UserProviderInter
             $user->setUsername($response->getRealName())
                 ->setFbid($fbid)
                 ->setEmail($response->getEmail())
-                ->setConfirmed(true)
+                ->setEmailConfirmed(true)
                 ->setPicture($response->getProfilePicture());
             $this->entityManager->persist($user);
         }

@@ -80,7 +80,12 @@ class User implements UserInterface
     /**
      * @var @ORM\Column(type="boolean")
      */
-    protected $phoneConfirmed;
+    protected $sendMail = true;
+
+    /**
+     * @var @ORM\Column(type="boolean")
+     */
+    protected $phoneConfirmed = false;
 
     /**
      * @ORM\PrePersist
@@ -366,29 +371,6 @@ class User implements UserInterface
     }
 
     /**
-     * Set confirmed
-     *
-     * @param \bool $confirmed
-     * @return User
-     */
-    public function setConfirmed(\bool $confirmed)
-    {
-        $this->confirmed = $confirmed;
-    
-        return $this;
-    }
-
-    /**
-     * Get confirmed
-     *
-     * @return \bool 
-     */
-    public function getConfirmed()
-    {
-        return $this->confirmed;
-    }
-
-    /**
      * Set phone
      *
      * @param string $phone
@@ -425,9 +407,32 @@ class User implements UserInterface
     }
 
     /**
-     * Get emailConfirmed
+     * Get sendMail
      *
      * @return boolean 
+     */
+    public function getSendMail()
+    {
+        return $this->sendMail;
+    }
+
+    /**
+     * Set sendMail
+     *
+     * @param boolean $sendMail
+     * @return User
+     */
+    public function setSendMail($sendMail)
+    {
+        $this->sendMail = $sendMail;
+
+        return $this;
+    }
+
+    /**
+     * Get emailConfirmed
+     *
+     * @return boolean
      */
     public function getEmailConfirmed()
     {
