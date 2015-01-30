@@ -59,6 +59,30 @@ class EventController extends Controller
     }
 
     /**
+     * @Route("/update/{id}", name="event_update")
+     */
+    public function updateAction($id, Request $request)
+    {
+        $event = $this->getDoctrine()
+            ->getRepository('FqBundle:Event')
+            ->find($id);
+        if ($this->getUser()->getId() != $event->getCreator()->getId()) {
+            throw new InsufficientAuthenticationException();
+        }
+        $form = $this->createForm(new EventForm(), $event);
+        $form->handleRequest($request);
+        $date = $form->getData()->getSchedule();
+        if ($form->isValid() && $this->validateDate($date)) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+            return $this->redirect($this->generateUrl('event_view', ['id' => $event->getId()]));
+        }
+        $message = ['text' => 'Неверные данные для создания события!', 'type' => 'danger'];
+        $this->get('session')->set('messages', [$message]);
+        return $this->redirect($this->generateUrl('event_create'));
+    }
+
+    /**
      * @param \DateTime $date
      * @return bool
      */
@@ -194,7 +218,11 @@ class EventController extends Controller
         }
         return $this->render(
             'FqBundle:Event:create.html.twig',
-            ['form' => $this->createForm(new EventForm(), $event)->createView()]
+            [
+                'form' => $this->createForm(new EventForm(), $event)->createView(),
+                'form_title' => sprintf('Редактировать событие "%s"', $event->getTitle()),
+                'form_action' => $this->generateUrl('event_update', ['id' => $event->getId()])
+            ]
         );
     }
 

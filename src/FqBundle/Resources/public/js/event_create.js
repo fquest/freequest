@@ -3,6 +3,29 @@
  *
  * Kiev coordinates: 50.4501, 30.523400000000038
  */
+//Outputing base addresses
+$('#firstLocation').val($('#fqbundle_event_form_location_address').val());
+$('#fqbundle_event_form_location_address').change(function () {
+    $('#firstLocation').empty().append($(this).val());
+    $('#arrowLocation').hide();
+    $('#secondLocation').hide();
+});
+$('#fqbundle_event_form_route_startLocation_address').change(function () {
+    $('#firstLocation').empty().append($(this).val());
+});
+$('#fqbundle_event_form_route_endLocation_address').change(function () {
+    $('#arrowLocation').show();
+    $('#secondLocation').empty().append($(this).val()).show();
+});
+//var defaultPosition = new google.maps.LatLng(50.4501, 30.523400000000038);
+//var formMarkerLat = $('#fqbundle_event_form_location_latitude').val();
+//var formMarkerLng = $('#fqbundle_event_form_location_longitude').val();
+//var formStartMarkerLat = $('#fqbundle_event_form_location_longitude').val();
+//var formStartMarkerLng = $('#fqbundle_event_form_location_longitude').val();
+//var formEndMarkerLat = $('#fqbundle_event_form_location_longitude').val();
+//var formEndMarkerLng = $('#fqbundle_event_form_location_longitude').val();
+//var formPath = $('#fqbundle_event_form_location_longitude').val();
+
 var marker = new google.maps.Marker({title: 'Место проведения'});
 var startMarker  = new google.maps.Marker({title: 'Старт'});
 var endMarker = new google.maps.Marker({title: 'Финиш'});
@@ -23,8 +46,7 @@ function processGeocodeResult(results, status) {
         + ', ' + results[0].address_components[2].short_name
         + ', ' + results[0].address_components[1].short_name
         + ', ' + results[0].address_components[0].short_name;
-    $('#fqbundle_event_form_location_address').val(address);
-    $('#firstLocation').empty().append(address);
+    $('#fqbundle_event_form_location_address').val(address).trigger('change');
     $('#fqbundle_event_form_city').val(results[0].address_components[3].short_name);
 }
 
@@ -74,7 +96,56 @@ function initializeMap() {
         strokeOpacity: 1.0,
         strokeWeight: 5
     });
-    showGelocationOnMap();
+    if ($('#fqbundle_event_form_route_route').val()) {
+        showRouteOnMap();
+    } else if ($('#fqbundle_event_form_location_address').val()) {
+        showLocationOnMap();
+    } else {
+        showGelocationOnMap();
+    }
+}
+
+function showRouteOnMap() {
+    $('#location_type').val('route');
+    var startPosition = new google.maps.LatLng(
+        $('#fqbundle_event_form_route_startLocation_latitude').val(),
+        $('#fqbundle_event_form_route_startLocation_longitude').val()
+    );
+    var endPosition = new google.maps.LatLng(
+        $('#fqbundle_event_form_route_endLocation_latitude').val(),
+        $('#fqbundle_event_form_route_endLocation_longitude').val()
+    );
+    var position = new google.maps.LatLng(
+        $('#fqbundle_event_form_location_latitude').val(),
+        $('#fqbundle_event_form_location_longitude').val()
+    );
+    marker.setPosition(position);
+    marker.setMap(map);
+    marker.setVisible(false);
+
+    startMarker.setPosition(startPosition);
+    startMarker.setMap(map);
+    map.setCenter(startPosition);
+    endMarker.setPosition(endPosition);
+    endMarker.setMap(map);
+
+    setTimeout(function(){
+        path = new google.maps.MVCArray(
+            google.maps.geometry.encoding.decodePath($('#fqbundle_event_form_route_route').val())
+        );
+        poly.setPath(path)
+    }, 3000);
+}
+
+function showLocationOnMap() {
+    var position = new google.maps.LatLng(
+        $('#fqbundle_event_form_location_latitude').val(),
+        $('#fqbundle_event_form_location_longitude').val()
+    );
+
+    map.setCener(position);
+    marker.setPosition(position);
+    marker.setMap(map);
 }
 
 function mapClickEventHandler(args) {
@@ -100,7 +171,7 @@ function fillStartPointFields() {
                     + ', ' + results[0].address_components[2].short_name
                     + ', ' + results[0].address_components[1].short_name
                     + ', ' + results[0].address_components[0].short_name
-                );
+                ).trigger('change');
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
             }
@@ -119,9 +190,7 @@ function fillEndPointFields() {
                     + ', ' + results[0].address_components[2].short_name
                     + ', ' + results[0].address_components[1].short_name
                     + ', ' + results[0].address_components[0].short_name;
-                $('#fqbundle_event_form_route_endLocation_address').val(address);
-                $('#arrowLocation').show();
-                $('#secondLocation').empty().append(address);
+                $('#fqbundle_event_form_route_endLocation_address').val(address).trigger('change');
             } else {
                 console.log('Geocode was not successful for the following reason: ' + status);
             }
@@ -164,9 +233,9 @@ function addPoint(posiotion) {
 function handleLocationTypeChange() {
     if ($('#location_type').val() == 'address') {
         clearRoute();
-        $('#firstLocation').empty();
-        $('#secondLocation').empty();
-        $('#arrowLocation').hide();
+        //$('#firstLocation').empty();
+        //$('#secondLocation').empty();
+        //$('#arrowLocation').hide();
         $('.address-control').show();
         $('.route-control').hide();
         marker.setVisible(true);
@@ -176,7 +245,7 @@ function handleLocationTypeChange() {
             endMarker.setVisible(false);
         }
     } else {
-        $('#firstLocation').empty();
+        //$('#firstLocation').empty();
         $('.address-control').hide();
         $('.route-control').show();
         marker.setVisible(false);
@@ -193,11 +262,24 @@ function clearRoute()
     path.clear();
     startMarker.setMap(null);
     endMarker.setMap(null);
-    $('#firstLocation').empty();
-    $('#secondLocation').empty();
-    $('#arrowLocation').hide();
+    //$('#firstLocation').empty();
+    //$('#secondLocation').empty();
+    //$('#arrowLocation').hide();
     return false;
 }
+
+$('#fqbundle_event_form_location_address').change(function () {
+    $('#firstLocation').empty().append($(this).val());
+    $('#arrowLocation').hide();
+    $('#secondLocation').hide();
+});
+$('#fqbundle_event_form_route_startLocation_address').change(function () {
+    $('#firstLocation').empty().append($(this).val());
+});
+$('#fqbundle_event_form_route_endLocation_address').change(function () {
+    $('#arrowLocation').show();
+    $('#secondLocation').empty().append($(this).val()).show();
+});
 
 google.maps.event.addDomListener(document, "keydown", function(e) { shiftPressed = e.shiftKey; });
 google.maps.event.addDomListener(document, "keyup", function(e) { shiftPressed = e.shiftKey; });

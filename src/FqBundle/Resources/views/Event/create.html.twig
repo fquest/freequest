@@ -6,40 +6,6 @@
 {% endblock %}
 
 {% block body %}
-    {#<div class="modal fade" id="createCategoryPopup" tabindex="-1" role="dialog" aria-labelledby="createCategoryPopup" aria-hidden="true">#}
-        {#<div class="modal-dialog">#}
-            {#<div class="modal-content">#}
-                {#<div class="modal-header">#}
-                    {#<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>#}
-                    {#<h4 class="modal-title" id="myModalLabel">Создание категории</h4>#}
-                {#</div>#}
-                {#<div class="modal-body">#}
-                    {#<div class="container">#}
-                        {#<form class="form-horizontal" role="form" action="#">#}
-                            {#<div class="form-body">#}
-                                {#<div class="form-group">#}
-                                    {#<label for="category_name" class="col-md-2 control-label">Название</label>#}
-                                    {#<div class="col-md-4">#}
-                                        {#<input type="text" class="form-control" id="category_name"/>#}
-                                    {#</div>#}
-                                {#</div>#}
-                                {#&#123;&#35;<div class="form-group">&#35;&#125;#}
-                                    {#&#123;&#35;<label for="category_icon" class="col-md-2 control-label">Иконка</label>&#35;&#125;#}
-                                    {#&#123;&#35;<div class="col-md-4">&#35;&#125;#}
-                                        {#&#123;&#35;<input type="text" class="form-control" id="category_icon"/>&#35;&#125;#}
-                                    {#&#123;&#35;</div>&#35;&#125;#}
-                                {#&#123;&#35;</div>&#35;&#125;#}
-                            {#</div>#}
-                        {#</form>#}
-                    {#</div>#}
-                {#</div>#}
-                {#<div class="modal-footer">#}
-                    {#<button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>#}
-                    {#<button type="button" class="btn btn-primary" data-role="create_category" data-url="{{ url('save_category') }}">Создать</button>#}
-                {#</div>#}
-            {#</div>#}
-        {#</div>#}
-    {#</div>#}
     <div class="container">
 
         <div class="row">
@@ -48,11 +14,11 @@
 
                 <div class="well">
 
-                    <form class="form-horizontal" role="form" action="{{ path('event_save') }}" method="POST" {{ form_enctype(form) }}>
+                    <form class="form-horizontal" role="form" action="{{ form_action }}" method="POST" {{ form_enctype(form) }}>
 
                         <div class="page-header">
 
-                            <h1>Создать событие</h1>
+                            <h1>{{ form_title }}</h1>
 
                         </div><!-- end page-header -->
 
@@ -79,18 +45,21 @@
                                 <div class="col-md-8">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="endtime" hidden="hidden">
+                                            <div class="endtime" {% if not form.endTime %}hidden="hidden"{% endif %}>
                                                 Начало
                                             </div>
                                             {{ form_widget(form.schedule, { 'attr': {'class': 'form-control'}}) }}
                                         </div>
                                         <div class="col-md-6">
-                                            <a href="#" onclick="$('.endtime').show(); $(this).hide(); return false;">
-                                                Добавить время окончания
-                                            </a>
-                                            <div class="endtime" hidden="hidden">
-                                                Конец {{ form_widget(form.endTime, { 'attr': {'class': 'form-control'}}) }}
-                                            </div>
+                                            {% if not form.endTime %}
+                                                <a href="#" onclick="$('.endtime').show(); $(this).hide(); return false;">
+                                                    Добавить время окончания
+                                                </a>
+                                            {% else %}
+                                                <div class="endtime" {% if not form.endTime %}hidden="hidden"{% endif %}>
+                                                    Конец {{ form_widget(form.endTime, { 'attr': {'class': 'form-control'}}) }}
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

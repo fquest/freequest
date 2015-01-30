@@ -37,7 +37,7 @@ class Event extends AbstractType
                     'pickerOptions' => ['format' => 'dd.mm.yyyy HH:ii']
                 ]
             )
-            ->add('save', 'submit', ['label' => 'Create Event'])
+            ->add('save', 'submit', ['label' => 'Сохранить событие'])
             ->getForm();
     }
 
