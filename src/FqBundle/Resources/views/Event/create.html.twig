@@ -36,7 +36,7 @@
                             <div class="form-group">
                                 <label for="title" class="col-md-2 control-label">Название</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.title, { 'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.title, { 'attr': {'class': 'form-control','placeholder': 'Введите название события'}}) }}
                                 </div>
                             </div>
 
@@ -48,7 +48,7 @@
                                             <div class="endtime" {% if not form.endTime %}hidden="hidden"{% endif %}>
                                                 Начало
                                             </div>
-                                            {{ form_widget(form.schedule, { 'attr': {'class': 'form-control'}}) }}
+                                            {{ form_widget(form.schedule, { 'attr': {'class': 'form-control','placeholder':'Выберите дату начала события'}}) }}
                                         </div>
                                         <div class="col-md-6">
                                             {% if not form.endTime %}
@@ -57,7 +57,7 @@
                                                 </a>
                                             {% else %}
                                                 <div class="endtime" {% if not form.endTime %}hidden="hidden"{% endif %}>
-                                                    Конец {{ form_widget(form.endTime, { 'attr': {'class': 'form-control'}}) }}
+                                                    Конец {{ form_widget(form.endTime, { 'attr': {'class': 'form-control','placeholder':'Выберите дату окончания события'}}) }}
                                                 </div>
                                             {% endif %}
                                         </div>
@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <label for="description" class="col-md-2 control-label">Подробности</label>
                                 <div class="col-md-4">
-                                    {{ form_widget(form.description, { 'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.description, { 'attr': {'class': 'form-control','placeholder':'Кратко опишите событие'}}) }}
                                 </div>
                             </div>
 
