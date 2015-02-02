@@ -28,7 +28,11 @@ class EventController extends Controller
     {
         return $this->render(
             'FqBundle:Event:create.html.twig',
-            ['form' => $this->createForm(new EventForm())->createView()]
+            [
+                'form' => $this->createForm(new EventForm())->createView(),
+                'form_action' => $this->generateUrl('event_save'),
+                'form_title' => 'Создать событие'
+            ]
         );
     }
 

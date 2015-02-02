@@ -3,7 +3,11 @@
         <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
             <div class="row">
                 <div class="col-md-4">
-                    <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                    {% if event.image %}
+                        <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                    {% else %}
+                        <img style="min-height:100%; min-width:200px; width:100%" src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
+                    {% endif %}
                 </div>
                 <div class="col-md-5">
                     <p onclick="document.location = '{{ url('profile', {'id': event.creator.id}) }}'; return false">
@@ -31,7 +35,7 @@
                         {% if event in user.hiddenEvents %}
                             <button data-role="link-button" data-url="{{ url('unhide_event', {'id': event.id}) }}" class="btn btn-sm btn-primary" style="margin: 5px">Вернуть</button>
                         {% else %}
-                            <button data-role="link-button" data-url="{{ url('hide_event', {'id': event.id}) }}" class="btn btn-sm" style="margin: 5px">Скрыть</button>
+                            <button data-role="link-button-hide" data-url="{{ url('hide_event', {'id': event.id}) }}" class="btn btn-sm" style="margin: 5px">Скрыть</button>
                         {% endif %}
                     {% else %}
                         <p>Присоединилось: <b>{{ event.participants|length }}</b></p>

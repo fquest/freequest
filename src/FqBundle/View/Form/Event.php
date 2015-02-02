@@ -22,6 +22,7 @@ class Event extends AbstractType
                 'collot_datetime',
                 [
                     'format' => 'dd.MM.yyyy HH:mm',
+                    'required' => true,
                     'pickerOptions' =>
                     [
                         'format' => 'dd.mm.yyyy HH:ii'
