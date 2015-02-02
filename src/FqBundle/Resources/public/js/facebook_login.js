@@ -74,6 +74,33 @@ $.widget( "freequest.authorizingLink", {
         return false;
     }
 });
+$.widget( "freequest.eventHider", {
+    options: {
+        urlDataAttribute: 'url',
+        loginButtonSelector: '[data-role="facebook-login"]',
+        targetDataAttribute: 'target',
+        loginButtonEvent: 'click'
+    },
+    _create: function() {
+        this._on(this.element, {
+            "click": this._navigateAuthorized
+        });
+    },
+    _navigateAuthorized: function() {
+        var url = this.element.data(this.options.urlDataAttribute);
+        var facebookButton = $(this.options.loginButtonSelector);
+
+        if (facebookButton.length) {
+            facebookButton.data(this.options.targetDataAttribute, url);
+            facebookButton.trigger(this.options.loginButtonEvent);
+        } else {
+            this.element.closest(".list-group-item").animate({opacity:'0.0'},800).slideUp(700);
+            $.post(url);
+        }
+        return false;
+    }
+});
 
 $('[data-role="facebook-login"]').facebookLogin();
 $("[data-role='link-button']").authorizingLink();
+$("[data-role='link-button-hide']").eventHider();
