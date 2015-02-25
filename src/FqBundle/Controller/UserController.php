@@ -329,9 +329,6 @@ class UserController extends Controller
                 if ($user->getSendMail() == $value) {
                     return new Response($value);
                 }
-                $sendMail = $this->getDoctrine()
-                    ->getRepository('FqBundle:User')
-                    ->findOneBy(['sendMail' => $value]);
                 $user->setSendMail($value);
                 break;
             default:

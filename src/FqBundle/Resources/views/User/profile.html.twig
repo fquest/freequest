@@ -37,11 +37,10 @@
                         <div class="list-group-item">
                             <label for="photo" class="col-md-4 control-label">В планах посетить</label> {{ futureEvents|length }}
                         </div>
-
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" data-settingurl="{{ url('user_edit') }}" value="{{ user.sendMail }}" id="sendMail" {% if (user.sendMail) %}checked{% endif %}> sendMail
-                            </label>
+                        <div class="list-group-item">
+                            <label for="sendMail" class="col-md-4 control-label">Не получать почту</label>
+                                <input type="checkbox" data-settingurl="{{ url('user_edit') }}"
+                                       id="sendMail" {% if (user.sendMail) %}checked{% endif %}>
                         </div>
                     </div>
                 </div>
@@ -75,13 +74,11 @@
             );
             $("#sendMail").click(function() {
                 $.post($("#sendMail").data('settingurl'),
-                        {
-                            sendMail: true
-                        },
-                        function(data, status){
-                            alert("Data: " + data + "\nStatus: " + status);
-                        });
-                return false;
+                    {
+                        id: "sendMail",
+                        value: $("#sendMail").is(':checked') * 1
+                    }
+                );
             });
         </script>
 
