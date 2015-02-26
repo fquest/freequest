@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\Exception\InsufficientAuthenticationExceptio
 use Symfony\Component\Security\Core\SecurityContext;
 use FqBundle\View\Form\Event as EventForm;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\HttpFoundation\Cookie;
+
 /**
  * @Route("/event")
  */
@@ -124,7 +126,14 @@ class EventController extends Controller
             );
         }
 
+        if (!isset($_COOKIE['visitedEvent'])) {
+        setcookie("visitedEvent[{$event->getId()}]", $event->getId());
         $event->setViews($event->getViews() + 1);
+        }
+        elseif (!in_array($event->getId(), $_COOKIE['visitedEvent'])) {
+            setcookie("visitedEvent[{$event->getId()}]", $event->getId());
+            $event->setViews($event->getViews() + 1);
+        }
         $this->getDoctrine()->getManager()->flush();
 
         return $this->render(
