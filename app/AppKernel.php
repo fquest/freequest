@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Vlabs\MediaBundle\VlabsMediaBundle(),
             new SC\DatetimepickerBundle\SCDatetimepickerBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

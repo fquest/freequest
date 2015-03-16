@@ -37,7 +37,8 @@
         "hwi/oauth-bundle": "0.4.*@dev",
         "vlabs/media-bundle": "dev-master",
         "creof/doctrine2-spatial": "dev-master",
-        "stephanecollot/datetimepicker-bundle": "dev-master"
+        "stephanecollot/datetimepicker-bundle": "dev-master",
+        "knplabs/knp-paginator-bundle": "dev-master"
     },
     "autoload": {
         "psr-0": {"": "src/", "SymfonyStandard": "app/"}

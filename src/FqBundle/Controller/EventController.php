@@ -206,6 +206,13 @@ class EventController extends Controller
             ->getRepository('FqBundle:Category')
             ->findAll();
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $events,
+            $request->query->get('page', 1)/*page number*/,
+            3/*limit per page*/
+        );
+
         return $this->render(
             'FqBundle:Event:list.html.twig',
             [
@@ -213,7 +220,8 @@ class EventController extends Controller
                 'categories' => $categories,
                 'selectedCategories' => $selectedCategories,
                 'query' => $searchQuery,
-                'user' => $user
+                'user' => $user,
+                'pagination' => $pagination
             ]
         );
     }

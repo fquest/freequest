@@ -1,5 +1,5 @@
 <div class="list-group">
-    {% for event in events %}
+    {% for event in pagination %}
         <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
             <div class="row">
                 <div class="col-md-4">
@@ -21,7 +21,6 @@
                          data-lat="{{ event.location.latitude }}"
                          data-lng="{{ event.location.longitude }}"
                             >
-
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -44,4 +43,7 @@
             </div>
         </a>
     {% endfor %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 </div>
