@@ -50,7 +50,7 @@
             {% if user.hiddenEvents|length %}
                 <div class="well">
                     <h2>Скрытые события</h2>
-                    {{ include('FqBundle:Event:Block/list.html.twig', {'events': user.hiddenEvents}) }}
+                    {{ include('FqBundle:Event:Block/list.html.twig', {'pagination': user.hiddenEvents}) }}
                 </div>
             {% endif %}
         {% endif %}

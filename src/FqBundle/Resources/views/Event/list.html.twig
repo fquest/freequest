@@ -47,6 +47,9 @@
 
                                 <div class="col-md-9">
                                     {{ include('FqBundle:Event:Block/list.html.twig') }}
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(pagination) }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
