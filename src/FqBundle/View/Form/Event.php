@@ -12,7 +12,7 @@ class Event extends AbstractType
     {
         $builder->add('title', 'text')
             ->add('description', 'textarea')
-            ->add('image', 'vlabs_file')
+            ->add('image', 'vlabs_file', ['required' => false])
             ->add('category', 'entity', ['class' => 'FqBundle\Entity\Category'])
             ->add('route', new Route(), ['required' => false, 'label' => false])
             ->add('location', new Location(), ['required' => false, 'label' => false])

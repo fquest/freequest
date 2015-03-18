@@ -64,6 +64,14 @@ class WelcomeController extends Controller
             $entityManager->persist($category);
         }
 
+        //Add default image for event
+        $vlabs_image = new Image();
+        $vlabs_image->setName('no_event_img.png');
+        $vlabs_image->setSize('4187');
+        $vlabs_image->setContentType('image/png');
+        $vlabs_image->setPath('/bundles/fq/images/no_event_img.png');
+        $entityManager->persist($vlabs_image);
+
         $entityManager->flush();
         return $this->redirect($this->generateUrl('homepage'));
     }
