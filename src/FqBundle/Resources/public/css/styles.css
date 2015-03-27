@@ -1,27 +1,9 @@
-/* --------------------------------------
-   Layout
-   -------------------------------------- */
-    footer {
-        background: #333;
-        color: #eee;
-        font-size: 11px;
-        padding: 20px;
-    }
-/* --------------------------------------
-   Typography
-   -------------------------------------- */
-
-/* --------------------------------------
-   Navbar
-   -------------------------------------- */
-
-/* --------------------------------------
-   Carousel
-   -------------------------------------- */
-
-/* --------------------------------------
-   Global Styles
-   -------------------------------------- */
+footer {
+    background: #333;
+    color: #eee;
+    font-size: 11px;
+    padding: 20px;
+}
 .well {
     margin: 20px 0;
 }
@@ -36,7 +18,7 @@
     background-position: left;
     background-repeat: no-repeat;
     margin: 10px;
-    padding-left: 60px;
+    padding-left: 50px;
     background-color: #d6f9ef;
 }
 .category_button:hover {
