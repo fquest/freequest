@@ -2,68 +2,66 @@
 
 {% block body %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="tabbable">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#tab1" data-toggle="tab">Список</a></li>
-                    <li><a href="#tab2" data-toggle="tab">Карта</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab1">
-                        <div class="well">
-                            <div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">Список</a></li>
+                        <li><a href="#tab2" data-toggle="tab">Карта</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            <div class="well">
+                                <div class="page-header">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <input type="text" name="query" class="form-control" data-role="search" placeholder="Поиск по событиям..." {% if (query) %}value="{{ query }}"{% endif %}/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary glyphicon glyphicon-search" type="button" data-role="event-list-reloader"></button>
+                                    </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="input-group">
-                                            <input type="text" name="query" class="form-control" data-role="search" placeholder="Поиск по событиям..." {% if (query) %}value="{{ query }}"{% endif %}/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary glyphicon glyphicon-search" type="button" data-role="event-list-reloader"></button>
-                                </span>
+                                    <div class="col-md-3">
+                                        <form class="form-horizontal" role="form" id="list_filter" action="{{ path('event_list') }}" method="get">
+                                            <label for="sport" class="col-md-2 col-md-offset-1 control-label"><h4 style="margin-top: 10px">События</h4></label>
+                                            {% for category in categories %}
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="checkbox" id="sport">
+                                                            <label>
+                                                                <input name="categories[]" value="{{ category.id }}" data-role="event-list-reloader" type="checkbox" {% if (category.id in selectedCategories) %}checked{% endif %}/>
+                                                                {{ category.name }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </form>
+                                    </div>
+                                    <div class="col-md-9">
+                                        {{ include('FqBundle:Event:Block/list.html.twig') }}
+                                        <div class="navigation">
+                                            {{ knp_pagination_render(pagination) }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <form class="form-horizontal" role="form" id="list_filter" action="{{ path('event_list') }}" method="get">
-                                        <label for="sport" class="col-md-2 col-md-offset-1 control-label"><h4 style="margin-top: 10px">События</h4></label>
-                                        {% for category in categories %}
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <div class="checkbox" id="sport">
-                                                        <label>
-                                                            <input name="categories[]" value="{{ category.id }}" data-role="event-list-reloader" type="checkbox" {% if (category.id in selectedCategories) %}checked{% endif %}/>
-                                                            {{ category.name }}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </form>
-                                </div>
-
-                                <div class="col-md-9">
-                                    {{ include('FqBundle:Event:Block/list.html.twig') }}
-                                    <div class="navigation">
-                                        {{ knp_pagination_render(pagination) }}
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                    <div class="tab-pane" id="tab2">
-                        <div class="well">
-                            <div id="list-map" style="height: 700px; background-color: #CCC;"></div>
+                        <div class="tab-pane" id="tab2">
+                            <div class="well">
+                                <div id="list-map" style="height: 700px; background-color: #CCC;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 

@@ -1,74 +1,81 @@
 {% extends 'FqBundle::base.html.twig' %}
 
 {% block body %}
-<div class="container" id="main">
-    <div class="well">
-        <div class="pull-right" id="action-buttons-container">
-            {% if user != event.creator %}
-                {% if (false == user.isAttending(event)) %}
-                    <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-primary">Присоединиться</button>
-                {% else %}
-                    <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm">Покинуть</button>
-                {% endif %}
-            {% else %}
-                <button data-role="link-button" data-url="{{ url('event_edit', {'id': event.id}) }}" class="btn btn-sm btn-primary">Редактировать</button>
-                <button data-role="link-button" data-url="{{ url('event_delete', {'id': event.id}) }}" class="btn btn-sm btn-danger">Удалить</button>
-            {% endif %}
-        </div>
+
+    <div class="container">
         <div class="row">
-            <div class="col-md-2">
-                <div class="well">
-                    <p>{{ event.schedule|localizeddate('long', 'none', null, null, 'EEEE')|capitalize }}</p>
-                    <p style="font-size: x-large;">{{ event.schedule|date('d') }}</p>
-                    <p style="font-size: x-large;">{{ event.schedule|localizeddate('long', 'none', null, null, 'MMMM')|capitalize }}</p>
-                    <p>{{ event.schedule|date('Y') }}</p>
-                    <p>Количество участников:</p>
-                    <p style="font-size: x-large">{{ event.participants|length }}</p>
-                    <p>Количество просмотров:</p>
-                    <p style="font-size: x-large">{{ event.views }}</p>
-                </div>
-            </div>
-            <div class="col-md-5">
-                {% if event.image %}
-                    <img src="{{ event.image|vlabs_filter('resize', { width : 400, keepRatio : true })|vlabs_media('default') }}">
-                {% else %}
-                    <img style="min-height:100%; min-width:150px; width:100%" src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
-                {% endif %}
-            </div>
-            <div class="col-md-5">
-                <h1>{{ event.title }}</h1>
-                <p><b>Время: </b>{{ event.schedule|localizeddate('none', 'short') }}</p>
-                {% if event.endTime %}
-                    <p><b>Длительность: </b>{{ event.schedule.diff(event.endTime).format('%d д. %h ч.') }}</p>
-                {% endif %}
-                <p><b>Адресс: </b>{{ event.location.address }}</p>
-                <p><b>Организатор: </b> <a href="{{ url('profile', {'id': event.creator.id}) }}"><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</a></p>
-            </div>
-        </div>
-        <div class="row">
-            <p><b>Описание: </b>{{ event.description }}</p>
-            <p><b>Карта: </b></p>
-            {% if event.route %}
-                <div class="route-map"
-                     data-start-lat="{{ event.route.startLocation.latitude }}"
-                     data-start-lng="{{ event.route.startLocation.longitude }}"
-                     data-end-lat="{{ event.route.endLocation.latitude }}"
-                     data-end-lng="{{ event.route.endLocation.longitude }}"
-                     data-route="{{ event.route.route }}"
-                     style="width: 500px; height: 200px; background-color: #CCC;">
-                </div>
-            {% elseif event.location %}
-                <div class="map" data-lat="{{ event.location.latitude }}" data-lng="{{ event.location.longitude }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
-            {% endif %}
-            <h1>Участники: </h1>
-            <div class="well">
-                {% for participant in event.participants %}
-                    <a href="{{ url('profile', {'id': participant.id}) }}"> {{ participant.username }}</a>
-                {% endfor %}
+            <div class="col-md-10 col-md-offset-1">
+
+                    <div class="well">
+                        <div class="pull-right" id="action-buttons-container">
+                            {% if user != event.creator %}
+                                {% if (false == user.isAttending(event)) %}
+                                    <button data-role="link-button" data-url="{{ url('join_event', {'id': event.id}) }}" class="btn btn-sm btn-primary">Присоединиться</button>
+                                {% else %}
+                                    <button data-role="link-button" data-url="{{ url('leave_event', {'id': event.id}) }}" class="btn btn-sm">Покинуть</button>
+                                {% endif %}
+                            {% else %}
+                                <button data-role="link-button" data-url="{{ url('event_edit', {'id': event.id}) }}" class="btn btn-sm btn-primary">Редактировать</button>
+                                <button data-role="link-button" data-url="{{ url('event_delete', {'id': event.id}) }}" class="btn btn-sm btn-danger">Удалить</button>
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="well">
+                                    <p>{{ event.schedule|localizeddate('long', 'none', null, null, 'EEEE')|capitalize }}</p>
+                                    <p style="font-size: x-large;">{{ event.schedule|date('d') }}</p>
+                                    <p style="font-size: x-large;">{{ event.schedule|localizeddate('long', 'none', null, null, 'MMMM')|capitalize }}</p>
+                                    <p>{{ event.schedule|date('Y') }}</p>
+                                    <p>Количество участников:</p>
+                                    <p style="font-size: x-large">{{ event.participants|length }}</p>
+                                    <p>Количество просмотров:</p>
+                                    <p style="font-size: x-large">{{ event.views }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                {% if event.image %}
+                                    <img src="{{ event.image|vlabs_filter('resize', { width : 400, keepRatio : true })|vlabs_media('default') }}">
+                                {% else %}
+                                    <img style="min-height:100%; min-width:150px; width:100%" src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-5">
+                                <h1>{{ event.title }}</h1>
+                                <p><b>Время: </b>{{ event.schedule|localizeddate('none', 'short') }}</p>
+                                {% if event.endTime %}
+                                    <p><b>Длительность: </b>{{ event.schedule.diff(event.endTime).format('%d д. %h ч.') }}</p>
+                                {% endif %}
+                                <p><b>Адресс: </b>{{ event.location.address }}</p>
+                                <p><b>Организатор: </b> <a href="{{ url('profile', {'id': event.creator.id}) }}"><img src="{{ event.creator.picture }}"/> {{ event.creator.username }}</a></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p><b>Описание: </b>{{ event.description }}</p>
+                            <p><b>Карта: </b></p>
+                            {% if event.route %}
+                                <div class="route-map"
+                                     data-start-lat="{{ event.route.startLocation.latitude }}"
+                                     data-start-lng="{{ event.route.startLocation.longitude }}"
+                                     data-end-lat="{{ event.route.endLocation.latitude }}"
+                                     data-end-lng="{{ event.route.endLocation.longitude }}"
+                                     data-route="{{ event.route.route }}"
+                                     style="width: 500px; height: 200px; background-color: #CCC;">
+                                </div>
+                            {% elseif event.location %}
+                                <div class="map" data-lat="{{ event.location.latitude }}" data-lng="{{ event.location.longitude }}" style="width: 500px; height: 200px; background-color: #CCC;"></div>
+                            {% endif %}
+                            <h1>Участники: </h1>
+                            <div class="well">
+                                {% for participant in event.participants %}
+                                    <a href="{{ url('profile', {'id': participant.id}) }}"> {{ participant.username }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 {% block javascripts %}
 

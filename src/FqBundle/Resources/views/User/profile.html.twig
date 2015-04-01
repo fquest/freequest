@@ -3,10 +3,9 @@
 {% block body %}
 
     <div class="container">
-
-        <div class="well">
-            <div class="container">
-                <div class="col-md-9">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="well">
                     <div class="page-header">
                         <h1><span id="username" class="editable-text">{{ user.username }}</span></h1>
                     </div><!-- end page-header -->
@@ -39,23 +38,22 @@
                         </div>
                         <div class="list-group-item">
                             <label for="sendMail" class="col-md-4 control-label">Не получать почту</label>
-                                <input type="checkbox" data-settingurl="{{ url('user_edit') }}"
-                                       id="sendMail" {% if (user.sendMail) %}checked{% endif %}>
+                            <input type="checkbox" data-settingurl="{{ url('user_edit') }}"
+                                   id="sendMail" {% if (user.sendMail) %}checked{% endif %}>
                         </div>
                     </div>
                 </div>
+                {% if user.email == app.user.email %}
+                    {% if user.hiddenEvents|length %}
+                        <div class="well">
+                            <h2>Скрытые события</h2>
+                            {{ include('FqBundle:Event:Block/list.html.twig', {'pagination': user.hiddenEvents}) }}
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
-        </div><!-- end well -->
-        {% if user.email == app.user.email %}
-            {% if user.hiddenEvents|length %}
-                <div class="well">
-                    <h2>Скрытые события</h2>
-                    {{ include('FqBundle:Event:Block/list.html.twig', {'pagination': user.hiddenEvents}) }}
-                </div>
-            {% endif %}
-        {% endif %}
-
-    </div><!-- end main container -->
+        </div>
+    </div>
 {% endblock %}
 {% if user.id == app.user.id %}
     {% block javascripts %}

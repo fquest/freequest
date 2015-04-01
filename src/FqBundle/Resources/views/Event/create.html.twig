@@ -6,40 +6,29 @@
 {% endblock %}
 
 {% block body %}
+
     <div class="container">
-
         <div class="row">
-
-            <div class="col-md-12">
-
+            <div class="col-md-10 col-md-offset-1">
                 <div class="well">
-
                     <form class="form-horizontal" role="form" action="{{ form_action }}" method="POST" {{ form_enctype(form) }}>
-
                         <div class="page-header">
-
                             <h1>{{ form_title }}</h1>
-
-                        </div><!-- end page-header -->
-
+                        </div>
                         {{ form_errors(form) }}
-
                         <div class="form-body">
-
                             <div class="form-group">
                                 <label for="image" class="col-md-2 control-label">Картинка</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.image) }}
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label for="title" class="col-md-2 control-label">Название</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.title, { 'attr': {'class': 'form-control','placeholder': 'Введите название события'}}) }}
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label for="description" class="col-md-2 control-label">Время</label>
                                 <div class="col-md-8">
@@ -64,21 +53,18 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label for="description" class="col-md-2 control-label">Подробности</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.description, { 'attr': {'class': 'form-control','placeholder':'Кратко опишите событие'}}) }}
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label for="category" class="col-md-2 control-label">Категория</label>
                                 <div class="col-md-4">
                                     {{ form_widget(form.category, { 'attr': {'class': 'form-control'}}) }}
                                 </div>
                             </div>
-
                             <div class="well"><!-- Location controls start-->
                                 <div class="form-group">
                                     <label for="address" class="col-md-2 control-label">Место</label>
@@ -89,7 +75,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-md-10 col-md-offset-2">
                                         <div class="row">
@@ -106,7 +91,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-md-4 col-md-offset-2">
                                         <div class="input-group address-control">
@@ -120,8 +104,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div><!-- Location controls end-->
-
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-10 col-md-offset-2">
                                     {{ form_widget(form.save, { 'attr': {'class': 'btn btn-primary'}}) }}
@@ -129,15 +112,12 @@
                             </div>
                             {{ form_rest(form) }}
                         </div>
-
                     </form>
-                </div><!-- end well -->
-
+                </div>
             </div>
-
         </div>
+    </div>
 
-    </div><!-- end main container -->
 {% endblock %}
 
 {% block javascripts %}

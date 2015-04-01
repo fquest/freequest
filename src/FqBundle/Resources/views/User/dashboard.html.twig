@@ -2,85 +2,81 @@
 
 {% block body %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="well text-center" style="height: 325px">
-                        <div class="page-header">
-                            <img src="{{ user.picture }}" >
-                        </div>
-                        <p><b>{{ user.username }}</b></p>
-                        <p>Принято участие: <b>{{ passedEvents|length }}</b></p>
-                        <p>В планах посетить: <b>{{ futureEvents|length }}</b></p>
-                    </div>
-                </div>
-                <div class="col-sm-9">
-                    <div class="carousel slide well" id="myCarousel">
-                        <ol class="carousel-indicators">
-                            <li class="active" data-slide-to="0" data-target="#myCarousel"></li>
-                            <li data-slide-to="1" data-target="#myCarousel"></li>
-                            <li data-slide-to="2" data-target="#myCarousel"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                            <div class="item active" id="slide1">
-                                <img src='{{ asset('bundles/fq/images/gleg.jpg') }}'/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="well text-center" style="height: 325px">
+                            <div class="page-header">
+                                <img src="{{ user.picture }}" >
                             </div>
+                            <p><b>{{ user.username }}</b></p>
+                            <p>Принято участие: <b>{{ passedEvents|length }}</b></p>
+                            <p>В планах посетить: <b>{{ futureEvents|length }}</b></p>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="row" id="userEvents">
-                <div class="col-sm-9">
-                    <h3>Мои события</h3>
-                    <a data-role="link-button" data-url="{{ url('event_list') }}" class="btn btn-info pull-right" style="margin: 5px">Все события</a>
-                    <a data-role="link-button" data-url="{{ url('event_create') }}" class="btn btn-info pull-right" style="margin: 5px">+ Создать событие</a>
-                    <div class="tabbable">
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab1" data-toggle="tab">Предстоящие</a></li>
-                            <li><a href="#tab2" data-toggle="tab">Прошедшие</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tab1">
-                                {{ include('FqBundle:Event:Block/list.html.twig', {'pagination': futureEvents}) }}
-                            </div>
-                            <div class="tab-pane" id="tab2">
-                                {{ include('FqBundle:Event:Block/list.html.twig', {'pagination': passedEvents}) }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-3">
-
-                    <div class="list-group">
-                        {% for event in nearestEvents %}
-                            <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
-                                <div class="row">
-                                    <div>
-                                        {% if event.image %}
-                                            <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
-                                        {% else %}
-                                            <img style="min-height:100%; min-width:150px; width:100%" src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
-                                        {% endif %}
-                                    </div>
-                                    <div>
-                                        <p>{{ event.title }}</p>
-                                        <p>{{ event.description }}</p>
-                                        <p>{{ event.schedule|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}</p>
-                                    </div>
+                    <div class="col-sm-9">
+                        <div class="carousel slide well" id="myCarousel">
+                            <ol class="carousel-indicators">
+                                <li class="active" data-slide-to="0" data-target="#myCarousel"></li>
+                                <li data-slide-to="1" data-target="#myCarousel"></li>
+                                <li data-slide-to="2" data-target="#myCarousel"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active" id="slide1">
+                                    <img src='{{ asset('bundles/fq/images/gleg.jpg') }}'/>
                                 </div>
-                            </a>
-                        {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="userEvents">
+                    <div class="col-sm-9">
+                        <h3>Мои события</h3>
+                        <a data-role="link-button" data-url="{{ url('event_list') }}" class="btn btn-info pull-right" style="margin: 5px">Все события</a>
+                        <a data-role="link-button" data-url="{{ url('event_create') }}" class="btn btn-info pull-right" style="margin: 5px">+ Создать событие</a>
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab1" data-toggle="tab">Предстоящие</a></li>
+                                <li><a href="#tab2" data-toggle="tab">Прошедшие</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab1">
+                                    {{ include('FqBundle:Event:Block/list.html.twig', {'pagination': futureEvents}) }}
+                                </div>
+                                <div class="tab-pane" id="tab2">
+                                    {{ include('FqBundle:Event:Block/list.html.twig', {'pagination': passedEvents}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="list-group">
+                            {% for event in nearestEvents %}
+                                <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
+                                    <div class="row">
+                                        <div>
+                                            {% if event.image %}
+                                                <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                                            {% else %}
+                                                <img style="min-height:100%; min-width:150px; width:100%" src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <p>{{ event.title }}</p>
+                                            <p>{{ event.description }}</p>
+                                            <p>{{ event.schedule|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-</div>
 
 
 {% endblock %}
