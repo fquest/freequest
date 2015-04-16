@@ -35,7 +35,7 @@
                     <div class="col-sm-9">
                         <h3>Мои события</h3>
                         <a data-role="link-button" data-url="{{ url('event_list') }}" class="btn btn-info pull-right" style="margin: 5px">Все события</a>
-                        <a data-role="link-button" data-url="{{ url('event_create') }}" class="btn btn-info pull-right" style="margin: 5px">+ Создать событие</a>
+                        <a data-role="link-button" data-url="{{ url('event_create') }}" class="btn pull-right btn-success" style="margin: 5px">+ Создать событие</a>
                         <div class="tabbable">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a href="#tab1" data-toggle="tab">Предстоящие</a></li>
@@ -55,12 +55,12 @@
                         <div class="list-group">
                             {% for event in nearestEvents %}
                                 <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
-                                    <div class="row">
+
                                         <div>
                                             {% if event.image %}
-                                                <img src="{{ event.image|vlabs_filter('resize', { width : 200, keepRatio : true })|vlabs_media('default') }}">
+                                                <img src="{{ event.image|vlabs_filter('resize', { width : 170, keepRatio : true })|vlabs_media('default') }}">
                                             {% else %}
-                                                <img style="min-height:100%; min-width:150px; width:100%" src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
+                                                <img src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
                                             {% endif %}
                                         </div>
                                         <div>
@@ -68,7 +68,7 @@
                                             <p>{{ event.description }}</p>
                                             <p>{{ event.schedule|localizeddate('long', 'none', null, null, "d MMMM Y 'в' HH:mm") }}</p>
                                         </div>
-                                    </div>
+
                                 </a>
                             {% endfor %}
                         </div>

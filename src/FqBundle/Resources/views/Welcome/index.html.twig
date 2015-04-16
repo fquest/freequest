@@ -31,7 +31,7 @@
                     <h2>Что для Вас?</h2>
                     {% for category in categories %}
                         <div class="col-md-4">
-                            <button style="background-image: url({{ asset(category.image) }}); padding-left: 40px"
+                            <button
                                     onclick="document.location = '{{ url('event_list', {'categories[]': category.id}) }}'"
                                     type="button"
                                     class="btn btn-lg category_button">
@@ -43,10 +43,10 @@
                 <div class="thumbnails row">
                     {% for event in events %}
                         <div class="col-md-4">
-                            <a href="{{ url('event_view', {'id': event.id}) }}" class="thumbnail">
+                            <a style="text-decoration: none" href="{{ url('event_view', {'id': event.id}) }}" class="thumbnail">
                                 <div class="image_crop" style="height: 150px; overflow: hidden">
                                     {% if event.image %}
-                                        <img src="{{ event.image|vlabs_filter('resize', { width : 250, keepRatio : true })|vlabs_media('default') }}">
+                                        <img src="{{ event.image|vlabs_filter('resize', { width : 300, keepRatio : true })|vlabs_media('default') }}">
                                     {% else %}
                                         <img style="min-height:100%; min-width:250px; width:100%" src="{{ asset('bundles/fq/images/no_event_img.png') }}"/>
                                     {% endif %}
@@ -60,8 +60,8 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="well text-center">
-                    <a href="{{ url('event_list') }}"><h1>Все события ...</h1></a>
+                <div class="well text-center" style="background: #FF643B">
+                    <a style="text-decoration: none" href="{{ url('event_list') }}"><h1 style="color: #FFFFFF">Все события</h1></a>
                 </div>
             </div>
         </div>

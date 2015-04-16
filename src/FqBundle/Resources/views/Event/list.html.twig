@@ -18,9 +18,11 @@
                                         <div class="col-md-4">
                                             <div class="input-group">
                                                 <input type="text" name="query" class="form-control" data-role="search" placeholder="Поиск по событиям..." {% if (query) %}value="{{ query }}"{% endif %}/>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary glyphicon glyphicon-search" type="button" data-role="event-list-reloader"></button>
-                                    </span>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" type="button" data-role="event-list-reloader">
+                                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                    </button>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>

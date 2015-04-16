@@ -210,7 +210,7 @@ class EventController extends Controller
         $pagination = $paginator->paginate(
             $events,
             $request->query->get('page', 1)/*page number*/,
-            3/*limit per page*/
+            5/*limit per page*/
         );
 
         return $this->render(

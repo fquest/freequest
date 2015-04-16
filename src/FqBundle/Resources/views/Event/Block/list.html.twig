@@ -1,5 +1,5 @@
 <div class="list-group">
-    {% for event in pagination %}
+    {% for event in events %}
         <a href="{{ url('event_view', {'id': event.id}) }}" class="list-group-item">
             <div class="row">
                 <div class="col-md-4">
